@@ -29,7 +29,7 @@
       fixed
       app
       color="white"
-      class="ma-auto rounded-b"
+      class="ma-auto rounded-b custom-appbar"
       width="90%"
     >
       <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
@@ -92,32 +92,58 @@
         <!-- content -->
         <v-row>
           <v-col>
-            <h2>Brand</h2>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel
-              deserunt quisquam unde pariatur quaerat vitae rerum nihil
-              distinctio voluptate! Quam magni illum laborum voluptate quisquam
-              ullam sunt hic consequatur maxime.
+            <h2 class="footer-title">Brand</h2>
+            <p class="brand-description">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod incididunt ut labore et dolore magna aliqua.
             </p>
           </v-col>
           <v-col class="text-center" cols="6">
-            <h2>Secciones</h2>
-            <ul>
-              <li>Inicio</li>
-              <li>Videos</li>
-              <li>Miembros del club</li>
-              <li>Testimonios</li>
-              <li>Membresía</li>
+            <h2 class="footer-title">Secciones</h2>
+            <ul class="footer-menu">
+              <li>
+                <router-link to="/" class="footer-anchor">Inicio</router-link>
+              </li>
+              <li>
+                <router-link to="/" class="footer-anchor">Videos</router-link>
+              </li>
+              <li>
+                <router-link to="/" class="footer-anchor"
+                  >Miembros del club</router-link
+                >
+              </li>
+              <li>
+                <router-link to="/" class="footer-anchor"
+                  >Testimonios</router-link
+                >
+              </li>
+              <li>
+                <router-link to="/" class="footer-anchor"
+                  >Membresía</router-link
+                >
+              </li>
             </ul>
           </v-col>
           <v-col class="text-right">
-            <h2>Extras</h2>
+            <h2 class="footer-title hidden">Extras</h2>
             <ul>
-              <li>Iniciar Sesión</li>
-              <li>Nueva Cuenta</li>
-              <li>Preguntas Frecuentes</li>
-              <li>Politicas de Privacidad</li>
-              <li>Términos y condiciones</li>
+              <!-- <li>Iniciar Sesión</li>
+              <li>Nueva Cuenta</li> -->
+              <li>
+                <router-link to="/" class="footer-anchor"
+                  >Preguntas Frecuentes</router-link
+                >
+              </li>
+              <li>
+                <router-link to="/" class="footer-anchor"
+                  >Politicas de Privacidad</router-link
+                >
+              </li>
+              <li>
+                <router-link to="/" class="footer-anchor"
+                  >Términos y condiciones</router-link
+                >
+              </li>
             </ul>
           </v-col>
         </v-row>
@@ -126,26 +152,34 @@
           <v-col cols="4">
             <img src="" alt="" />
           </v-col>
-          <v-col cols="4" class="text-center">
+          <v-col cols="4" class="text-center copyright">
             <p>Lorem Corporation © 2021</p>
           </v-col>
-          <v-col cols="4" class="text-right">
-            <a href="#" class="white--text"> Paypal </a> |
-            <a href="#" class="white--text">Binance</a>
+          <v-col cols="4" class="text-right methods-payment">
+            <a href="#" class="white--text footer-anchor"> Paypal </a> |
+            <a href="#" class="white--text footer-anchor">Binance</a>
           </v-col>
         </v-row>
       </v-container>
     </v-footer>
+    <!-- whatss app btn -->
+    <div class="ws-btn">
+      <v-btn fab large color="primary" elevation="0">
+        <img :src="asset_ws" class="ws-icon" alt="" />
+      </v-btn>
+    </div>
   </v-app>
 </template>
 
 <script>
 import asset_wave from '@/assets/asset_wave.svg'
+import asset_ws from '@/assets/ui-icon-whats_app.svg'
 export default {
   data() {
     return {
       //
       asset_wave,
+      asset_ws,
       //
       clipped: false,
       drawer: false,
@@ -171,13 +205,9 @@ export default {
 }
 </script>
 <style lang="scss">
-html {
-  // overflow: hidden;
+main {
+  background-color: #f5f7fa;
 }
-// .v-toolbar {
-//   position: absolute !important;
-//   background: teal !important;
-// }
 ul {
   list-style: none;
   margin: 0;
@@ -196,6 +226,55 @@ ul {
     top: 0;
     left: 0;
     transform: translateY(-99%);
+  }
+  .footer-title {
+    margin-bottom: 12px;
+    &.hidden {
+      opacity: 0;
+    }
+  }
+  .brand-description {
+    max-width: 285px;
+    letter-spacing: 0.015em;
+    font-size: 18px;
+    line-height: 28px;
+    color: #fefefe;
+    opacity: 0.5;
+  }
+  .footer-anchor,
+  .copyright {
+    opacity: 0.5;
+    text-decoration: none;
+    color: #fefefe;
+    letter-spacing: 0.015em;
+    font-size: 18px;
+    line-height: 28px;
+    color: #fefefe;
+    opacity: 0.5;
+  }
+  .copyright {
+    opacity: 1;
+  }
+  .methods-payment {
+    .footer-anchor,
+    .copyright {
+      opacity: 1;
+    }
+  }
+}
+.v-sheet.v-app-bar.v-toolbar {
+  z-index: 300;
+}
+.ws-btn {
+  position: fixed;
+  bottom: 45px;
+  right: 45px;
+  z-index: 500;
+  border-radius: 100%;
+  border: 4px solid white !important;
+  .ws-icon {
+    width: 45px;
+    height: auto;
   }
 }
 </style>
