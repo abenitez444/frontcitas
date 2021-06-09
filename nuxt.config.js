@@ -54,7 +54,7 @@ export default {
       themes: {
         light: {
           primary: '#F42F43',
-          accent: '#bada55',
+          accent: '#783BF9',
           secondary: '#FF273E',
           font_one: '#321215',
           info: colors.teal.lighten1,

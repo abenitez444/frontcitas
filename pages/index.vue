@@ -187,9 +187,16 @@
           eiusmod incididunt ut labore et dolore magna aliqua.
         </h3>
         <div class="faq-wrapper">
+          <!-- @mouseleave="enableHover('default')" -->
           <div class="faq-pill">
-            <!-- :style="`background-image: url('${asset_man}')`" -->
-            <div class="faq-pill__men">
+            <!-- Men -->
+            <div
+              class="faq-pill__men"
+              :class="
+                tab === 'men' ? 'enabled' : tab === 'default' ? '' : 'disabled'
+              "
+              @click="enableHover('men')"
+            >
               <img :src="asset_man" class="clipped-image" alt="" />
               <svg width="0" height="0">
                 <defs>
@@ -203,9 +210,73 @@
                   </clipPath>
                 </defs>
               </svg>
-              <!-- <h4>Hombres</h4> -->
+              <h4>Hombres</h4>
+              <div class="woman-description">
+                <v-btn
+                  @click.stop="closePill()"
+                  class="mr-auto"
+                  color="primary"
+                  text
+                  small
+                  fab
+                >
+                  <v-icon dark> mdi-close </v-icon>
+                </v-btn>
+                <h3 class="mr-auto text-left mt-7 primary--text">
+                  LoremLorem ipsum dolor sit amet, consectetur adipisicing elit.
+                </h3>
+
+                <v-dialog v-model="dialog" width="500">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      class="mr-auto text-capitalize"
+                      width="250"
+                      color="primary"
+                      rounded
+                      v-bind="attrs"
+                      v-on="on"
+                      >Ver más
+                    </v-btn>
+                  </template>
+
+                  <v-card>
+                    <v-card-text>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      Duis aute irure dolor in reprehenderit in voluptate velit
+                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                      sint occaecat cupidatat non proident, sunt in culpa qui
+                      officia deserunt mollit anim id est laborum.
+                    </v-card-text>
+
+                    <v-divider></v-divider>
+
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="primary" text @click="dialog = false">
+                        I accept
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </div>
             </div>
-            <div class="faq-pill__woman">
+
+            <!-- Woman -->
+            <!-- @click="enableHover('woman')" @mouseleave="enableHover('default')" -->
+            <div
+              class="faq-pill__woman"
+              :class="
+                tab === 'woman'
+                  ? 'enabled'
+                  : tab === 'default'
+                  ? ''
+                  : 'disabled'
+              "
+              @click="enableHover('woman')"
+            >
               <img :src="asset_woman" class="clipped-image" alt="" />
               <svg width="0" height="0">
                 <defs>
@@ -219,12 +290,64 @@
                   </clipPath>
                 </defs>
               </svg>
-              <!-- <h4>Mujeres</h4> -->
+              <img :src="asset_figure_3" class="faq-figure-3" alt="" />
+              <h4>Mujeres</h4>
+              <div class="men-description">
+                <v-btn
+                  @click.stop="closePill()"
+                  class="ml-auto"
+                  color="accent"
+                  text
+                  small
+                  fab
+                >
+                  <v-icon dark> mdi-close </v-icon>
+                </v-btn>
+                <h3 class="ml-auto mt-7 accent--text">
+                  LoremLorem ipsum dolor sit amet, consectetur adipisicing elit.
+                </h3>
+
+                <v-dialog v-model="dialog" width="1200">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      class="ml-auto text-capitalize"
+                      width="250"
+                      color="accent"
+                      rounded
+                      v-bind="attrs"
+                      v-on="on"
+                      >Ver más</v-btn
+                    >
+                  </template>
+
+                  <v-card>
+                    <v-expansion-panels class="custom-accordion">
+                      <v-expansion-panel v-for="(item, i) in 5" :key="i">
+                        <v-expansion-panel-header>
+                          Item
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit, sed do eiusmod tempor incididunt ut labore et
+                          dolore magna aliqua. Ut enim ad minim veniam, quis
+                          nostrud exercitation ullamco laboris nisi ut aliquip
+                          ex ea commodo consequat.
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                    </v-expansion-panels>
+                  </v-card>
+                </v-dialog>
+              </div>
             </div>
           </div>
         </div>
       </v-col>
     </v-row>
+    <!-- <v-row>
+      <pre>
+        {{ tab }}
+      </pre>
+    </v-row> -->
   </v-container>
 </template>
 
@@ -236,6 +359,7 @@ import asset_avatar from '@/assets/ui-avatar.svg'
 import asset_man from '@/assets/ui-faq-man.png'
 import asset_woman from '@/assets/ui-faq-woman.png'
 import asset_figure from '@/assets/ui-faq-figure.svg'
+import asset_figure_3 from '@/assets/ui-faq-figure-3.svg'
 import { Hooper, Slide as HooperSlide } from 'hooper'
 import 'hooper/dist/hooper.css'
 export default {
@@ -248,7 +372,9 @@ export default {
       asset_man,
       asset_woman,
       asset_figure,
+      asset_figure_3,
       //
+      tab: 'default',
       hooperSettings: {
         infiniteScroll: true,
         centerMode: true,
@@ -257,6 +383,14 @@ export default {
       model: 0,
       colors: ['primary', 'secondary', 'yellow darken-2', 'red', 'orange'],
     }
+  },
+  methods: {
+    enableHover(tab) {
+      this.tab = tab
+    },
+    closePill() {
+      this.tab = 'default'
+    },
   },
 }
 </script>
@@ -610,7 +744,6 @@ h2 {
   .faq-wrapper {
     position: relative;
     min-height: 580px;
-    background-color: #bada55;
   }
   .faq-pill {
     display: grid;
@@ -628,7 +761,11 @@ h2 {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background-color: #bada55;
+    .men-description,
+    .woman-description {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
     &__men,
     &__woman {
       background-position: center;
@@ -637,23 +774,122 @@ h2 {
       display: flex;
       justify-content: center;
       align-items: center;
+      .clipped-image {
+        transition: filter 0.25s ease;
+        filter: blur(10px);
+      }
+      &::after {
+        transition: all 0.5s ease;
+      }
+      &.enabled {
+        .clipped-image {
+          filter: blur(0);
+        }
+      }
+      &.disabled {
+        &::after {
+          background-color: #fff;
+          opacity: 1;
+        }
+        h4 {
+          opacity: 0;
+        }
+        .men-description,
+        .woman-description {
+          opacity: 1;
+        }
+      }
     }
     &__men {
       justify-self: start;
       align-self: center;
       height: 100%;
-      .clipped-image {
-        // display: none;
-        // clip-path: url(#myClip-left);
+      position: relative;
+
+      &::after {
+        content: '';
+        background: #783bf9;
+        opacity: 0.5;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .woman-description {
+        position: absolute;
+        text-align: right;
+        z-index: 250;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        // background: #bada55;
+        padding: 70px;
+        h3 {
+          margin-bottom: 70px;
+          width: 400px;
+          font-weight: 600;
+          font-size: 36px;
+          letter-spacing: 0.09em;
+          line-height: 45px;
+        }
       }
     }
     &__woman {
+      z-index: 100;
       margin-left: -120px;
       height: 100%;
       align-self: center;
+      position: relative;
       .clipped-image {
         // display: none;
         clip-path: url(#myClip-right);
+      }
+      .faq-figure-3 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translateX(-19%);
+        z-index: 200;
+      }
+      &::after {
+        clip-path: url(#myClip-right);
+        content: '';
+        background: #f42f43;
+        opacity: 0.5;
+        position: absolute;
+        top: 0;
+        left: -18px;
+        width: 200%;
+        height: 100%;
+      }
+      .men-description {
+        position: absolute;
+        text-align: right;
+        z-index: 250;
+        right: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        // background: #bada55;
+        padding: 70px;
+        h3 {
+          margin-bottom: 70px;
+          width: 400px;
+          font-weight: 600;
+          font-size: 36px;
+          letter-spacing: 0.09em;
+          line-height: 45px;
+        }
       }
     }
     h4 {
@@ -661,9 +897,16 @@ h2 {
       font-size: 48px;
       letter-spacing: 0.06em;
       color: #f5f7fa;
-
       text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      position: absolute;
+      z-index: 250;
     }
   }
+}
+.custom-accordion {
+  // background-color: #bada55 !important;
+  // max-width: calc(100% - 210px);
+  margin: 0px auto;
+  padding: 75px;
 }
 </style>
