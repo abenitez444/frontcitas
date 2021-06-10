@@ -8,15 +8,16 @@
       <v-col class="hero-section__content">
         <div class="carousel-wrapper">
           <v-carousel v-model="model" :show-arrows="false">
-            <v-carousel-item v-for="(color, i) in colors" :key="color">
+            <v-carousel-item v-for="(slide, i) in slides" :key="i">
               <v-sheet height="100%" tile color="transparent">
                 <v-row class="fill-height transparent" align="center">
                   <v-col class="text-left">
                     <div class="slide-content white--text">
-                      <h1>Slide 1</h1>
+                      <h1>
+                        {{ slide.title }}
+                      </h1>
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit, sed do eiusmod aliqua.
+                        {{ slide.description }}
                       </p>
                       <v-btn
                         to="/"
@@ -29,9 +30,10 @@
                     </div>
                   </v-col>
                   <v-col>
+                    <!-- :style="`background-image: url('${placeHolderSlide}')`" -->
                     <div
                       class="carousel-item bg-img"
-                      :style="`background-image: url('${placeHolderSlide}')`"
+                      :style="`background-image: url('${slide.image}')`"
                     ></div>
                   </v-col>
                 </v-row>
@@ -48,7 +50,7 @@
       <v-col class="video-section__content">
         <carousel ref="carousel" :per-page="1">
           <!-- one -->
-          <slide v-for="(item, index) in 5" :key="index">
+          <slide v-for="(video, index) in videos" :key="index">
             <div class="slide-wrap">
               <div class="avatar-box">
                 <v-sheet color="transparent">
@@ -61,16 +63,16 @@
                         <youtube
                           :player-vars="{ autoplay: 0 }"
                           :player-height="439"
-                          video-id="pnY7m5CK-as"
+                          :video-id="video.link"
                         />
                       </no-ssr>
                     </v-col>
                     <v-col cols="" class="d-flex flex-column justify-center">
-                      <h2 class="header-2 primary--text mb-7">Video 1</h2>
+                      <h2 class="header-2 primary--text mb-7">
+                        {{ video.title }}
+                      </h2>
                       <p class="text-1">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit, sed do eiusmod incididunt ut labore et dolore
-                        magna aliqua.
+                        {{ video.description }}
                       </p>
                     </v-col>
                   </v-row>
@@ -82,7 +84,7 @@
       </v-col>
     </v-row>
 
-    <!-- Members -->
+    <!-- Members PENDIENTE -->
     <v-row class="block-section members-section">
       <div class="wave-wrapper">
         <img :src="asset_wave" class="bg-wave" alt="" />
@@ -143,37 +145,26 @@
             <h2 class="primary--text">Testimonios</h2>
           </div>
           <hooper style="height: auto" :settings="hooperSettings">
-            <hooper-slide v-for="(item, index) in 6" :key="index">
+            <hooper-slide
+              v-for="(testimony, index) in testimonies"
+              :key="index"
+            >
               <div class="slide-wrap text-center">
                 <div class="avatar-wrapper">
-                  <img :src="asset_avatar" class="slide__avatar" alt="" />
+                  <img :src="testimony.image" class="slide__avatar" alt="" />
                 </div>
-                <h3 class="slide__name">Jane Doe</h3>
+                <h3 class="slide__name">{{ testimony.name }}</h3>
                 <div class="description-wrapper">
                   <p class="slide__description">
-                    “Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod incididunt ut labore et dolore magna aliqua.”
+                    {{ testimony.description }}
                   </p>
                   <p class="slide__description shadow">
-                    “Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod incididunt ut labore et dolore magna aliqua.”
+                    {{ testimony.description }}
                   </p>
                 </div>
               </div>
             </hooper-slide>
           </hooper>
-          <!-- <carousel ref="carousel" :per-page="5" :paginationEnabled="false">
-            <slide v-for="(item, index) in 10" :key="index">
-              <div class="slide-wrap text-center">
-                <img :src="asset_avatar" class="slide__avatar" alt="" />
-                <h3 class="slide__name">Jane Doe</h3>
-                <p class="slide__description">
-                  “Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod incididunt ut labore et dolore magna aliqua.”
-                </p>
-              </div>
-            </slide>
-          </carousel> -->
         </div>
       </v-col>
     </v-row>
@@ -191,7 +182,7 @@
           <div class="faq-pill">
             <!-- Men -->
             <div
-              class="faq-pill__men"
+              class="faq-pill__men cursor-pointer"
               :class="
                 tab === 'men' ? 'enabled' : tab === 'default' ? '' : 'disabled'
               "
@@ -216,8 +207,7 @@
                   @click.stop="closePill()"
                   class="mr-auto"
                   color="primary"
-                  text
-                  small
+                  x-small
                   fab
                 >
                   <v-icon dark> mdi-close </v-icon>
@@ -226,7 +216,7 @@
                   LoremLorem ipsum dolor sit amet, consectetur adipisicing elit.
                 </h3>
 
-                <v-dialog v-model="dialog" width="500">
+                <v-dialog v-model="faq_man" width="1200">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
                       class="mr-auto text-capitalize"
@@ -240,25 +230,38 @@
                   </template>
 
                   <v-card>
-                    <v-card-text>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum.
-                    </v-card-text>
-
-                    <v-divider></v-divider>
-
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn color="primary" text @click="dialog = false">
-                        I accept
-                      </v-btn>
-                    </v-card-actions>
+                    <v-expansion-panels class="custom-accordion">
+                      <v-expansion-panel v-for="(item, i) in 4" :key="i">
+                        <v-expansion-panel-header>
+                          ¿Lorem ipsum dolor sit amet, consectetur adipisicing
+                          elit?
+                          <img
+                            :src="asset_figure_4"
+                            class="faq-figure-4"
+                            alt=""
+                          />
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                          <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit, sed do eiusmod incididunt ut labore et dolore
+                            magna aliqua. Lorem ipsum dolor sit amet,
+                            consectetur adipisicing elit, sed do eiusmod
+                            incididunt ut labore et dolore magna aliqua.
+                          </p>
+                          <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit, sed do eiusmod incididunt ut labore et dolore
+                            magna aliqua.
+                          </p>
+                          <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit, sed do eiusmod incididunt ut labore et dolore
+                            magna aliqua.
+                          </p>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                    </v-expansion-panels>
                   </v-card>
                 </v-dialog>
               </div>
@@ -267,7 +270,7 @@
             <!-- Woman -->
             <!-- @click="enableHover('woman')" @mouseleave="enableHover('default')" -->
             <div
-              class="faq-pill__woman"
+              class="faq-pill__woman cursor-pointer"
               :class="
                 tab === 'woman'
                   ? 'enabled'
@@ -297,8 +300,7 @@
                   @click.stop="closePill()"
                   class="ml-auto"
                   color="accent"
-                  text
-                  small
+                  x-small
                   fab
                 >
                   <v-icon dark> mdi-close </v-icon>
@@ -307,7 +309,7 @@
                   LoremLorem ipsum dolor sit amet, consectetur adipisicing elit.
                 </h3>
 
-                <v-dialog v-model="dialog" width="1200">
+                <v-dialog v-model="faq_woman" width="1200">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
                       class="ml-auto text-capitalize"
@@ -322,16 +324,34 @@
 
                   <v-card>
                     <v-expansion-panels class="custom-accordion">
-                      <v-expansion-panel v-for="(item, i) in 5" :key="i">
+                      <v-expansion-panel v-for="(item, i) in 4" :key="i">
                         <v-expansion-panel-header>
-                          Item
+                          ¿Lorem ipsum dolor sit amet, consectetur adipisicing
+                          elit?
+                          <img
+                            :src="asset_figure_4"
+                            class="faq-figure-4"
+                            alt=""
+                          />
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua. Ut enim ad minim veniam, quis
-                          nostrud exercitation ullamco laboris nisi ut aliquip
-                          ex ea commodo consequat.
+                          <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit, sed do eiusmod incididunt ut labore et dolore
+                            magna aliqua. Lorem ipsum dolor sit amet,
+                            consectetur adipisicing elit, sed do eiusmod
+                            incididunt ut labore et dolore magna aliqua.
+                          </p>
+                          <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit, sed do eiusmod incididunt ut labore et dolore
+                            magna aliqua.
+                          </p>
+                          <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit, sed do eiusmod incididunt ut labore et dolore
+                            magna aliqua.
+                          </p>
                         </v-expansion-panel-content>
                       </v-expansion-panel>
                     </v-expansion-panels>
@@ -345,7 +365,10 @@
     </v-row>
     <!-- <v-row>
       <pre>
-        {{ tab }}
+        {{ testimonies }}
+        {{ videosIsReady }}
+        {{ galleryIsReady }}
+        {{ testimoniesIsReady }}
       </pre>
     </v-row> -->
   </v-container>
@@ -360,6 +383,7 @@ import asset_man from '@/assets/ui-faq-man.png'
 import asset_woman from '@/assets/ui-faq-woman.png'
 import asset_figure from '@/assets/ui-faq-figure.svg'
 import asset_figure_3 from '@/assets/ui-faq-figure-3.svg'
+import asset_figure_4 from '@/assets/ui-faq-figure-4.svg'
 import { Hooper, Slide as HooperSlide } from 'hooper'
 import 'hooper/dist/hooper.css'
 export default {
@@ -368,12 +392,16 @@ export default {
   data() {
     return {
       //
+
       asset_avatar,
       asset_man,
       asset_woman,
       asset_figure,
       asset_figure_3,
+      asset_figure_4,
       //
+      faq_woman: false,
+      faq_man: false,
       tab: 'default',
       hooperSettings: {
         infiniteScroll: true,
@@ -382,8 +410,18 @@ export default {
       },
       model: 0,
       colors: ['primary', 'secondary', 'yellow darken-2', 'red', 'orange'],
+      //landing properties
+      videosIsReady: false,
+      videos: [],
+      slidesIsReady: false,
+      slides: [],
+      galleryIsReady: false,
+      gallery: [],
+      testimoniesIsReady: false,
+      testimonies: [],
     }
   },
+
   methods: {
     enableHover(tab) {
       this.tab = tab
@@ -391,6 +429,60 @@ export default {
     closePill() {
       this.tab = 'default'
     },
+    async getVideos() {
+      await this.$axios
+        .$get(`${this.$axios.defaults.baseURL}settings/1`)
+        .then((res) => {
+          this.videosIsReady = true
+          this.videos = res.data
+          console.debug(res)
+        })
+        .catch((e) => {
+          console.debug(e)
+        })
+    },
+    async getSlides() {
+      await this.$axios
+        .$get(`${this.$axios.defaults.baseURL}settings/2`)
+        .then((res) => {
+          this.slidesIsReady = true
+          this.slides = res.data
+          console.debug(res)
+        })
+        .catch((e) => {
+          console.debug(e)
+        })
+    },
+    async getGallery() {
+      await this.$axios
+        .$get(`${this.$axios.defaults.baseURL}settings/4`)
+        .then((res) => {
+          this.galleryIsReady = true
+          this.gallery = res.data
+          console.debug(res)
+        })
+        .catch((e) => {
+          console.debug(e)
+        })
+    },
+    async getTestimonies() {
+      await this.$axios
+        .$get(`${this.$axios.defaults.baseURL}settings/5`)
+        .then((res) => {
+          this.testimoniesIsReady = true
+          this.testimonies = res.data
+          console.debug(res)
+        })
+        .catch((e) => {
+          console.debug(e)
+        })
+    },
+  },
+  mounted() {
+    this.getVideos()
+    this.getSlides()
+    this.getGallery()
+    this.getTestimonies()
   },
 }
 </script>
@@ -402,6 +494,9 @@ $accent: #bada55;
 $secondary: #ff273e;
 $font_one: #321215;
 $elevation-1: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.1));
+.cursor-pointer {
+  cursor: pointer;
+}
 .text-1 {
   // width: 420px;
   font-weight: 600;
@@ -512,7 +607,15 @@ h2 {
     }
   }
   .slide-content {
-    max-width: 420px;
+    max-width: 460px;
+    p {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 28px;
+      letter-spacing: 0.015em;
+      color: #f5f7fa;
+    }
   }
 }
 .carousel-wrapper {
@@ -904,9 +1007,64 @@ h2 {
   }
 }
 .custom-accordion {
-  // background-color: #bada55 !important;
-  // max-width: calc(100% - 210px);
   margin: 0px auto;
   padding: 75px;
+  // max-height: 750px;
+  .v-expansion-panel {
+    margin: 25px 0;
+    border-radius: 15px !important;
+    .faq-figure-4 {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: auto;
+      border-radius: 0 0 15px 0;
+    }
+    .v-expansion-panel-header {
+      min-height: 100px;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 28px;
+      letter-spacing: 0.015em;
+      color: #321215;
+      overflow: hidden;
+      // &::after {
+      //   content: '';
+      //   position: absolute;
+      //   height: 100px;
+      //   width: 100px;
+      //   top: 0;
+      //   right: 0;
+      //   background-color: $primary;
+      // }
+    }
+    .v-expansion-panel-content {
+      background-color: $primary;
+      color: white;
+      border-radius: 0 0 15px 15px !important;
+    }
+    .v-expansion-panel-content__wrap {
+      padding: 50px 60px;
+      p {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 28px;
+        letter-spacing: 0.015em;
+        color: #fefefe;
+      }
+    }
+    &--active {
+      .faq-figure-4 {
+        border-radius: 0 0 0 0;
+      }
+    }
+  }
+}
+.v-dialog:not(.v-dialog--fullscreen) {
+  //max-height: 90px; default
+  max-height: 750px;
+  border-radius: 20px;
 }
 </style>

@@ -23,7 +23,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['@/assets/styles/theme/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: ['@/plugins/youtube'],
@@ -44,7 +44,9 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: 'http://127.0.0.1:8000/api/',
+  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -55,6 +57,7 @@ export default {
         light: {
           primary: '#F42F43',
           accent: '#783BF9',
+          accent_2: '#F87172',
           secondary: '#FF273E',
           font_one: '#321215',
           info: colors.teal.lighten1,
@@ -68,4 +71,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  // layout transition
+  layoutTransition: {
+    name: 'layout',
+    mode: 'out-in',
+  },
 }

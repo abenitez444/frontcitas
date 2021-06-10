@@ -29,7 +29,7 @@
       fixed
       app
       color="white"
-      class="ma-auto rounded-b custom-appbar"
+      class="ma-auto custom-appbar"
       width="90%"
     >
       <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
@@ -42,13 +42,15 @@
       <v-btn icon @click.stop="fixed = !fixed">
         <v-icon>mdi-minus</v-icon>
       </v-btn> -->
-      <v-toolbar-title class="pl-5" v-text="title" />
+      <router-link to="/" class="pl-5 text-decoration-none">
+        {{ title }}
+      </router-link>
       <v-spacer />
       <!-- <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn> -->
       <v-btn
-        to="/"
+        to="/auth/sign-in"
         elevation="0"
         rounded
         class="text-capitalize px-7"
@@ -57,7 +59,7 @@
         Registro
       </v-btn>
       <v-btn
-        to="/"
+        to="/auth/sign-up"
         elevation="0"
         rounded
         class="ml-5 text-capitalize px-7"
@@ -205,6 +207,9 @@ export default {
 }
 </script>
 <style lang="scss">
+.custom-appbar {
+  border-radius: 0px 0px 10px 10px !important;
+}
 main {
   background-color: #f5f7fa;
 }
