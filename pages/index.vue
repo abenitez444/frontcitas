@@ -62,8 +62,8 @@
                       <no-ssr placeholder="Loading...">
                         <youtube
                           :player-vars="{ autoplay: 0 }"
-                          :player-height="439"
                           :video-id="video.link"
+                          :player-height="439"
                         />
                       </no-ssr>
                     </v-col>
@@ -85,7 +85,7 @@
     </v-row>
 
     <!-- Members PENDIENTE -->
-    <v-row class="block-section members-section">
+    <v-row class="block-section members-section" justify="center">
       <div class="wave-wrapper">
         <img :src="asset_wave" class="bg-wave" alt="" />
       </div>
@@ -95,37 +95,10 @@
         </h2>
         <carousel ref="carousel" :per-page="1">
           <!-- one -->
-          <slide v-for="(item, index) in 5" :key="index">
+          <slide v-for="(slide, index) in gallery" :key="index">
             <div class="slide-wrap">
-              <div class="avatar-box">
-                <!-- <img src="" alt=""> -->
-              </div>
-              <div class="avatar-box">
-                <!-- <img src="" alt=""> -->
-              </div>
-              <div class="avatar-box">
-                <!-- <img src="" alt=""> -->
-              </div>
-              <div class="avatar-box">
-                <!-- <img src="" alt=""> -->
-              </div>
-              <div class="avatar-box">
-                <!-- <img src="" alt=""> -->
-              </div>
-              <div class="avatar-box">
-                <!-- <img src="" alt=""> -->
-              </div>
-              <div class="avatar-box">
-                <!-- <img src="" alt=""> -->
-              </div>
-              <div class="avatar-box">
-                <!-- <img src="" alt=""> -->
-              </div>
-              <div class="avatar-box">
-                <!-- <img src="" alt=""> -->
-              </div>
-              <div class="avatar-box">
-                <!-- <img src="" alt=""> -->
+              <div class="avatar-box" v-for="(member, i) in slide" :key="i">
+                <img :src="member.image" alt="" />
               </div>
             </div>
           </slide>
@@ -363,14 +336,12 @@
         </div>
       </v-col>
     </v-row>
-    <!-- <v-row>
+    <v-row>
       <pre>
-        {{ testimonies }}
-        {{ videosIsReady }}
         {{ galleryIsReady }}
-        {{ testimoniesIsReady }}
+        {{ gallery }}
       </pre>
-    </v-row> -->
+    </v-row>
   </v-container>
 </template>
 
@@ -455,10 +426,10 @@ export default {
     },
     async getGallery() {
       await this.$axios
-        .$get(`${this.$axios.defaults.baseURL}settings/4`)
+        .$get(`${this.$axios.defaults.baseURL}settings-galeria`)
         .then((res) => {
           this.galleryIsReady = true
-          this.gallery = res.data
+          this.gallery = res.galeria
           console.debug(res)
         })
         .catch((e) => {
@@ -651,6 +622,7 @@ h2 {
 .members-section {
   align-items: center;
   position: relative;
+  // margin: 0 auto;
   .slide-wrap {
     // max-width: 1440px;
     width: max-content;
@@ -673,6 +645,7 @@ h2 {
     width: 200px;
     border-radius: 15px;
     filter: $elevation-1;
+    overflow: hidden;
   }
   .wave-wrapper {
     background-color: $primary;
