@@ -336,12 +336,6 @@
         </div>
       </v-col>
     </v-row>
-    <v-row>
-      <pre>
-        {{ galleryIsReady }}
-        {{ gallery }}
-      </pre>
-    </v-row>
   </v-container>
 </template>
 
@@ -449,6 +443,7 @@ export default {
         })
     },
   },
+
   mounted() {
     this.getVideos()
     this.getSlides()

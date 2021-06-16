@@ -14,7 +14,9 @@
     "hooper": "^0.3.4",
     "nuxt": "^2.15.3",
     "vue-carousel": "^0.18.0",
-    "vue-youtube-embed": "^2.2.2"
+    "vue-phone-mask-input": "^1.1.11",
+    "vue-youtube-embed": "^2.2.2",
+    "vuelidate": "^0.7.6"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.11.3",

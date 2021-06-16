@@ -16,9 +16,9 @@
                 <v-text-field
                   label="Contraseña"
                   :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-                  solo
                   :type="!show2 ? 'text' : 'password'"
                   @click:append="show2 = !show2"
+                  solo
                   hide-details=""
                 ></v-text-field>
               </v-col>
