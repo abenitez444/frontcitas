@@ -14,7 +14,7 @@
       </router-link>
       <v-spacer />
       <v-btn
-        to="/auth/sign-in"
+        to="/auth/sign-up"
         elevation="0"
         rounded
         class="text-capitalize px-7 white--text"
@@ -23,7 +23,7 @@
         Registro
       </v-btn>
       <v-btn
-        to="/auth/sign-up"
+        to="/auth/sign-in"
         elevation="0"
         rounded
         class="ml-5 text-capitalize px-7 white--text"

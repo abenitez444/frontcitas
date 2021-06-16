@@ -7,11 +7,7 @@
             <v-sheet color="transparent">
               <v-row no-gutters>
                 <v-col>
-                  <h1>hey</h1>
-                  <h1>hey</h1>
-                  <h1>hey</h1>
-                  <h1>hey</h1>
-                  <h1>hey</h1>
+                  <!-- <h1>hey</h1> -->
                 </v-col>
               </v-row>
             </v-sheet>
@@ -24,11 +20,7 @@
             <v-sheet color="transparent">
               <v-row no-gutters>
                 <v-col>
-                  <h1>hey</h1>
-                  <h1>hey</h1>
-                  <h1>hey</h1>
-                  <h1>hey</h1>
-                  <h1>hey</h1>
+                  <h1 class="grey--text text-center">Vista en desarrollo</h1>
                 </v-col>
               </v-row>
             </v-sheet>
@@ -41,11 +33,7 @@
             <v-sheet color="transparent">
               <v-row no-gutters>
                 <v-col>
-                  <h1>hey</h1>
-                  <h1>hey</h1>
-                  <h1>hey</h1>
-                  <h1>hey</h1>
-                  <h1>hey</h1>
+                  <!-- <h1>hey</h1> -->
                 </v-col>
               </v-row>
             </v-sheet>
