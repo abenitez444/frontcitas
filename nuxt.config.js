@@ -70,6 +70,7 @@ export default {
           primary: '#F42F43',
           accent: '#783BF9',
           accent_2: '#F87172',
+          accent_3: '#A5A6F6',
           secondary: '#FF273E',
           font_one: '#321215',
           info: colors.teal.lighten1,

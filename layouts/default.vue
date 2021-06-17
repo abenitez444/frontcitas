@@ -48,20 +48,13 @@
       <nuxt />
     </v-main>
 
-    <v-footer
-      :absolute="!fixed"
-      app
-      height="300px"
-      color="primary"
-      dark
-      class="footer-app"
-    >
+    <v-footer :absolute="!fixed" app color="primary" dark class="footer-app">
       <img :src="asset_wave" class="wave-footer" alt="" />
       <v-container>
         <!-- content -->
         <v-row>
           <v-col>
-            <h2 class="footer-title">Brand</h2>
+            <img :src="logoDark" alt="" />
             <p class="brand-description">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
               eiusmod incididunt ut labore et dolore magna aliqua.

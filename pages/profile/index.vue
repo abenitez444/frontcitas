@@ -18,9 +18,22 @@
         <v-sheet color="transparent">
           <v-row no-gutters>
             <v-col>
-              <v-card class="cm-round-1 cm-elevation-1">
+              <v-card color="accent_3" class="cm-round-1 cm-elevation-1 light">
                 <v-card-text class="pa-8">
-                  <h1>info</h1>
+                  <v-sheet color="transparent">
+                    <v-row align="center">
+                      <v-col cols="auto">
+                        <img :src="accountIcon" alt="" />
+                      </v-col>
+                      <v-col>
+                        <p class="mb-0">
+                          Por favor, complete la información de su perfil para
+                          disfrutar de todas las caracteristicas de la
+                          aplicación
+                        </p>
+                      </v-col>
+                    </v-row>
+                  </v-sheet>
                 </v-card-text>
               </v-card>
             </v-col>
@@ -217,19 +230,22 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row>
+    <!-- <v-row>
       <pre>{{ bodyTypes }}</pre>
-    </v-row>
+    </v-row> -->
   </v-container>
 </template>
 
 <script>
+import accountIcon from '@/assets/ui-icon-account.svg'
 import authMixin from '@/mixins/authMixin'
 import resourcesMixin from '@/mixins/resources'
 export default {
   mixins: [authMixin, resourcesMixin],
   data() {
     return {
+      //?icons
+      accountIcon,
       //?request
       userR: {},
       //?form
