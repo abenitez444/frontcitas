@@ -1,29 +1,5 @@
 <template>
   <v-app dark>
-    <!-- <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer> -->
     <v-app-bar
       :clipped-left="clipped"
       fixed
@@ -31,56 +7,47 @@
       color="white"
       class="ma-auto custom-appbar"
       width="90%"
+      height="114px"
     >
-      <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn icon @click.stop="miniVariant = !miniVariant">
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="clipped = !clipped">
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="fixed = !fixed">
-        <v-icon>mdi-minus</v-icon>
-      </v-btn> -->
-      <router-link to="/" class="pl-5 text-decoration-none">
-        {{ title }}
+      <router-link to="/" class="text-decoration-none">
+        <img :src="logoDefault" alt="" />
       </router-link>
       <v-spacer />
-      <!-- <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon>mdi-menu</v-icon>
-      </v-btn> -->
-      <v-btn
-        to="/auth/sign-in"
-        elevation="0"
-        rounded
-        class="text-capitalize px-7"
-        color="primary"
-      >
-        Registro
-      </v-btn>
-      <v-btn
-        to="/auth/sign-up"
-        elevation="0"
-        rounded
-        class="ml-5 text-capitalize px-7"
-        color="primary"
-      >
-        Ingresar
-      </v-btn>
+      <template v-if="!isAuthenticated">
+        <v-btn
+          to="/auth/sign-up"
+          elevation="0"
+          rounded
+          class="text-capitalize px-7"
+          color="primary"
+        >
+          Registro
+        </v-btn>
+        <v-btn
+          to="/auth/sign-in"
+          elevation="0"
+          rounded
+          class="ml-5 text-capitalize px-7"
+          color="primary"
+        >
+          Ingresar
+        </v-btn>
+      </template>
+      <template v-else>
+        <router-link to="/profile" class="text-decoration-none">
+          <span class="font-weight-bold primary--text mr-6"> John Doe </span>
+          <v-avatar size="60" class="mr-5">
+            <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+          </v-avatar>
+        </router-link>
+      </template>
     </v-app-bar>
+
+    <!-- page content -->
     <v-main class="main-content">
       <nuxt />
     </v-main>
-    <!-- <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light> mdi-repeat </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer> -->
+
     <v-footer
       :absolute="!fixed"
       app
@@ -176,12 +143,18 @@
 <script>
 import asset_wave from '@/assets/asset_wave.svg'
 import asset_ws from '@/assets/ui-icon-whats_app.svg'
+import logoDefault from '@/assets/ui-logo-default.svg'
+import logoDark from '@/assets/ui-logo-dark.svg'
+import authMixin from '@/mixins/authMixin'
 export default {
+  mixins: [authMixin],
   data() {
     return {
       //
       asset_wave,
       asset_ws,
+      logoDefault,
+      logoDark,
       //
       clipped: false,
       drawer: false,

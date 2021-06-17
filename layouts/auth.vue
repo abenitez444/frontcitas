@@ -7,10 +7,11 @@
       color="primary"
       class="ma-auto custom-appbar"
       width="90%"
+      height="114px"
     >
       <!-- <v-toolbar-title  to="/" v-text="title" /> -->
-      <router-link to="/" class="pl-5 white--text text-decoration-none">
-        {{ title }}
+      <router-link to="/" class="pl-5 text-decoration-none">
+        <img :src="logoDark" alt="" />
       </router-link>
       <v-spacer />
       <v-btn
@@ -41,12 +42,16 @@
 <script>
 import asset_wave from '@/assets/asset_wave.svg'
 import asset_ws from '@/assets/ui-icon-whats_app.svg'
+import logoDefault from '@/assets/ui-logo-default.svg'
+import logoDark from '@/assets/ui-logo-dark.svg'
 export default {
   data() {
     return {
       //
       asset_wave,
       asset_ws,
+      logoDefault,
+      logoDark,
       //
       clipped: false,
       drawer: false,

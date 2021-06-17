@@ -65,17 +65,15 @@
         </v-card>
       </v-col>
     </v-row>
-    <!-- <v-row>
-      <pre>
-        {{ user }}
-      </pre>
-    </v-row> -->
   </v-container>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+import authMixin from '@/mixins/authMixin'
 export default {
   layout: 'auth',
+  mixins: [authMixin],
   data() {
     return {
       showPassword: true,
@@ -97,11 +95,11 @@ export default {
         .$post(`${this.$axios.defaults.baseURL}login`, this.user)
         .then((res) => {
           this.loadingForm = false
-          console.debug(res)
+          this.authenticating(res)
           this.$router.push('/profile')
         })
         .catch((e) => {
-          console.debug(res)
+          console.debug(e)
           this.loadingForm = false
           this.errors = e.response.data.error
         })

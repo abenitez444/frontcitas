@@ -48,6 +48,18 @@ export default {
     baseURL: 'http://127.0.0.1:8000/api/',
   },
 
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: 'login', method: 'post', propertyName: 'data.token' },
+          user: { url: 'auth/profile/4', method: 'get', propertyName: 'data' },
+          logout: false,
+        },
+      },
+    },
+  },
+
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],

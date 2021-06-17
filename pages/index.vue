@@ -7,7 +7,13 @@
     >
       <v-col class="hero-section__content">
         <div class="carousel-wrapper">
-          <v-carousel v-model="model" :show-arrows="false">
+          <v-carousel
+            v-model="model"
+            :show-arrows="false"
+            continuous
+            cycle
+            interval="3000"
+          >
             <v-carousel-item v-for="(slide, i) in slides" :key="i">
               <v-sheet height="100%" tile color="transparent">
                 <v-row class="fill-height transparent" align="center">
