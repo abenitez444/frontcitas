@@ -110,7 +110,9 @@
           </slide>
         </carousel>
         <div class="text-center members-section__btn">
-          <v-btn class="primary--text"> ¡Unirme al club! </v-btn>
+          <v-btn class="primary--text" to="/auth/sign-up">
+            ¡Unirme al club!
+          </v-btn>
         </div>
       </v-col>
     </v-row>
