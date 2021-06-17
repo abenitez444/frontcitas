@@ -59,6 +59,12 @@
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
               eiusmod incididunt ut labore et dolore magna aliqua.
             </p>
+            <a
+              href="https://www.instagram.com/"
+              title="Visita nuestro Instagram"
+              target="_blank"
+              ><img class="insta-picture" :src="logoInsta" alt=""
+            /></a>
           </v-col>
           <v-col class="text-center" cols="6">
             <h2 class="footer-title">Secciones</h2>
@@ -138,6 +144,7 @@ import asset_wave from '@/assets/asset_wave.svg'
 import asset_ws from '@/assets/ui-icon-whats_app.svg'
 import logoDefault from '@/assets/ui-logo-default.svg'
 import logoDark from '@/assets/ui-logo-dark.svg'
+import logoInsta from '@/assets/ui-logo-insta.svg'
 import authMixin from '@/mixins/authMixin'
 export default {
   mixins: [authMixin],
@@ -148,6 +155,7 @@ export default {
       asset_ws,
       logoDefault,
       logoDark,
+      logoInsta,
       //
       clipped: false,
       drawer: false,
@@ -189,6 +197,11 @@ ul {
 }
 .footer-app {
   position: relative;
+  .insta-picture {
+    width: 25px;
+    height: auto;
+    // box-shadow: 0 0 0 5px hsl(0, 0%, 80%);
+  }
   .wave-footer {
     position: absolute;
     // background-color: teal;
