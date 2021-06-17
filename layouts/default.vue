@@ -99,18 +99,18 @@
             <ul>
               <!-- <li>Iniciar Sesión</li>
               <li>Nueva Cuenta</li> -->
-              <li>
+              <!-- <li>
                 <router-link to="/" class="footer-anchor"
                   >Preguntas Frecuentes</router-link
                 >
-              </li>
+              </li> -->
               <li>
-                <router-link to="/" class="footer-anchor"
+                <router-link to="/policies" class="footer-anchor"
                   >Politicas de Privacidad</router-link
                 >
               </li>
               <li>
-                <router-link to="/" class="footer-anchor"
+                <router-link to="/terms" class="footer-anchor"
                   >Términos y condiciones</router-link
                 >
               </li>

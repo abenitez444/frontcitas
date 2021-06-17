@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="landing-page">
     <!-- Hero -->
     <v-row
       class="block-section hero-section align-center text-center bg-img"
@@ -153,7 +153,7 @@
     <!-- FAQ -->
     <v-row class="block-section faq-section align-center text-center">
       <v-col>
-        <h2 class="header-1 primary--text mb-7">Membresía</h2>
+        <h2 class="header-1 primary--text mb-7">Preguntas Frecuentes</h2>
         <h3 class="text-1 subtitle">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
           eiusmod incididunt ut labore et dolore magna aliqua.
@@ -468,6 +468,14 @@ $accent: #bada55;
 $secondary: #ff273e;
 $font_one: #321215;
 $elevation-1: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.1));
+.landing-page {
+  h2 {
+    font-size: 36px;
+    line-height: 30px;
+    font-weight: 700;
+    letter-spacing: -1px;
+  }
+}
 .cursor-pointer {
   cursor: pointer;
 }
@@ -484,13 +492,7 @@ $elevation-1: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.1));
   max-width: 1440px;
   margin: 0 auto;
 }
-h2 {
-  font-size: 36px;
-  line-height: 30px;
-  font-weight: 700;
 
-  letter-spacing: -1px;
-}
 * {
   font-family: 'Raleway', sans-serif !important;
 }

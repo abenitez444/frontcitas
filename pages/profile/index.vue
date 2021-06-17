@@ -221,30 +221,54 @@
           <!-- profile -->
           <v-row no-gutters>
             <v-col>
-              <v-card class="cm-round-1 cm-elevation-1">
+              <v-card class="cm-round-1 cm-elevation-1 profile-card">
                 <v-card-text class="pa-8">
                   <v-sheet>
                     <!-- head -->
                     <v-row align="center">
-                      <v-col cols="auto">
-                        <img src="http://placehold.it/90" alt="" />
+                      <v-col cols="auto" class="avatar-wrapper">
+                        <img
+                          class="profile-card__avatar"
+                          src="http://placehold.it/90"
+                          alt=""
+                        />
+                        <img
+                          :src="membershipIcon"
+                          class="profile-card__membership"
+                          alt=""
+                        />
                       </v-col>
                       <v-col>
-                        <h2>John Doe <span>Icon</span></h2>
-                        <h3>Lima</h3>
+                        <h2 class="profile-card__name font_one--text">
+                          John Doe
+                          <span class="profile-card__icon">
+                            <img :src="maleIcon" alt="" />
+
+                            <!-- <img :src="femaleIcon" alt="" /> -->
+                          </span>
+                        </h2>
+                        <h3 class="profile-card__region font_one--text">
+                          Lima
+                        </h3>
                       </v-col>
                     </v-row>
                     <!-- Profile state -->
-                    <v-row>
-                      <v-col>
-                        <p class="mb-0">Estado de cuenta</p>
+                    <v-row no-gutters class="mt-4">
+                      <v-col class="account-progress">
+                        <p class="mb-0 font_one--text account-progress__label">
+                          Estado de cuenta
+                        </p>
                         <v-progress-linear
                           color="primary"
                           height="10"
                           rounded
                           :value="percent"
                         ></v-progress-linear>
-                        <div class="percent text-right">{{ percent }}%</div>
+                        <div
+                          class="percent text-right account-progress__percent"
+                        >
+                          {{ percent }}%
+                        </div>
                       </v-col>
                     </v-row>
                   </v-sheet>
@@ -278,6 +302,9 @@
 
 <script>
 import accountIcon from '@/assets/ui-icon-account.svg'
+import maleIcon from '@/assets/ui-icon-male.svg'
+import femaleIcon from '@/assets/ui-icon-female.svg'
+import membershipIcon from '@/assets/ui-icon-membership.svg'
 import authMixin from '@/mixins/authMixin'
 import resourcesMixin from '@/mixins/resources'
 export default {
@@ -286,6 +313,9 @@ export default {
     return {
       //?icons
       accountIcon,
+      maleIcon,
+      femaleIcon,
+      membershipIcon,
       //?request
       userR: {},
       //?form
@@ -339,6 +369,53 @@ $top-margin: 114px;
     line-height: 17px;
     // letter-spacing: -0.025em;
     color: #f5f7fa;
+  }
+  .profile-card {
+    &__name {
+      font-weight: bold;
+      font-size: 18px;
+      // line-height: 30px;
+    }
+    &__avatar {
+      border: 3px solid #ffffff;
+      box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+    }
+    &__icon {
+      margin-left: 10px;
+    }
+    &__region {
+      font-weight: bold;
+      font-size: 14px;
+      // line-height: 30px;
+      opacity: 0.5;
+    }
+    &__membership {
+      position: absolute;
+      width: 25px;
+      height: auto;
+      bottom: 0;
+      right: 0;
+      transform: translate(-25%, -75%);
+    }
+    .avatar-wrapper {
+      position: relative;
+    }
+  }
+  .account-progress {
+    &__label {
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 30px;
+      opacity: 0.5;
+    }
+    &__percent {
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 30px;
+      color: #f42f43;
+      opacity: 0.5;
+    }
   }
 }
 
