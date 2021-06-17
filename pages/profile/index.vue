@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid fill-height class="page-layout-1">
+  <v-container fluid fill-height class="page-layout-1 profile">
     <v-row class="block-section">
       <v-col cols="3">
         <v-card class="cm-round-1 cm-elevation-1">
@@ -22,11 +22,11 @@
                 <v-card-text class="pa-8">
                   <v-sheet color="transparent">
                     <v-row align="center">
-                      <v-col cols="auto">
+                      <v-col cols="auto" class="d-flex align-center">
                         <img :src="accountIcon" alt="" />
                       </v-col>
                       <v-col>
-                        <p class="mb-0">
+                        <p class="mb-0 info-description">
                           Por favor, complete la información de su perfil para
                           disfrutar de todas las caracteristicas de la
                           aplicación
@@ -217,22 +217,62 @@
         </v-sheet>
       </v-col>
       <v-col cols="3">
-        <v-card class="cm-round-1 cm-elevation-1">
-          <v-card-text class="pa-8">
-            <v-sheet color="transparent">
-              <v-row no-gutters>
-                <v-col>
-                  <!-- <h1>hey</h1> -->
-                </v-col>
-              </v-row>
-            </v-sheet>
-          </v-card-text>
-        </v-card>
+        <v-sheet color="transparent">
+          <!-- profile -->
+          <v-row no-gutters>
+            <v-col>
+              <v-card class="cm-round-1 cm-elevation-1">
+                <v-card-text class="pa-8">
+                  <v-sheet>
+                    <!-- head -->
+                    <v-row align="center">
+                      <v-col cols="auto">
+                        <img src="http://placehold.it/90" alt="" />
+                      </v-col>
+                      <v-col>
+                        <h2>John Doe <span>Icon</span></h2>
+                        <h3>Lima</h3>
+                      </v-col>
+                    </v-row>
+                    <!-- Profile state -->
+                    <v-row>
+                      <v-col>
+                        <p class="mb-0">Estado de cuenta</p>
+                        <v-progress-linear
+                          color="primary"
+                          height="10"
+                          rounded
+                          :value="percent"
+                        ></v-progress-linear>
+                        <div class="percent text-right">{{ percent }}%</div>
+                      </v-col>
+                    </v-row>
+                  </v-sheet>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+
+          <!-- Menu -->
+          <v-row no-gutters class="mt-8">
+            <v-col>
+              <v-card class="cm-round-1 cm-elevation-1">
+                <v-card-text class="pa-8"> </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+
+          <!-- Users online -->
+          <v-row no-gutters class="mt-8">
+            <v-col>
+              <v-card class="cm-round-1 cm-elevation-1">
+                <v-card-text class="pa-8"> </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-sheet>
       </v-col>
     </v-row>
-    <!-- <v-row>
-      <pre>{{ bodyTypes }}</pre>
-    </v-row> -->
   </v-container>
 </template>
 
@@ -254,6 +294,8 @@ export default {
       civilStates: ['Soltero', 'Casado'],
       economyStratos: ['Medio', 'Alto', 'Muy Alto'],
       bodyType: ['Atlético', 'Delgado', 'Medio', 'Robusto'],
+      //? profile card
+      percent: 50,
     }
   },
   mounted() {
@@ -290,6 +332,16 @@ export default {
 
 <style lang="scss">
 $top-margin: 114px;
+.profile {
+  .info-description {
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+    // letter-spacing: -0.025em;
+    color: #f5f7fa;
+  }
+}
+
 .cm-round-1 {
   border-radius: 10px !important;
 }

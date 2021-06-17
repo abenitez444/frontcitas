@@ -59,12 +59,6 @@
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
               eiusmod incididunt ut labore et dolore magna aliqua.
             </p>
-            <a
-              href="https://www.instagram.com/"
-              title="Visita nuestro Instagram"
-              target="_blank"
-              ><img class="insta-picture" :src="logoInsta" alt=""
-            /></a>
           </v-col>
           <v-col class="text-center" cols="6">
             <h2 class="footer-title">Secciones</h2>
@@ -89,6 +83,14 @@
                 <router-link to="/" class="footer-anchor"
                   >Membresía</router-link
                 >
+              </li>
+              <li class="mt-5">
+                <a
+                  href="https://www.instagram.com/"
+                  title="Visita nuestro Instagram"
+                  target="_blank"
+                  ><img class="insta-picture" :src="logoInsta" alt=""
+                /></a>
               </li>
             </ul>
           </v-col>
