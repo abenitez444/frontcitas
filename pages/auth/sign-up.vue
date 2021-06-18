@@ -228,6 +228,7 @@
                           ></v-text-field>
                         </template>
                         <v-date-picker
+                          :max="maxDate()"
                           v-model="newUser.birth_day"
                           scrollable
                           locale="es-ve"
@@ -442,6 +443,11 @@ export default {
             this.alertStepper = true
           })
       }
+    },
+    maxDate() {
+      const date = new Date()
+      date.setFullYear(date.getFullYear() - 18)
+      return date.toISOString().substr(0, 10)
     },
   },
   computed: {
