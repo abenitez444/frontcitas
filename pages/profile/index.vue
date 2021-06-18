@@ -553,14 +553,18 @@
           </v-row>
 
           <!-- Menu -->
-          <v-row no-gutters class="mt-8">
+          <v-row no-gutters class="mt-8 menu-wrapper">
             <v-col>
               <v-card class="cm-round-1 cm-elevation-1">
                 <v-card-text class="pa-8">
                   <v-sheet>
                     <v-row>
                       <v-col>
-                        <v-btn color="primary" text class="text-capitalize"
+                        <v-btn
+                          :ripple="false"
+                          color="primary"
+                          text
+                          class="text-capitalize"
                           >Inicio</v-btn
                         >
                       </v-col>
@@ -568,6 +572,7 @@
                     <v-row>
                       <v-col>
                         <v-btn
+                          :ripple="false"
                           active-class=""
                           color="primary"
                           text
@@ -579,6 +584,7 @@
                     <v-row>
                       <v-col>
                         <v-btn
+                          :ripple="false"
                           color="primary"
                           text
                           class="text-capitalize"
@@ -589,7 +595,11 @@
                     </v-row>
                     <v-row>
                       <v-col>
-                        <v-btn color="primary" text class="text-capitalize"
+                        <v-btn
+                          :ripple="false"
+                          color="primary"
+                          text
+                          class="text-capitalize"
                           >Cerrar sesión</v-btn
                         >
                       </v-col>
@@ -796,6 +806,22 @@ $top-margin: 114px;
       background-size: cover;
       background-repeat: no-repeat;
       border-radius: 100%;
+    }
+  }
+  .menu-wrapper {
+    .v-btn {
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 30px;
+      color: #9d8080 !important;
+      opacity: 0.5;
+      &--active {
+        opacity: 1;
+        color: #f42f43 !important;
+        &::before {
+          opacity: 0;
+        }
+      }
     }
   }
 }
