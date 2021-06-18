@@ -1,5 +1,27 @@
 <template>
   <v-app dark>
+    <v-dialog
+      transition="dialog-bottom-transition"
+      max-width="600"
+      v-model="dialogInTrial"
+    >
+      <template v-slot:default="dialogInTrial">
+        <v-card>
+          <v-toolbar color="primary" dark>Modo Trial Activado</v-toolbar>
+          <v-card-text>
+            <p class="trial-description mt-8">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima
+              voluptas quasi sunt modi dolorem, aliquam odit recusandae eligendi
+              voluptate corporis voluptatem odio ad error labore aspernatur
+              repellat. Obcaecati, rem placeat!
+            </p>
+          </v-card-text>
+          <v-card-actions class="justify-end">
+            <v-btn text @click="closeDialog()">Cerrar</v-btn>
+          </v-card-actions>
+        </v-card>
+      </template>
+    </v-dialog>
     <v-app-bar
       :clipped-left="clipped"
       fixed
@@ -180,7 +202,20 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'WDC',
+      //dialog
+      dialogInTrial: false,
     }
+  },
+  mounted() {
+    this.checkInTrial()
+  },
+  methods: {
+    checkInTrial() {
+      this.dialogInTrial = this.inTrial
+    },
+    closeDialog() {
+      this.dialogInTrial = false
+    },
   },
 }
 </script>

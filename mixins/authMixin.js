@@ -7,6 +7,9 @@ export default {
     ...mapActions({ authenticating: 'auth/authenticating' }),
   },
   computed: {
-    ...mapGetters({ isAuthenticated: 'auth/isAuthenticated' }),
+    ...mapGetters({
+      isAuthenticated: 'auth/isAuthenticated',
+      inTrial: 'auth/inTrial',
+    }),
   },
 }

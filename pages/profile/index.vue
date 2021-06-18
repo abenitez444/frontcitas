@@ -1,6 +1,7 @@
 <template>
   <v-container fluid fill-height class="page-layout-1 profile">
     <v-row class="block-section">
+      <!-- Users list -->
       <v-col cols="3">
         <v-card class="cm-round-1 cm-elevation-1">
           <v-card-text class="pa-8">
@@ -14,6 +15,7 @@
           </v-card-text>
         </v-card>
       </v-col>
+      <!-- content -->
       <v-col cols="6">
         <v-sheet color="transparent">
           <v-row no-gutters>
@@ -216,6 +218,7 @@
           </v-row>
         </v-sheet>
       </v-col>
+      <!-- profile | menu | users on -->
       <v-col cols="3">
         <v-sheet color="transparent">
           <!-- profile -->
@@ -239,6 +242,15 @@
                         />
                       </v-col>
                       <v-col>
+                        <v-btn
+                          x-small
+                          rounded
+                          color="accent"
+                          class="btn-trial"
+                          v-if="inTrial"
+                        >
+                          Modo Trial
+                        </v-btn>
                         <h2 class="profile-card__name font_one--text">
                           John Doe
                           <span class="profile-card__icon">
@@ -307,8 +319,10 @@ import femaleIcon from '@/assets/ui-icon-female.svg'
 import membershipIcon from '@/assets/ui-icon-membership.svg'
 import authMixin from '@/mixins/authMixin'
 import resourcesMixin from '@/mixins/resources'
+// import name from '@/';
 export default {
   mixins: [authMixin, resourcesMixin],
+  middleware: ['authenticated'],
   data() {
     return {
       //?icons
@@ -371,6 +385,13 @@ $top-margin: 114px;
     color: #f5f7fa;
   }
   .profile-card {
+    position: relative;
+    .btn-trial {
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: translate(-20px, 20px);
+    }
     &__name {
       font-weight: bold;
       font-size: 18px;
