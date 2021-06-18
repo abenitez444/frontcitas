@@ -110,9 +110,12 @@
           </slide>
         </carousel>
         <div class="text-center members-section__btn">
-          <v-btn class="primary--text" to="/auth/sign-up">
+          <!-- <v-btn class="primary--text" to="/auth/sign-up">
             ¡Unirme al club!
-          </v-btn>
+          </v-btn> -->
+          <router-link to="/auth/sign-up">
+            <img :src="putiBtn" alt="" />
+          </router-link>
         </div>
       </v-col>
     </v-row>
@@ -357,6 +360,7 @@ import asset_woman from '@/assets/ui-faq-woman.png'
 import asset_figure from '@/assets/ui-faq-figure.svg'
 import asset_figure_3 from '@/assets/ui-faq-figure-3.svg'
 import asset_figure_4 from '@/assets/ui-faq-figure-4.svg'
+import putiBtn from '@/assets/puticlub-btn.png'
 import { Hooper, Slide as HooperSlide } from 'hooper'
 import 'hooper/dist/hooper.css'
 export default {
@@ -372,6 +376,7 @@ export default {
       asset_figure,
       asset_figure_3,
       asset_figure_4,
+      putiBtn,
       //
       faq_woman: false,
       faq_man: false,
@@ -673,6 +678,13 @@ $elevation-1: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.1));
   }
   &__btn {
     margin-top: calc(30px - 1rem);
+    z-index: 150;
+    position: relative;
+    margin-top: 2rem;
+    img {
+      width: 250px;
+      height: auto;
+    }
     .v-btn {
       background: #fefefe;
       border: 5px solid #e9e9e9;

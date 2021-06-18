@@ -134,9 +134,11 @@
     </v-footer>
     <!-- whatss app btn -->
     <div class="ws-btn">
-      <v-btn fab large color="primary" elevation="0">
-        <img :src="asset_ws" class="ws-icon" alt="" />
-      </v-btn>
+      <a href=" https://web.whatsapp.com/" target="_blank">
+        <v-btn fab large color="primary" elevation="0">
+          <img :src="asset_ws" class="ws-icon" alt="" />
+        </v-btn>
+      </a>
     </div>
   </v-app>
 </template>
