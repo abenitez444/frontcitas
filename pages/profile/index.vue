@@ -174,12 +174,15 @@
                         </v-col>
                         <v-col>
                           <v-select
-                            :items="civilStates"
+                            :items="civilStatesMan"
                             label="Estado civil"
                             hide-details=""
                             v-model="user.civil_status"
                             solo
                           ></v-select>
+                          <!-- <pre>
+                            {{ user.civil_status }}
+                          </pre> -->
                         </v-col>
                       </v-row>
 
@@ -355,12 +358,15 @@
                         </v-col>
                         <v-col>
                           <v-select
-                            :items="civilStates"
+                            :items="civilStatesWoman"
                             label="Estado civil"
                             hide-details=""
                             v-model="user.civil_status"
                             solo
                           ></v-select>
+                          <!-- <pre>
+                            {{ user.civil_status }}
+                          </pre> -->
                         </v-col>
                       </v-row>
 
@@ -644,11 +650,11 @@
         </v-sheet>
       </v-col>
     </v-row>
-    <v-row>
+    <!-- <v-row>
       <pre>
-        <!-- {{ avatarFile }} -->
+        {{ avatarFile }}
       </pre>
-    </v-row>
+    </v-row> -->
   </v-container>
 </template>
 
@@ -674,7 +680,8 @@ export default {
       //?form
       modalBirthday: false,
       user: null,
-      civilStates: ['Soltero', 'Casado'],
+      civilStatesWoman: ['Soltera', 'Casada'],
+      civilStatesMan: ['Soltero', 'Casado'],
       economyStratos: ['Medio', 'Alto', 'Muy Alto'],
       bodyType: ['Atlético', 'Delgado', 'Medio', 'Robusto'],
       //? profile card

@@ -254,12 +254,25 @@
                     <!-- Estado Civil -->
                     <v-col cols="12">
                       <v-select
-                        :items="civilStates"
+                        v-if="newUser.gender === 1"
+                        :items="civilStatesMan"
                         label="Estado civil"
                         hide-details=""
                         v-model="newUser.civil_status"
                         solo
                       ></v-select>
+                      <v-select
+                        v-if="newUser.gender === 0"
+                        :items="civilStatesWoman"
+                        label="Estado civil"
+                        hide-details=""
+                        v-model="newUser.civil_status"
+                        solo
+                      ></v-select>
+
+                      <!-- <pre>
+                        {{ newUser.gender }}
+                      </pre> -->
                     </v-col>
 
                     <!-- Profesion -->
@@ -283,7 +296,7 @@
                         color="primary"
                         @click="submit()"
                       >
-                        Registrar
+                        Enviar
                       </v-btn>
                       <v-dialog
                         v-model="loadingForm"
@@ -358,7 +371,8 @@ export default {
       confirmPasswordShow: true,
       date: null,
       modalBirthday: false,
-      civilStates: ['Soltero', 'Casado'],
+      civilStatesWoman: ['Soltera', 'Casada'],
+      civilStatesMan: ['Soltero', 'Casado'],
       loadingForm: false,
       newUser: {
         phone: '+584245557777',
