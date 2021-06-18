@@ -480,6 +480,11 @@ $elevation-1: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.1));
     font-weight: 700;
     letter-spacing: -1px;
   }
+  // .v-dialog:not(.v-dialog--fullscreen) {
+  //   //max-height: 90px; default
+  //   max-height: 750px;
+  //   border-radius: 20px;
+  // }
 }
 .cursor-pointer {
   cursor: pointer;
@@ -1051,10 +1056,5 @@ $elevation-1: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.1));
       }
     }
   }
-}
-.v-dialog:not(.v-dialog--fullscreen) {
-  //max-height: 90px; default
-  max-height: 750px;
-  border-radius: 20px;
 }
 </style>

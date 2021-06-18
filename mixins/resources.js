@@ -9,6 +9,8 @@ export default {
       asset_wave,
       regions: [],
       bodyTypes: [],
+      childrenOptions: [],
+      contactPreferences: [],
     }
   },
   methods: {
@@ -34,6 +36,29 @@ export default {
           console.debug(e)
         })
     },
+    async getChildrensOptions() {
+      await this.$axios
+        .$get(`${this.$axios.defaults.baseURL}children-options`)
+        .then((res) => {
+          console.debug(res)
+          this.childrenOptions = res.children_option
+        })
+        .catch((e) => {
+          console.debug(e)
+        })
+    },
+    async getContactPreferences() {
+      await this.$axios
+        .$get(`${this.$axios.defaults.baseURL}contact-preferences`)
+        .then((res) => {
+          console.debug(res)
+          this.contactPreferences = res.contact_preference
+        })
+        .catch((e) => {
+          console.debug(e)
+        })
+    },
+
     getCivilStates() {},
     getSocialStratos() {},
   },

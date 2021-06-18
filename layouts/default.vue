@@ -35,7 +35,7 @@
         <img :src="logoDefault" alt="" />
       </router-link>
       <v-spacer />
-      <template v-if="!isAuthenticated">
+      <template v-if="getUserData === null">
         <v-btn
           to="/auth/sign-up"
           elevation="0"
@@ -56,15 +56,42 @@
         </v-btn>
       </template>
       <template v-else>
-        <router-link to="/profile" class="text-decoration-none">
-          <span class="font-weight-bold primary--text mr-6"> John Doe </span>
-          <v-avatar size="60" class="mr-5">
-            <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
-          </v-avatar>
-        </router-link>
+        <span class="font-weight-bold primary--text mr-6">
+          {{ getUserData.first_name }} {{ getUserData.last_name }}
+        </span>
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="primary"
+              dark
+              v-bind="attrs"
+              v-on="on"
+              text
+              :ripple="false"
+              :hover="false"
+              width="auto"
+              rounded
+              fab
+              class="mr-5"
+            >
+              <v-avatar size="60">
+                <img :src="getUserData.avatar" alt="John" />
+              </v-avatar>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item to="/profile">
+              <v-list-item-title>Perfil</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>Cerrar sesión</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </template>
     </v-app-bar>
 
+    <!-- <pre> {{ getUserData }} </pre> -->
     <!-- page content -->
     <v-main class="main-content">
       <nuxt />
@@ -208,6 +235,7 @@ export default {
   },
   mounted() {
     this.checkInTrial()
+    this.getProfile()
   },
   methods: {
     checkInTrial() {
@@ -215,6 +243,24 @@ export default {
     },
     closeDialog() {
       this.dialogInTrial = false
+    },
+    async getProfile() {
+      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      let config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      await this.$axios
+        .$get(`${this.$axios.defaults.baseURL}auth/profile/${sub}`, config)
+        .then((res) => {
+          console.debug(res)
+          this.user = res.profile
+          this.settingUserData(res.profile)
+        })
+        .catch((e) => {
+          console.debug(e)
+        })
     },
   },
 }
