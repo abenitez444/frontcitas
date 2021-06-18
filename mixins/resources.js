@@ -11,6 +11,7 @@ export default {
       bodyTypes: [],
       childrenOptions: [],
       contactPreferences: [],
+      economicLevels: [],
     }
   },
   methods: {
@@ -25,12 +26,15 @@ export default {
           console.debug(e)
         })
     },
-    async getBodyTypes() {
+    async getBodyTypes(gender) {
       await this.$axios
         .$get(`${this.$axios.defaults.baseURL}physical-figures`)
         .then((res) => {
           console.debug(res)
-          this.bodyTypes = res.fisical_figures
+          this.bodyTypes = {
+            woman: res.fisical_figures.filter((types) => types.gender === 0),
+            men: res.fisical_figures.filter((types) => types.gender === 1),
+          }
         })
         .catch((e) => {
           console.debug(e)
@@ -60,6 +64,16 @@ export default {
     },
 
     getCivilStates() {},
-    getSocialStratos() {},
+    async getEconomicLevels() {
+      await this.$axios
+        .$get(`${this.$axios.defaults.baseURL}economic-levels`)
+        .then((res) => {
+          console.debug(res)
+          this.economicLevels = res.economic_levels
+        })
+        .catch((e) => {
+          console.debug(e)
+        })
+    },
   },
 }

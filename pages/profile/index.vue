@@ -62,8 +62,14 @@
                           @click:clear="resetThumbnail()"
                         >
                         </v-file-input>
+                        <!-- <div v-if="url"></div> -->
                         <div
-                          v-if="url"
+                          v-if="url === null"
+                          class="preview-image"
+                          :style="`background-image: url('${user.avatar}')`"
+                        ></div>
+                        <div
+                          v-else
                           class="preview-image"
                           :style="`background-image: url('${url}')`"
                         ></div>
@@ -180,19 +186,15 @@
                       <!-- Nivel Economico | Sugar baby  -->
                       <v-row>
                         <v-col>
-                          <!-- <v-select
-                            :items="economyStratos"
+                          <v-select
+                            :items="economicLevels"
+                            :item-text="(item) => item.name"
+                            :item-value="(item) => item.id"
                             label="Nivel Economico"
+                            v-model="user.id_economic_level"
                             hide-details=""
-                            v-model="user.economyStrato"
                             solo
-                          ></v-select> -->
-                          <v-text-field
-                            label="Nivel Economico"
-                            solo
-                            hide-details=""
-                            v-model="user.monthly_salary"
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                         <v-col>
                           <v-text-field
@@ -230,7 +232,7 @@
                         </v-col>
                         <v-col>
                           <v-select
-                            :items="bodyTypes"
+                            :items="bodyTypes.men"
                             :item-text="(item) => item.name"
                             :item-value="(item) => item.id"
                             label="Estado físico"
@@ -276,7 +278,12 @@
                         >
                         </v-file-input>
                         <div
-                          v-if="url"
+                          v-if="url === null"
+                          class="preview-image"
+                          :style="`background-image: url('${user.avatar}')`"
+                        ></div>
+                        <div
+                          v-else
                           class="preview-image"
                           :style="`background-image: url('${url}')`"
                         ></div>
@@ -403,7 +410,7 @@
                         </v-col>
                         <v-col>
                           <v-select
-                            :items="bodyTypes"
+                            :items="bodyTypes.woman"
                             :item-text="(item) => item.name"
                             :item-value="(item) => item.id"
                             label="Estado físico"
@@ -465,6 +472,22 @@
                       </v-row>
                     </v-sheet>
                   </template>
+                  <v-sheet color="transparent" class="mt-10">
+                    <v-row justify="center">
+                      <v-col cols="auto">
+                        <v-btn
+                          width="150px"
+                          class="text-capitalize"
+                          rounded
+                          large
+                          color="primary"
+                          @click="submit()"
+                        >
+                          Enviar
+                        </v-btn>
+                      </v-col>
+                    </v-row>
+                  </v-sheet>
                 </v-card-text>
               </v-card>
             </v-col>
@@ -663,12 +686,13 @@ export default {
     }
   },
   mounted() {
-    this.setUserLogged()
+    this.setUserLogged().then(() => {})
     this.getProfile()
     this.getRegions()
-    this.getBodyTypes()
     this.getChildrensOptions()
     this.getContactPreferences()
+    this.getEconomicLevels()
+    this.getBodyTypes()
   },
   methods: {
     async getProfile() {
@@ -699,6 +723,33 @@ export default {
     },
     resetThumbnail() {
       this.image = null
+    },
+    submit() {
+      const formData = new FormData()
+      formData.append('image', this.image)
+      formData.append('gender', this.user.gender)
+      formData.append('username', this.user.username)
+      formData.append('email', this.user.email)
+      formData.append('first_name', this.user.first_name)
+      formData.append('last_name', this.user.last_name)
+      formData.append('phone', this.user.phone)
+      formData.append('birth_day', this.user.birth_day)
+      formData.append('civil_status', this.user.civil_status)
+      formData.append('profession', this.user.profession)
+      formData.append('hobbies', this.user.hobbies)
+      formData.append('what_i_want', this.user.what_i_want)
+      formData.append('monthly_salary', this.user.monthly_salary)
+      formData.append('id_economic_level', this.user.id_economic_level)
+      formData.append('ideal_date', this.user.ideal_date)
+      formData.append(
+        'id_contact_preferences',
+        this.user.id_contact_preferences
+      )
+      formData.append('id_children', this.user.id_children)
+      formData.append('id_physical_figure', this.user.id_physical_figure)
+      formData.append('id_region', this.user.id_region)
+      formData.append('_method', 'PUT')
+      console.debug(formData)
     },
   },
 }
