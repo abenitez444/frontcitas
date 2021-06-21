@@ -12,6 +12,7 @@ export default {
       childrenOptions: [],
       contactPreferences: [],
       economicLevels: [],
+      monthlySalary: [],
     }
   },
   methods: {
@@ -62,8 +63,17 @@ export default {
           console.debug(e)
         })
     },
-
-    getCivilStates() {},
+    async getMonthlySalary() {
+      await this.$axios
+        .$get(`${this.$axios.defaults.baseURL}monthly-salary`)
+        .then((res) => {
+          console.debug(res)
+          this.monthlySalary = res.monthly_salaries
+        })
+        .catch((e) => {
+          console.debug(e)
+        })
+    },
     async getEconomicLevels() {
       await this.$axios
         .$get(`${this.$axios.defaults.baseURL}economic-levels`)

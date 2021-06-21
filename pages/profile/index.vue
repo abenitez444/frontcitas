@@ -74,26 +74,7 @@
                           :style="`background-image: url('${url}')`"
                         ></div>
                       </div>
-                      <!-- <v-row>
-                        <v-col>
-                          <v-file-input
-                            v-model="avatarFile"
-                            height="100px"
-                            class="custom-file-input"
-                            accept="image/*"
-                            label=""
-                            hide-details=""
-                            prepend-icon=""
-                            solo
-                          ></v-file-input>
-                          <v-avatar>
-                            <img
-                              src="https://cdn.vuetifyjs.com/images/john.jpg"
-                              alt="John"
-                            />
-                          </v-avatar>
-                        </v-col>
-                      </v-row> -->
+
                       <!-- Name -->
                       <v-row>
                         <v-col>
@@ -441,13 +422,15 @@
                           ></v-select>
                         </v-col>
                         <v-col>
-                          <v-text-field
-                            label="Presupuesto mensual"
-                            solo
-                            type="number"
+                          <v-select
+                            :items="monthlySalary"
+                            :item-text="(item) => item.name"
+                            :item-value="(item) => item.id"
+                            label="Región"
                             hide-details=""
-                            v-model="user.monthly_salary"
-                          ></v-text-field>
+                            v-model="user.monthly_salary_id"
+                            solo
+                          ></v-select>
                         </v-col>
                       </v-row>
 
@@ -700,6 +683,7 @@ export default {
     this.getContactPreferences()
     this.getEconomicLevels()
     this.getBodyTypes()
+    this.getMonthlySalary()
   },
   methods: {
     async getProfile() {
