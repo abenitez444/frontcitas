@@ -498,8 +498,21 @@
                       <v-col cols="auto" class="avatar-wrapper">
                         <div
                           class="profile-card__avatar"
+                          :class="
+                            getUserData.avatar !== ''
+                              ? ''
+                              : 'primary  d-flex justify-center align-center'
+                          "
                           :style="`background-image: url('${getUserData.avatar}')`"
-                        ></div>
+                        >
+                          <span
+                            v-if="getUserData.avatar === ''"
+                            class="white--text text-h5 text-uppercase"
+                          >
+                            {{ getUserData.first_name[0] }}
+                            {{ getUserData.last_name[0] }}
+                          </span>
+                        </div>
 
                         <img
                           :src="membershipIcon"
