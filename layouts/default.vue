@@ -74,8 +74,15 @@
               fab
               class="mr-5"
             >
-              <v-avatar size="60">
-                <img :src="getUserData.avatar" alt="John" />
+              <v-avatar size="60" color="primary">
+                <img
+                  :src="getUserData.avatar"
+                  v-if="getUserData.avatar !== ''"
+                  alt="John"
+                />
+                <span v-else class="white--text text-h6">
+                  {{ getUserData.first_name[0] }} {{ getUserData.last_name[0] }}
+                </span>
               </v-avatar>
             </v-btn>
           </template>

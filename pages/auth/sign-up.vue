@@ -352,10 +352,11 @@ import PhoneMaskInput from 'vue-phone-mask-input'
 import icon_female from '@/assets/auth/ui-icon-female.svg'
 import icon_male from '@/assets/auth/ui-icon-male.svg'
 import { validationMixin } from 'vuelidate'
+import authMixin from '@/mixins/authMixin'
 import { required, sameAs, minLength } from 'vuelidate/lib/validators'
 
 export default {
-  mixins: [validationMixin],
+  mixins: [validationMixin, authMixin],
   layout: 'auth',
   data() {
     return {
@@ -436,7 +437,14 @@ export default {
         await this.$axios
           .$post(`${this.$axios.defaults.baseURL}signup/`, this.newUser)
           .then((res) => {
+            const { token, sub, prof, status } = res
             this.loadingForm = false
+            this.authenticating({
+              token,
+              sub,
+              prof,
+              status,
+            })
             this.$router.push('/profile')
           })
           .catch((e) => {
@@ -484,12 +492,6 @@ export default {
       }
       return validationSuccess
     },
-  },
-  watch: {
-    // loadingForm(val) {
-    //   if (!val) return
-    //   setTimeout(() => (this.loadingForm = false), 2000)
-    // },
   },
   validations: {
     newUser: {
