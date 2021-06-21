@@ -612,6 +612,7 @@
                           color="primary"
                           text
                           class="text-capitalize"
+                          @click="logoutAccount()"
                           >Cerrar sesión</v-btn
                         >
                       </v-col>

@@ -38,6 +38,10 @@ const actions = {
   settingUserData({ commit }, payload) {
     commit('SET_USER_DATA', payload)
   },
+  logout({ commit }) {
+    localStorage.removeItem('wdc_token')
+    commit('LOGOUT')
+  },
 }
 
 const mutations = {
@@ -52,6 +56,11 @@ const mutations = {
   },
   SET_USER_DATA(state, payload) {
     state.userData = payload
+  },
+  LOGOUT(state) {
+    state.authenticated = false
+    state.user = {}
+    state.userData = null
   },
 }
 

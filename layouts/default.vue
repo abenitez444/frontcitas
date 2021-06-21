@@ -84,14 +84,15 @@
               <v-list-item-title>Perfil</v-list-item-title>
             </v-list-item>
             <v-list-item>
-              <v-list-item-title>Cerrar sesión</v-list-item-title>
+              <v-list-item-title @click="logoutAccount()"
+                >Cerrar sesión</v-list-item-title
+              >
             </v-list-item>
           </v-list>
         </v-menu>
       </template>
     </v-app-bar>
 
-    <!-- <pre> {{ getUserData }} </pre> -->
     <!-- page content -->
     <v-main class="main-content">
       <nuxt />
