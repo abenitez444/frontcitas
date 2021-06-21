@@ -1,71 +1,62 @@
 <template>
-  <v-container fluid fill-height class="page-sigin">
-    <v-row align="center" justify="center">
-      <v-col cols="auto">
-        <v-card width="500px">
-          <v-sheet max-width="500px" class="login-wrapper">
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  label="Correo"
-                  solo
-                  hide-details=""
-                  v-model="user.email"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Contraseña"
-                  v-model="user.password"
-                  :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                  :type="!showPassword ? 'text' : 'password'"
-                  @click:append="showPassword = !showPassword"
-                  solo
-                  hide-details=""
-                ></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row justify="center">
-              <v-col cols="auto">
-                <v-btn
-                  rounded
-                  class="font-weight-bold btn-action"
-                  width="250px"
-                  color="primary"
-                  large
-                  @click="submit()"
-                  >Unirse</v-btn
-                >
-                <p class="text-center mt-2">
-                  ¿Eres nuevo?, registrate
-                  <router-link class="text-decoration-none" to="/auth/sign-up">
-                    aqui
-                  </router-link>
-                </p>
-              </v-col>
-              <v-dialog
-                v-model="loadingForm"
-                hide-overlay
-                persistent
-                width="300"
-              >
-                <v-card color="primary" dark>
-                  <v-card-text>
-                    Espere un momento, por favor.
-                    <v-progress-linear
-                      indeterminate
-                      color="white"
-                      class="mb-0"
-                    ></v-progress-linear>
-                  </v-card-text>
-                </v-card>
-              </v-dialog>
-            </v-row>
-          </v-sheet>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-col cols="auto">
+    <v-card width="500px">
+      <v-sheet max-width="500px" class="login-wrapper">
+        <v-row>
+          <v-col cols="12">
+            <v-text-field
+              label="Correo"
+              solo
+              hide-details=""
+              v-model="user.email"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-text-field
+              label="Contraseña"
+              v-model="user.password"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="!showPassword ? 'text' : 'password'"
+              @click:append="showPassword = !showPassword"
+              solo
+              hide-details=""
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row justify="center">
+          <v-col cols="auto">
+            <v-btn
+              rounded
+              class="font-weight-bold btn-action"
+              width="250px"
+              color="primary"
+              large
+              @click="submit()"
+              >Unirse</v-btn
+            >
+            <p class="text-center mt-2">
+              ¿Eres nuevo?, registrate
+              <router-link class="text-decoration-none" to="/auth/sign-up">
+                aqui
+              </router-link>
+            </p>
+          </v-col>
+          <v-dialog v-model="loadingForm" hide-overlay persistent width="300">
+            <v-card color="primary" dark>
+              <v-card-text>
+                Espere un momento, por favor.
+                <v-progress-linear
+                  indeterminate
+                  color="white"
+                  class="mb-0"
+                ></v-progress-linear>
+              </v-card-text>
+            </v-card>
+          </v-dialog>
+        </v-row>
+      </v-sheet>
+    </v-card>
+  </v-col>
 </template>
 
 <script>

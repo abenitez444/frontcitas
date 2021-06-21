@@ -1,6 +1,5 @@
 <template>
-  <v-container fluid fill-height class="page-sigin">
-    <!-- <v-row class="mt-15"> </v-row> -->
+  <v-col>
     <v-row>
       <v-stepper v-model="step" width="500px" class="ma-auto" editable>
         <!-- Alerts -->
@@ -345,7 +344,7 @@
         </div>
       </v-stepper>
     </v-row>
-  </v-container>
+  </v-col>
 </template>
 
 <script>
@@ -363,10 +362,12 @@ export default {
       //? Assets
       icon_female,
       icon_male,
+
       //? Stepper
       step: 1,
       maxStep: 3,
       gender: 'default',
+
       //? Form
       passwordShow: true,
       confirmPasswordShow: true,
@@ -400,6 +401,7 @@ export default {
         // civil_status: '',
         // profession: '',
       },
+
       //? errors
       alertStepper: false,
       errors: {},
