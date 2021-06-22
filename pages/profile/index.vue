@@ -647,11 +647,12 @@
         </v-sheet>
       </v-col>
     </v-row>
-    <!-- <v-row>
+    <v-row>
       <pre>
-        {{ avatarFile }}
-      </pre>
-    </v-row> -->
+    {{ user }}
+  </pre
+      >
+    </v-row>
   </v-container>
 </template>
 
@@ -729,12 +730,18 @@ export default {
     resetThumbnail() {
       this.image = null
     },
-    submit() {
+    async submit() {
+      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      let config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
       const formData = new FormData()
       formData.append('image', this.image)
       formData.append('gender', this.user.gender)
-      formData.append('username', this.user.username)
-      formData.append('email', this.user.email)
+      formData.append('username', this.user.user.username)
+      formData.append('email', this.user.user.email)
       formData.append('first_name', this.user.first_name)
       formData.append('last_name', this.user.last_name)
       formData.append('phone', this.user.phone)
@@ -754,7 +761,19 @@ export default {
       formData.append('id_physical_figure', this.user.id_physical_figure)
       formData.append('id_region', this.user.id_region)
       formData.append('_method', 'PUT')
-      console.debug(formData)
+      await this.$axios
+        .$post(`${this.$axios.defaults.baseURL}auth/edit/1`, formData, config)
+        .then((res) => {
+          console.debug(res)
+          // this.loadingForm = false
+          // this.authenticating(res)
+          // this.$router.push('/profile')
+        })
+        .catch((e) => {
+          console.debug(e)
+          this.loadingForm = false
+          this.errors = e.response.data.error
+        })
     },
   },
 }
