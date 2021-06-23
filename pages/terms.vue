@@ -5,7 +5,7 @@
         <v-sheet>
           <v-row>
             <v-col>
-              <h1 class="primary--text">Políticas de privacidad</h1>
+              <h1 class="primary--text">Términos y condiciones</h1>
             </v-col>
           </v-row>
           <v-row>

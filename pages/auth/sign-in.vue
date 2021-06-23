@@ -70,11 +70,11 @@ export default {
       showPassword: true,
       loadingForm: false,
       user: {
+        //? debug
+        // email: 'Admin@gmail.com',
+        // password: '12345678',
         email: '',
         password: '',
-        //? debug
-        email: 'Admin@gmail.com',
-        password: '12345678',
       },
       errors: null,
     }

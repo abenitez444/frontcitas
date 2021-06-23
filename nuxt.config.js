@@ -9,10 +9,10 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - wdc_front',
-    title: 'wdc_front',
+    titleTemplate: '%s',
+    title: 'Club Sugar',
     htmlAttrs: {
-      lang: 'en',
+      lang: 'es',
     },
     meta: [
       { charset: 'utf-8' },
@@ -46,6 +46,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: 'http://127.0.0.1:8000/api/',
+    // baseURL: 'https://dev.clubsugar.cl/backendcitas/public/api/',
   },
 
   auth: {

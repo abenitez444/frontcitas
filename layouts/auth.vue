@@ -81,6 +81,11 @@ import iconHeart from '@/assets/ui-icon-heart-filled.svg'
 import iconHighHeel from '@/assets/ui-icon-high-heel.svg'
 import bgHero from '@/assets/bg-hero.jpg'
 export default {
+  // head() {
+  //   return {
+  //     title: 'Club Sugar',
+  //   }
+  // },
   data() {
     return {
       //
@@ -133,6 +138,9 @@ ul {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  &.auth-layout {
+    padding-bottom: unset !important;
+  }
 }
 .footer-app {
   position: relative;
@@ -198,6 +206,7 @@ ul {
 
 .auth-layout {
   overflow: hidden;
+
   &:before {
     content: '';
     position: absolute;

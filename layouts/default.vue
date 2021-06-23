@@ -76,7 +76,7 @@
             >
               <v-avatar size="60" color="primary">
                 <img
-                  :src="getUserData.avatar"
+                  :src="`${img_baseUrl}${getUserData.avatar}`"
                   v-if="getUserData.avatar !== ''"
                   alt="John"
                 />
@@ -100,12 +100,14 @@
       </template>
     </v-app-bar>
 
+    <wdc-snackbar />
+    <wdc-loading />
     <!-- page content -->
-    <v-main class="main-content">
+    <v-main class="main-content" :class="`${$route.name}-main`">
       <nuxt />
     </v-main>
 
-    <v-footer :absolute="!fixed" app color="primary" dark class="footer-app">
+    <footer class="footer-app primary">
       <img :src="asset_wave" class="wave-footer" alt="" />
       <v-container>
         <!-- content -->
@@ -118,7 +120,7 @@
             </p>
           </v-col>
           <v-col class="text-center" cols="6">
-            <h2 class="footer-title">Secciones</h2>
+            <h2 class="footer-title white--text">Secciones</h2>
             <ul class="footer-menu">
               <li>
                 <router-link to="/" class="footer-anchor">Inicio</router-link>
@@ -188,7 +190,7 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-footer>
+    </footer>
     <!-- whatss app btn -->
     <div class="ws-btn">
       <a href=" https://web.whatsapp.com/" target="_blank">
@@ -207,8 +209,17 @@ import logoDefault from '@/assets/ui-logo-default.svg'
 import logoDark from '@/assets/ui-logo-dark.svg'
 import logoInsta from '@/assets/ui-logo-insta.svg'
 import authMixin from '@/mixins/authMixin'
+import resourcesMixin from '@/mixins/resources'
+import loadingMixin from '@/mixins/loadingMixin'
+import wdc_snackbar from '~/components/wdc_snackbar.vue'
 export default {
-  mixins: [authMixin],
+  components: { wdc_snackbar },
+  mixins: [authMixin, resourcesMixin, loadingMixin],
+  // head() {
+  //   return {
+  //     title: 'Club Sugar',
+  //   }
+  // },
   data() {
     return {
       //
@@ -253,6 +264,7 @@ export default {
       this.dialogInTrial = false
     },
     async getProfile() {
+      this.loadingOn()
       const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
       let config = {
         headers: {
@@ -262,11 +274,12 @@ export default {
       await this.$axios
         .$get(`${this.$axios.defaults.baseURL}auth/profile/${sub}`, config)
         .then((res) => {
-          console.debug(res)
+          this.loadingOff()
           this.user = res.profile
           this.settingUserData(res.profile)
         })
         .catch((e) => {
+          this.loadingOff()
           console.debug(e)
         })
     },
@@ -285,8 +298,15 @@ ul {
   margin: 0;
   padding-left: 0 !important;
 }
+//! footer top margins for pages
 .main-content {
   padding-top: 0 !important;
+  padding-bottom: 150px !important;
+  &.profile-main,
+  &.terms-main,
+  &.policies-main {
+    padding-bottom: 350px !important;
+  }
 }
 .footer-app {
   position: relative;

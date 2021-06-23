@@ -66,8 +66,9 @@
                         <div
                           v-if="url === null"
                           class="preview-image"
-                          :style="`background-image: url('${user.avatar}')`"
+                          :style="`background-image: url('${img_baseUrl}${user.avatar}')`"
                         ></div>
+
                         <div
                           v-else
                           class="preview-image"
@@ -131,6 +132,7 @@
                               ></v-text-field>
                             </template>
                             <v-date-picker
+                              :max="maxDate()"
                               v-model="user.birth_day"
                               scrollable
                               locale="es-ve"
@@ -264,7 +266,7 @@
                         <div
                           v-if="url === null"
                           class="preview-image"
-                          :style="`background-image: url('${user.avatar}')`"
+                          :style="`background-image: url('${img_baseUrl}${user.avatar}')`"
                         ></div>
                         <div
                           v-else
@@ -315,6 +317,7 @@
                               ></v-text-field>
                             </template>
                             <v-date-picker
+                              :max="maxDate()"
                               v-model="user.birth_day"
                               scrollable
                               locale="es-ve"
@@ -426,7 +429,7 @@
                             :items="monthlySalary"
                             :item-text="(item) => item.name"
                             :item-value="(item) => item.id"
-                            label="Región"
+                            label="Presupuesto"
                             hide-details=""
                             v-model="user.monthly_salary_id"
                             solo
@@ -503,7 +506,7 @@
                               ? ''
                               : 'primary  d-flex justify-center align-center'
                           "
-                          :style="`background-image: url('${getUserData.avatar}')`"
+                          :style="`background-image: url('${img_baseUrl}${getUserData.avatar}')`"
                         >
                           <span
                             v-if="getUserData.avatar === ''"
@@ -647,12 +650,12 @@
         </v-sheet>
       </v-col>
     </v-row>
-    <v-row>
+    <!-- <v-row>
       <pre>
     {{ user }}
   </pre
       >
-    </v-row>
+    </v-row> -->
   </v-container>
 </template>
 
@@ -663,8 +666,10 @@ import femaleIcon from '@/assets/ui-icon-female.svg'
 import membershipIcon from '@/assets/ui-icon-membership.svg'
 import authMixin from '@/mixins/authMixin'
 import resourcesMixin from '@/mixins/resources'
+import snackMixin from '@/mixins/snackMixin'
+import loadingMixin from '@/mixins/loadingMixin'
 export default {
-  mixins: [authMixin, resourcesMixin],
+  mixins: [authMixin, resourcesMixin, snackMixin, loadingMixin],
   middleware: ['authenticated'],
   data() {
     return {
@@ -691,7 +696,7 @@ export default {
     }
   },
   mounted() {
-    this.setUserLogged().then(() => {})
+    this.setUserLogged()
     this.getProfile()
     this.getRegions()
     this.getChildrensOptions()
@@ -712,8 +717,8 @@ export default {
         .$get(`${this.$axios.defaults.baseURL}auth/profile/${sub}`, config)
         .then((res) => {
           console.debug(res)
-          // this.loadingForm = false
           this.user = res.profile
+          // this.loadingForm = false
           // this.authenticating(res)
         })
         .catch((e) => {
@@ -731,6 +736,7 @@ export default {
       this.image = null
     },
     async submit() {
+      this.loadingOn()
       const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
       let config = {
         headers: {
@@ -738,7 +744,9 @@ export default {
         },
       }
       const formData = new FormData()
-      formData.append('image', this.image)
+      if (this.image !== null) {
+        formData.append('image', this.image)
+      }
       formData.append('gender', this.user.gender)
       formData.append('username', this.user.user.username)
       formData.append('email', this.user.user.email)
@@ -750,8 +758,12 @@ export default {
       formData.append('profession', this.user.profession)
       formData.append('hobbies', this.user.hobbies)
       formData.append('what_i_want', this.user.what_i_want)
-      formData.append('monthly_salary', this.user.monthly_salary)
-      formData.append('id_economic_level', this.user.id_economic_level)
+      formData.append('monthly_salary_id', this.user.monthly_salary_id)
+      if (this.user.gender === 0) {
+        formData.append('id_economic_level', '')
+      } else {
+        formData.append('id_economic_level', this.user.id_economic_level)
+      }
       formData.append('ideal_date', this.user.ideal_date)
       formData.append(
         'id_contact_preferences',
@@ -762,18 +774,32 @@ export default {
       formData.append('id_region', this.user.id_region)
       formData.append('_method', 'PUT')
       await this.$axios
-        .$post(`${this.$axios.defaults.baseURL}auth/edit/1`, formData, config)
+        .$post(
+          `${this.$axios.defaults.baseURL}auth/edit/${this.user.id}`,
+          formData,
+          config
+        )
         .then((res) => {
-          console.debug(res)
+          this.getProfile()
+          this.loadingOff()
+          this.snackbarOn('El perfil fue actualizado exitosamente.')
           // this.loadingForm = false
           // this.authenticating(res)
           // this.$router.push('/profile')
         })
         .catch((e) => {
-          console.debug(e)
-          this.loadingForm = false
+          this.loadingOff()
+          this.snackbarOn(
+            'Ha ocurrido un error al actualizar, por favor pongase en contacto con el soporte.'
+          )
+          this.getProfile()
           this.errors = e.response.data.error
         })
+    },
+    maxDate() {
+      const date = new Date()
+      date.setFullYear(date.getFullYear() - 18)
+      return date.toISOString().substr(0, 10)
     },
   },
 }

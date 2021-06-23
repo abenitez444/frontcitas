@@ -49,8 +49,10 @@
             </li>
 
             <!-- otros errores -->
-            <li v-for="(error, i) in errors" :key="i">
-              {{ error[0] }}
+            <!-- v-for="(error, i) in errors" -->
+            <li v-if="errors">
+              Lo sentimos, ha ocurrido un error pongase en contacto con el
+              soporte
             </li>
           </ul>
         </v-alert>
@@ -378,18 +380,6 @@ export default {
       civilStatesMan: ['Soltero', 'Casado'],
       loadingForm: false,
       newUser: {
-        // phone: '+584245557777',
-        // gender: 1,
-        // username: 'deeply',
-        // email: 'frederick.gonzalez@jirehpro.com',
-        // password: '12345678',
-        // password_confirmation: '12345678',
-        // first_name: 'John',
-        // last_name: 'Doe',
-        // birth_day: '1995-03-29',
-        // civil_status: 'Soltero',
-        // profession: 'Ingeniero',
-        //? Debug
         phone: '',
         gender: '',
         username: '',
@@ -401,11 +391,23 @@ export default {
         birth_day: '',
         civil_status: '',
         profession: '',
+        //? Debug
+        // phone: '+584245557777',
+        // gender: 1,
+        // username: 'deeply',
+        // email: 'frederick.gonzalez@jirehpro.com',
+        // password: '12345678',
+        // password_confirmation: '12345678',
+        // first_name: 'John',
+        // last_name: 'Doe',
+        // birth_day: '1995-03-29',
+        // civil_status: 'Soltero',
+        // profession: 'Ingeniero',
       },
 
       //? errors
       alertStepper: false,
-      errors: {},
+      errors: false,
     }
   },
   methods: {
@@ -435,7 +437,7 @@ export default {
       if (this.validationSuccess) {
         this.loadingForm = true
         await this.$axios
-          .$post(`${this.$axios.defaults.baseURL}signup/`, this.newUser)
+          .$post(`${this.$axios.defaults.baseURL}signup`, this.newUser)
           .then((res) => {
             const { token, sub, prof, status } = res
             this.loadingForm = false
@@ -448,8 +450,9 @@ export default {
             this.$router.push('/profile')
           })
           .catch((e) => {
+            console.debug(e)
             this.loadingForm = false
-            this.errors = e.response.data.error
+            this.errors = true
             this.alertStepper = true
           })
       }

@@ -65,13 +65,13 @@
                       cols="7"
                       class="d-flex justify-center align-center wrapper-video"
                     >
-                      <no-ssr placeholder="Loading...">
+                      <client-only placeholder="Loading...">
                         <youtube
                           :player-vars="{ autoplay: 0 }"
                           :video-id="video.link"
                           :player-height="439"
                         />
-                      </no-ssr>
+                      </client-only>
                     </v-col>
                     <v-col cols="" class="d-flex flex-column justify-center">
                       <h2 class="header-2 primary--text mb-7">

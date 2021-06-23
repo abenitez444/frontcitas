@@ -6,6 +6,7 @@ export default {
     return {
       bgHero,
       placeHolderSlide,
+      img_baseUrl: 'http://127.0.0.1:8000',
       asset_wave,
       regions: [],
       bodyTypes: [],
