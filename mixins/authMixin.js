@@ -8,6 +8,7 @@ export default {
       authenticating: 'auth/authenticating',
       setUserLogged: 'auth/setUserLogged',
       settingUserData: 'auth/settingUserData',
+      checkAuth: 'auth/checkAuth',
       logout: 'auth/logout',
     }),
     async logoutAccount() {
@@ -22,7 +23,7 @@ export default {
         .then((res) => {
           console.debug(res)
           this.logout()
-          this.$router.push('/auth/sign-in')
+          this.$router.push('/')
         })
         .catch((e) => {
           // console.debug(e)

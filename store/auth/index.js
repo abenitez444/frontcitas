@@ -31,8 +31,16 @@ const actions = {
   checkTrial({ commit }, payload) {
     commit('UPDATE_TRIAL', payload)
   },
+  checkAuth({ commit }) {
+    if (localStorage.getItem('wdc_token') !== null) {
+      const userLogged = JSON.parse(localStorage.getItem('wdc_token'))
+      commit('AUTHENTICATE', true)
+      commit('SET_USER', userLogged)
+    }
+  },
   setUserLogged({ commit }) {
     const userLogged = JSON.parse(localStorage.getItem('wdc_token'))
+    commit('AUTHENTICATE', true)
     commit('SET_USER', userLogged)
   },
   settingUserData({ commit }, payload) {

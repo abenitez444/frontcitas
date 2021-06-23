@@ -1,5 +1,9 @@
 <template>
   <v-app dark>
+    <!-- <pre>
+      {{ isAuthenticated }}
+      {{ userData }}
+    </pre> -->
     <v-dialog
       transition="dialog-bottom-transition"
       max-width="600"
@@ -253,8 +257,11 @@ export default {
     }
   },
   mounted() {
+    this.checkAuth()
     this.checkInTrial()
-    this.getProfile()
+    if (localStorage.getItem('wdc_token') !== null) {
+      this.getProfile()
+    }
   },
   methods: {
     checkInTrial() {
