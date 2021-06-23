@@ -468,7 +468,8 @@ export default {
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;600;700&display=swap');
-$primary: #f42f43;
+// $primary: #f42f43;
+$primary: #480b0e;
 $accent: #bada55;
 $secondary: #ff273e;
 $font_one: #321215;
@@ -687,7 +688,7 @@ $elevation-1: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.1));
     position: relative;
     margin-top: 2rem;
     img {
-      width: 250px;
+      width: 350px;
       height: auto;
     }
     .v-btn {

@@ -19,7 +19,7 @@
         elevation="0"
         rounded
         class="text-capitalize px-7 white--text"
-        color="accent_2"
+        color="primary lighten-1"
       >
         Registro
       </v-btn>
@@ -28,7 +28,7 @@
         elevation="0"
         rounded
         class="ml-5 text-capitalize px-7 white--text"
-        color="accent_2"
+        color="primary lighten-1"
       >
         Ingresar
       </v-btn>

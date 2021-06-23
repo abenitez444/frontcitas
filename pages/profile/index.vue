@@ -39,447 +39,508 @@
               </v-card>
             </v-col>
           </v-row>
+
           <!-- formulario -->
           <v-row no-gutters class="mt-8">
             <v-col>
               <v-card class="cm-round-1 cm-elevation-1" v-if="user !== null">
                 <v-card-text class="pa-8">
-                  <h2 class="font_one--text mb-5">Perfil</h2>
-                  <!-- hombre -->
-                  <template v-if="user.gender === 1">
-                    <v-sheet color="transparent">
-                      <!-- file -->
-                      <div class="custom-file-wrapper mx-auto mb-8">
-                        <v-file-input
-                          @change="Preview_image"
-                          v-model="image"
-                          height="100px"
-                          class="custom-file-input"
-                          accept="image/*"
-                          label=""
-                          hide-details=""
-                          prepend-icon=""
-                          @click:clear="resetThumbnail()"
-                        >
-                        </v-file-input>
-                        <!-- <div v-if="url"></div> -->
-                        <div
-                          v-if="url === null"
-                          class="preview-image"
-                          :style="`background-image: url('${img_baseUrl}${user.avatar}')`"
-                        ></div>
-
-                        <div
-                          v-else
-                          class="preview-image"
-                          :style="`background-image: url('${url}')`"
-                        ></div>
-                      </div>
-
-                      <!-- Name -->
-                      <v-row>
-                        <v-col>
-                          <v-text-field
-                            label="Nombre"
-                            solo
-                            hide-details=""
-                            v-model="user.first_name"
-                            color="primary"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col>
-                          <v-text-field
-                            label="Apellido"
-                            solo
-                            hide-details=""
-                            v-model="user.last_name"
-                          ></v-text-field>
-                        </v-col>
-                      </v-row>
-
-                      <!-- profession -->
-                      <v-row>
-                        <v-col>
-                          <v-text-field
-                            label="Profesión"
-                            solo
-                            hide-details=""
-                            v-model="user.profession"
-                          ></v-text-field>
-                        </v-col>
-                      </v-row>
-
-                      <!-- Birthday | civil state -->
-                      <v-row>
-                        <v-col>
-                          <v-dialog
-                            ref="dialog"
-                            v-model="modalBirthday"
-                            :return-value.sync="user.birth_day"
-                            persistent
-                            width="290px"
-                          >
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-text-field
-                                v-model="user.birth_day"
-                                label="Fecha de nacimiento"
-                                append-icon="mdi-calendar"
-                                readonly
-                                solo
-                                v-bind="attrs"
-                                v-on="on"
-                                hide-details=""
-                              ></v-text-field>
-                            </template>
-                            <v-date-picker
-                              :max="maxDate()"
-                              v-model="user.birth_day"
-                              scrollable
-                              locale="es-ve"
-                            >
-                              <v-spacer></v-spacer>
-                              <v-btn
-                                text
-                                color="primary"
-                                @click="modalBirthday = false"
-                              >
-                                Cancel
-                              </v-btn>
-                              <v-btn
-                                text
-                                color="primary"
-                                @click="$refs.dialog.save(user.birth_day)"
-                              >
-                                OK
-                              </v-btn>
-                            </v-date-picker>
-                          </v-dialog>
-                        </v-col>
-                        <v-col>
-                          <v-select
-                            :items="civilStatesMan"
-                            label="Estado civil"
-                            hide-details=""
-                            v-model="user.civil_status"
-                            solo
-                          ></v-select>
-                          <!-- <pre>
-                            {{ user.civil_status }}
-                          </pre> -->
-                        </v-col>
-                      </v-row>
-
-                      <!-- Nivel Economico | Sugar baby  -->
-                      <v-row>
-                        <v-col>
-                          <v-select
-                            :items="economicLevels"
-                            :item-text="(item) => item.name"
-                            :item-value="(item) => item.id"
-                            label="Nivel Economico"
-                            v-model="user.id_economic_level"
-                            hide-details=""
-                            solo
-                          ></v-select>
-                        </v-col>
-                        <v-col>
-                          <v-text-field
-                            label="¿Qué buscas en una Sugar Baby?"
-                            solo
-                            hide-details=""
-                            v-model="user.what_i_want"
-                          ></v-text-field>
-                        </v-col>
-                      </v-row>
-
-                      <!-- Cita ideal -->
-                      <v-row>
-                        <v-col>
-                          <v-textarea
-                            solo
-                            rows="3"
-                            row-height="20"
-                            label="¿Cual es tu cita ideal?"
-                            hide-details=""
-                            v-model="user.ideal_date"
-                          ></v-textarea>
-                        </v-col>
-                      </v-row>
-
-                      <!-- intereses, hobbies | body type -->
-                      <v-row>
-                        <v-col>
-                          <v-text-field
-                            label="Cuentanos sobre tus intereses o hobbies"
-                            solo
-                            hide-details=""
-                            v-model="user.hobbies"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col>
-                          <v-select
-                            :items="bodyTypes.men"
-                            :item-text="(item) => item.name"
-                            :item-value="(item) => item.id"
-                            label="Estado físico"
-                            hide-details=""
-                            v-model="user.id_physical_figure"
-                            solo
-                          ></v-select>
-                        </v-col>
-                      </v-row>
-
-                      <!-- region -->
-                      <v-row>
-                        <v-col>
-                          <v-select
-                            :items="regions"
-                            :item-text="(item) => item.name"
-                            :item-value="(item) => item.id"
-                            label="Región"
-                            hide-details=""
-                            v-model="user.id_region"
-                            solo
-                          ></v-select>
-                        </v-col>
-                      </v-row>
-                    </v-sheet>
-                  </template>
-
-                  <!-- mujer -->
-                  <template v-else-if="user.gender === 0">
-                    <v-sheet color="transparent">
-                      <!-- file -->
-                      <div class="custom-file-wrapper mx-auto mb-8">
-                        <v-file-input
-                          @change="Preview_image"
-                          v-model="image"
-                          height="100px"
-                          class="custom-file-input"
-                          accept="image/*"
-                          label=""
-                          hide-details=""
-                          prepend-icon=""
-                          @click:clear="resetThumbnail()"
-                        >
-                        </v-file-input>
-                        <div
-                          v-if="url === null"
-                          class="preview-image"
-                          :style="`background-image: url('${img_baseUrl}${user.avatar}')`"
-                        ></div>
-                        <div
-                          v-else
-                          class="preview-image"
-                          :style="`background-image: url('${url}')`"
-                        ></div>
-                      </div>
-                      <!-- Name -->
-                      <v-row>
-                        <v-col>
-                          <v-text-field
-                            label="Nombre"
-                            solo
-                            hide-details=""
-                            v-model="user.first_name"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col>
-                          <v-text-field
-                            label="Apellido"
-                            solo
-                            hide-details=""
-                            v-model="user.last_name"
-                          ></v-text-field>
-                        </v-col>
-                      </v-row>
-
-                      <!-- Birthday | civil state -->
-                      <v-row>
-                        <v-col>
-                          <v-dialog
-                            ref="dialog"
-                            v-model="modalBirthday"
-                            :return-value.sync="user.birth_day"
-                            persistent
-                            width="290px"
-                          >
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-text-field
-                                v-model="user.birth_day"
-                                label="Fecha de nacimiento"
-                                append-icon="mdi-calendar"
-                                readonly
-                                solo
-                                v-bind="attrs"
-                                v-on="on"
-                                hide-details=""
-                              ></v-text-field>
-                            </template>
-                            <v-date-picker
-                              :max="maxDate()"
-                              v-model="user.birth_day"
-                              scrollable
-                              locale="es-ve"
-                            >
-                              <v-spacer></v-spacer>
-                              <v-btn
-                                text
-                                color="primary"
-                                @click="modalBirthday = false"
-                              >
-                                Cancel
-                              </v-btn>
-                              <v-btn
-                                text
-                                color="primary"
-                                @click="$refs.dialog.save(user.birth_day)"
-                              >
-                                OK
-                              </v-btn>
-                            </v-date-picker>
-                          </v-dialog>
-                        </v-col>
-                        <v-col>
-                          <v-select
-                            :items="civilStatesWoman"
-                            label="Estado civil"
-                            hide-details=""
-                            v-model="user.civil_status"
-                            solo
-                          ></v-select>
-                          <!-- <pre>
-                            {{ user.civil_status }}
-                          </pre> -->
-                        </v-col>
-                      </v-row>
-
-                      <!-- Cita ideal -->
-                      <v-row>
-                        <v-col>
-                          <v-textarea
-                            solo
-                            rows="3"
-                            row-height="20"
-                            label="¿Cual es tu cita ideal?"
-                            hide-details=""
-                            v-model="user.ideal_date"
-                          ></v-textarea>
-                        </v-col>
-                      </v-row>
-
-                      <!-- Profesión | Sugar baby  -->
-                      <v-row>
-                        <v-col>
-                          <v-text-field
-                            label="Profesión"
-                            solo
-                            hide-details=""
-                            v-model="user.profession"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col>
-                          <v-text-field
-                            label="¿Qué buscas en un Sugar Daddy?"
-                            solo
-                            hide-details=""
-                            v-model="user.what_i_want"
-                          ></v-text-field>
-                        </v-col>
-                      </v-row>
-
-                      <!-- intereses, hobbies | body type -->
-                      <v-row>
-                        <v-col>
-                          <v-text-field
-                            label="Cuentanos sobre tus intereses o hobbies"
-                            solo
-                            hide-details=""
-                            v-model="user.hobbies"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col>
-                          <v-select
-                            :items="bodyTypes.woman"
-                            :item-text="(item) => item.name"
-                            :item-value="(item) => item.id"
-                            label="Estado físico"
-                            hide-details=""
-                            v-model="user.id_physical_figure"
-                            solo
-                          ></v-select>
-                        </v-col>
-                      </v-row>
-
-                      <!-- regiones | presupuesto -->
-                      <v-row>
-                        <v-col>
-                          <v-select
-                            :items="regions"
-                            :item-text="(item) => item.name"
-                            :item-value="(item) => item.id"
-                            label="Región"
-                            hide-details=""
-                            v-model="user.id_region"
-                            solo
-                          ></v-select>
-                        </v-col>
-                        <v-col>
-                          <v-select
-                            :items="monthlySalary"
-                            :item-text="(item) => item.name"
-                            :item-value="(item) => item.id"
-                            label="Presupuesto"
-                            hide-details=""
-                            v-model="user.monthly_salary_id"
-                            solo
-                          ></v-select>
-                        </v-col>
-                      </v-row>
-
-                      <!-- hijos | preferencia de contacto -->
-                      <v-row>
-                        <v-col>
-                          <v-select
-                            :items="childrenOptions"
-                            :item-text="(item) => item.name"
-                            :item-value="(item) => item.id"
-                            label="Hijos"
-                            hide-details=""
-                            v-model="user.id_children"
-                            solo
-                          ></v-select>
-                        </v-col>
-                        <v-col>
-                          <v-select
-                            :items="contactPreferences"
-                            :item-text="(item) => item.name"
-                            :item-value="(item) => item.id"
-                            label="Preferencias de contacto"
-                            hide-details=""
-                            v-model="user.id_contact_preferences"
-                            solo
-                          ></v-select>
-                        </v-col>
-                      </v-row>
-                    </v-sheet>
-                  </template>
-                  <v-sheet color="transparent" class="mt-10">
-                    <v-row justify="center">
+                  <v-sheet>
+                    <v-row j>
                       <v-col cols="auto">
-                        <v-btn
-                          width="150px"
-                          class="text-capitalize"
-                          rounded
-                          large
-                          color="primary"
-                          @click="submit()"
-                        >
-                          Enviar
-                        </v-btn>
+                        <v-tabs v-model="profileTab" align-with-title>
+                          <v-tabs-slider color="primary"></v-tabs-slider>
+
+                          <v-tab> Perfil </v-tab>
+                          <v-tab> Galería </v-tab>
+                        </v-tabs>
                       </v-col>
                     </v-row>
                   </v-sheet>
+                  <v-tabs-items v-model="profileTab">
+                    <v-tab-item>
+                      <!-- hombre -->
+                      <template v-if="user.gender === 1">
+                        <v-sheet color="transparent">
+                          <!-- file -->
+                          <div class="custom-file-wrapper mx-auto mb-8">
+                            <v-file-input
+                              @change="Preview_image"
+                              v-model="image"
+                              height="100px"
+                              class="custom-file-input"
+                              accept="image/*"
+                              label=""
+                              hide-details=""
+                              prepend-icon=""
+                              @click:clear="resetThumbnail()"
+                            >
+                            </v-file-input>
+                            <!-- <div v-if="url"></div> -->
+                            <div
+                              v-if="url === null"
+                              class="preview-image"
+                              :style="`background-image: url('${img_baseUrl}${user.avatar}')`"
+                            ></div>
+
+                            <div
+                              v-else
+                              class="preview-image"
+                              :style="`background-image: url('${url}')`"
+                            ></div>
+                          </div>
+
+                          <!-- Name -->
+                          <v-row>
+                            <v-col>
+                              <v-text-field
+                                label="Nombre"
+                                solo
+                                hide-details=""
+                                v-model="user.first_name"
+                                color="primary"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col>
+                              <v-text-field
+                                label="Apellido"
+                                solo
+                                hide-details=""
+                                v-model="user.last_name"
+                              ></v-text-field>
+                            </v-col>
+                          </v-row>
+
+                          <!-- profession -->
+                          <v-row>
+                            <v-col>
+                              <v-text-field
+                                label="Profesión"
+                                solo
+                                hide-details=""
+                                v-model="user.profession"
+                              ></v-text-field>
+                            </v-col>
+                          </v-row>
+
+                          <!-- Birthday | civil state -->
+                          <v-row>
+                            <v-col>
+                              <v-dialog
+                                ref="dialog"
+                                v-model="modalBirthday"
+                                :return-value.sync="user.birth_day"
+                                persistent
+                                width="290px"
+                              >
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-text-field
+                                    v-model="user.birth_day"
+                                    label="Fecha de nacimiento"
+                                    append-icon="mdi-calendar"
+                                    readonly
+                                    solo
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    hide-details=""
+                                  ></v-text-field>
+                                </template>
+                                <v-date-picker
+                                  :max="maxDate()"
+                                  v-model="user.birth_day"
+                                  scrollable
+                                  locale="es-ve"
+                                >
+                                  <v-spacer></v-spacer>
+                                  <v-btn
+                                    text
+                                    color="primary"
+                                    @click="modalBirthday = false"
+                                  >
+                                    Cancel
+                                  </v-btn>
+                                  <v-btn
+                                    text
+                                    color="primary"
+                                    @click="$refs.dialog.save(user.birth_day)"
+                                  >
+                                    OK
+                                  </v-btn>
+                                </v-date-picker>
+                              </v-dialog>
+                            </v-col>
+                            <v-col>
+                              <v-select
+                                :items="civilStatesMan"
+                                label="Estado civil"
+                                hide-details=""
+                                v-model="user.civil_status"
+                                solo
+                              ></v-select>
+                              <!-- <pre>
+                            {{ user.civil_status }}
+                          </pre> -->
+                            </v-col>
+                          </v-row>
+
+                          <!-- Nivel Economico | Sugar baby  -->
+                          <v-row>
+                            <v-col>
+                              <v-select
+                                :items="economicLevels"
+                                :item-text="(item) => item.name"
+                                :item-value="(item) => item.id"
+                                label="Nivel Economico"
+                                v-model="user.id_economic_level"
+                                hide-details=""
+                                solo
+                              ></v-select>
+                            </v-col>
+                            <v-col>
+                              <v-text-field
+                                label="¿Qué buscas en una Sugar Baby?"
+                                solo
+                                hide-details=""
+                                v-model="user.what_i_want"
+                              ></v-text-field>
+                            </v-col>
+                          </v-row>
+
+                          <!-- Cita ideal -->
+                          <v-row>
+                            <v-col>
+                              <v-textarea
+                                solo
+                                rows="3"
+                                row-height="20"
+                                label="¿Cual es tu cita ideal?"
+                                hide-details=""
+                                v-model="user.ideal_date"
+                              ></v-textarea>
+                            </v-col>
+                          </v-row>
+
+                          <!-- intereses, hobbies | body type -->
+                          <v-row>
+                            <v-col>
+                              <v-text-field
+                                label="Cuentanos sobre tus intereses o hobbies"
+                                solo
+                                hide-details=""
+                                v-model="user.hobbies"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col>
+                              <v-select
+                                :items="bodyTypes.men"
+                                :item-text="(item) => item.name"
+                                :item-value="(item) => item.id"
+                                label="Estado físico"
+                                hide-details=""
+                                v-model="user.id_physical_figure"
+                                solo
+                              ></v-select>
+                            </v-col>
+                          </v-row>
+
+                          <!-- region -->
+                          <v-row>
+                            <v-col>
+                              <v-select
+                                :items="regions"
+                                :item-text="(item) => item.name"
+                                :item-value="(item) => item.id"
+                                label="Región"
+                                hide-details=""
+                                v-model="user.id_region"
+                                solo
+                              ></v-select>
+                            </v-col>
+                          </v-row>
+                        </v-sheet>
+                      </template>
+
+                      <!-- mujer -->
+                      <template v-else-if="user.gender === 0">
+                        <v-sheet color="transparent">
+                          <!-- file -->
+                          <div class="custom-file-wrapper mx-auto mb-8">
+                            <v-file-input
+                              @change="Preview_image"
+                              v-model="image"
+                              height="100px"
+                              class="custom-file-input"
+                              accept="image/*"
+                              label=""
+                              hide-details=""
+                              prepend-icon=""
+                              @click:clear="resetThumbnail()"
+                            >
+                            </v-file-input>
+                            <div
+                              v-if="url === null"
+                              class="preview-image"
+                              :style="`background-image: url('${img_baseUrl}${user.avatar}')`"
+                            ></div>
+                            <div
+                              v-else
+                              class="preview-image"
+                              :style="`background-image: url('${url}')`"
+                            ></div>
+                          </div>
+                          <!-- Name -->
+                          <v-row>
+                            <v-col>
+                              <v-text-field
+                                label="Nombre"
+                                solo
+                                hide-details=""
+                                v-model="user.first_name"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col>
+                              <v-text-field
+                                label="Apellido"
+                                solo
+                                hide-details=""
+                                v-model="user.last_name"
+                              ></v-text-field>
+                            </v-col>
+                          </v-row>
+
+                          <!-- Birthday | civil state -->
+                          <v-row>
+                            <v-col>
+                              <v-dialog
+                                ref="dialog"
+                                v-model="modalBirthday"
+                                :return-value.sync="user.birth_day"
+                                persistent
+                                width="290px"
+                              >
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-text-field
+                                    v-model="user.birth_day"
+                                    label="Fecha de nacimiento"
+                                    append-icon="mdi-calendar"
+                                    readonly
+                                    solo
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    hide-details=""
+                                  ></v-text-field>
+                                </template>
+                                <v-date-picker
+                                  :max="maxDate()"
+                                  v-model="user.birth_day"
+                                  scrollable
+                                  locale="es-ve"
+                                >
+                                  <v-spacer></v-spacer>
+                                  <v-btn
+                                    text
+                                    color="primary"
+                                    @click="modalBirthday = false"
+                                  >
+                                    Cancel
+                                  </v-btn>
+                                  <v-btn
+                                    text
+                                    color="primary"
+                                    @click="$refs.dialog.save(user.birth_day)"
+                                  >
+                                    OK
+                                  </v-btn>
+                                </v-date-picker>
+                              </v-dialog>
+                            </v-col>
+                            <v-col>
+                              <v-select
+                                :items="civilStatesWoman"
+                                label="Estado civil"
+                                hide-details=""
+                                v-model="user.civil_status"
+                                solo
+                              ></v-select>
+                              <!-- <pre>
+                            {{ user.civil_status }}
+                          </pre> -->
+                            </v-col>
+                          </v-row>
+
+                          <!-- Cita ideal -->
+                          <v-row>
+                            <v-col>
+                              <v-textarea
+                                solo
+                                rows="3"
+                                row-height="20"
+                                label="¿Cual es tu cita ideal?"
+                                hide-details=""
+                                v-model="user.ideal_date"
+                              ></v-textarea>
+                            </v-col>
+                          </v-row>
+
+                          <!-- Profesión | Sugar baby  -->
+                          <v-row>
+                            <v-col>
+                              <v-text-field
+                                label="Profesión"
+                                solo
+                                hide-details=""
+                                v-model="user.profession"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col>
+                              <v-text-field
+                                label="¿Qué buscas en un Sugar Daddy?"
+                                solo
+                                hide-details=""
+                                v-model="user.what_i_want"
+                              ></v-text-field>
+                            </v-col>
+                          </v-row>
+
+                          <!-- intereses, hobbies | body type -->
+                          <v-row>
+                            <v-col>
+                              <v-text-field
+                                label="Cuentanos sobre tus intereses o hobbies"
+                                solo
+                                hide-details=""
+                                v-model="user.hobbies"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col>
+                              <v-select
+                                :items="bodyTypes.woman"
+                                :item-text="(item) => item.name"
+                                :item-value="(item) => item.id"
+                                label="Estado físico"
+                                hide-details=""
+                                v-model="user.id_physical_figure"
+                                solo
+                              ></v-select>
+                            </v-col>
+                          </v-row>
+
+                          <!-- regiones | presupuesto -->
+                          <v-row>
+                            <v-col>
+                              <v-select
+                                :items="regions"
+                                :item-text="(item) => item.name"
+                                :item-value="(item) => item.id"
+                                label="Región"
+                                hide-details=""
+                                v-model="user.id_region"
+                                solo
+                              ></v-select>
+                            </v-col>
+                            <v-col>
+                              <v-select
+                                :items="monthlySalary"
+                                :item-text="(item) => item.name"
+                                :item-value="(item) => item.id"
+                                label="Presupuesto"
+                                hide-details=""
+                                v-model="user.monthly_salary_id"
+                                solo
+                              ></v-select>
+                            </v-col>
+                          </v-row>
+
+                          <!-- hijos | preferencia de contacto -->
+                          <v-row>
+                            <v-col>
+                              <v-select
+                                :items="childrenOptions"
+                                :item-text="(item) => item.name"
+                                :item-value="(item) => item.id"
+                                label="Hijos"
+                                hide-details=""
+                                v-model="user.id_children"
+                                solo
+                              ></v-select>
+                            </v-col>
+                            <v-col>
+                              <v-select
+                                :items="contactPreferences"
+                                :item-text="(item) => item.name"
+                                :item-value="(item) => item.id"
+                                label="Preferencias de contacto"
+                                hide-details=""
+                                v-model="user.id_contact_preferences"
+                                solo
+                              ></v-select>
+                            </v-col>
+                          </v-row>
+                        </v-sheet>
+                      </template>
+                      <v-sheet color="transparent" class="mt-10">
+                        <v-row justify="center">
+                          <v-col cols="auto">
+                            <v-btn
+                              width="150px"
+                              class="text-capitalize"
+                              rounded
+                              large
+                              color="primary"
+                              @click="submit()"
+                            >
+                              Enviar
+                            </v-btn>
+                          </v-col>
+                        </v-row>
+                      </v-sheet>
+                    </v-tab-item>
+                    <v-tab-item>
+                      <v-sheet class="mt-10">
+                        <v-row>
+                          <v-col>
+                            <v-file-input
+                              v-model="galleryImages"
+                              accept="image/*"
+                              color="deep-purple accent-4"
+                              counter
+                              label="File input"
+                              multiple
+                              placeholder="Select your files"
+                              prepend-icon="mdi-paperclip"
+                              outlined
+                              :show-size="1000"
+                              min="3"
+                            >
+                              <template v-slot:selection="{ index, text }">
+                                <v-chip
+                                  v-if="index < 2"
+                                  color="deep-purple accent-4"
+                                  dark
+                                  label
+                                  small
+                                >
+                                  {{ text }}
+                                </v-chip>
+
+                                <span
+                                  v-else-if="index === 2"
+                                  class="
+                                    text-overline
+                                    grey--text
+                                    text--darken-3
+                                    mx-2
+                                  "
+                                >
+                                  <!-- +{{ files.length - 2 }} File(s) -->
+                                </span>
+                              </template>
+                            </v-file-input>
+                          </v-col>
+                        </v-row>
+                      </v-sheet>
+                    </v-tab-item>
+                  </v-tabs-items>
                 </v-card-text>
               </v-card>
             </v-col>
@@ -568,7 +629,12 @@
                           :value="percent"
                         ></v-progress-linear>
                         <div
-                          class="percent text-right account-progress__percent"
+                          class="
+                            percent
+                            primary--text
+                            text-right
+                            account-progress__percent
+                          "
                         >
                           {{ percent }}%
                         </div>
@@ -650,12 +716,6 @@
         </v-sheet>
       </v-col>
     </v-row>
-    <!-- <v-row>
-      <pre>
-    {{ user }}
-  </pre
-      >
-    </v-row> -->
   </v-container>
 </template>
 
@@ -681,12 +741,14 @@ export default {
       //?request
       userR: null,
       //?form
+      profileTab: null,
       modalBirthday: false,
       user: null,
       civilStatesWoman: ['Soltera', 'Casada'],
       civilStatesMan: ['Soltero', 'Casado'],
-      economyStratos: ['Medio', 'Alto', 'Muy Alto'],
-      bodyType: ['Atlético', 'Delgado', 'Medio', 'Robusto'],
+      // bodyType: ['Atlético', 'Delgado', 'Medio', 'Robusto'],
+      //? gallery
+      galleryImages: [],
       //? profile card
       percent: 50,
       avatarFile: null,
@@ -870,7 +932,7 @@ $top-margin: 114px;
       font-weight: bold;
       font-size: 14px;
       line-height: 30px;
-      color: #f42f43;
+      // color: #f42f43;
       opacity: 0.5;
     }
   }
