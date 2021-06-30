@@ -122,17 +122,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.custom-appbar {
-  border-radius: 0px 0px 10px 10px !important;
-}
-main {
-  background-color: #f5f7fa;
-}
-ul {
-  list-style: none;
-  margin: 0;
-  padding-left: 0 !important;
-}
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;700;800&family=Raleway:wght@100;300;400;600;700&display=swap');
 .main-content {
   padding-top: 0 !important;
   background-position: center;
@@ -186,21 +176,6 @@ ul {
     .copyright {
       opacity: 1;
     }
-  }
-}
-.v-sheet.v-app-bar.v-toolbar {
-  z-index: 300;
-}
-.ws-btn {
-  position: fixed;
-  bottom: 45px;
-  right: 45px;
-  z-index: 500;
-  border-radius: 100%;
-  border: 4px solid white !important;
-  .ws-icon {
-    width: 45px;
-    height: auto;
   }
 }
 

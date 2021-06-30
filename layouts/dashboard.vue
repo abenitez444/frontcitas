@@ -1,9 +1,6 @@
 <template>
   <v-app dark>
-    <!-- <pre>
-      {{ isAuthenticated }}
-      {{ userData }}
-    </pre> -->
+    <!-- trial dialog -->
     <v-dialog
       transition="dialog-bottom-transition"
       max-width="600"
@@ -26,6 +23,8 @@
         </v-card>
       </template>
     </v-dialog>
+
+    <!-- Appbar -->
     <v-app-bar
       :clipped-left="clipped"
       fixed
@@ -104,13 +103,61 @@
       </template>
     </v-app-bar>
 
+    <!-- UI dialogs -->
     <wdc-snackbar />
     <wdc-loading />
+
     <!-- page content -->
     <v-main class="main-content" :class="`${$route.name}-main`">
-      <nuxt />
+      <!-- <nuxt /> -->
+      <v-container fluid fill-height class="page-layout-1 profile">
+        <v-row class="block-section">
+          <!-- Users list -->
+          <v-col cols="3">
+            <v-card class="cm-round-1 cm-elevation-1">
+              <v-card-text class="pa-8">
+                <v-sheet color="transparent">
+                  <v-row no-gutters>
+                    <v-col> En desarrollo </v-col>
+                  </v-row>
+                </v-sheet>
+              </v-card-text>
+            </v-card>
+          </v-col>
+
+          <!-- content -->
+          <nuxt />
+
+          <!-- profile | menu | users on -->
+          <v-col cols="3">
+            <v-sheet color="transparent">
+              <!-- profile -->
+              <v-row no-gutters v-if="getUserData !== null">
+                <v-col>
+                  <wdc-profile-card />
+                </v-col>
+              </v-row>
+
+              <!-- Menu -->
+              <v-row no-gutters class="mt-8 menu-wrapper">
+                <v-col> <wdc-menu /> </v-col>
+              </v-row>
+
+              <!-- Users online -->
+              <v-row no-gutters class="mt-8">
+                <v-col>
+                  <v-card class="cm-round-1 cm-elevation-1">
+                    <v-card-text class="pa-8"> En desarrollo </v-card-text>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-sheet>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-main>
 
+    <!-- footer -->
     <footer class="footer-app primary">
       <img :src="asset_wave" class="wave-footer" alt="" />
       <v-container>
@@ -195,6 +242,7 @@
         </v-row>
       </v-container>
     </footer>
+
     <!-- whatss app btn -->
     <div class="ws-btn">
       <a href=" https://web.whatsapp.com/" target="_blank">
@@ -219,11 +267,6 @@ import wdc_snackbar from '~/components/wdc_snackbar.vue'
 export default {
   components: { wdc_snackbar },
   mixins: [authMixin, resourcesMixin, loadingMixin],
-  // head() {
-  //   return {
-  //     title: 'Club Sugar',
-  //   }
-  // },
   data() {
     return {
       //
@@ -294,7 +337,6 @@ export default {
 }
 </script>
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;700;800&family=Raleway:wght@100;300;400;600;700&display=swap');
 //! footer top margins for pages
 .main-content {
   padding-top: 0 !important;

@@ -1,12 +1,15 @@
 import bgHero from '@/assets/bg-hero.jpg'
 import placeHolderSlide from '@/assets/slide_1.jpg'
 import asset_wave from '@/assets/asset_wave.svg'
+import maleIcon from '@/assets/ui-icon-male.svg'
+import femaleIcon from '@/assets/ui-icon-female.svg'
 export default {
   data() {
     return {
       bgHero,
       placeHolderSlide,
       img_baseUrl: 'http://127.0.0.1:8000',
+      // img_baseUrl: 'https://dev.clubsugar.cl/backendcitas/public/',
       asset_wave,
       regions: [],
       bodyTypes: [],
@@ -14,6 +17,8 @@ export default {
       contactPreferences: [],
       economicLevels: [],
       monthlySalary: [],
+      maleIcon,
+      femaleIcon,
     }
   },
   methods: {

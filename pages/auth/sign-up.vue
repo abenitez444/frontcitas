@@ -540,11 +540,6 @@ export default {
 </script>
 
 <style lang="scss">
-// $primary: #f42f43;
-$primary: #480b0e;
-$accent: #bada55;
-$secondary: #ff273e;
-$font_one: #321215;
 .justify-evenly {
   justify-content: space-evenly;
 }

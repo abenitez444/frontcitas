@@ -12,3 +12,17 @@
 .layout-enter {
   transform: translateX(-100%);
 }
+
+.cm-round-1 {
+  border-radius: 10px !important;
+}
+.cm-elevation-1 {
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1) !important;
+}
+.page-layout-1 {
+  max-width: 1710px;
+  margin-top: 114px;
+}
+.block-section {
+  min-height: calc(100vh - 114px);
+}

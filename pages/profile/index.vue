@@ -13,6 +13,7 @@
           </v-card-text>
         </v-card>
       </v-col>
+
       <!-- content -->
       <v-col cols="6">
         <v-sheet color="transparent">
@@ -554,155 +555,13 @@
           <!-- profile -->
           <v-row no-gutters v-if="getUserData !== null">
             <v-col>
-              <v-card class="cm-round-1 cm-elevation-1 profile-card">
-                <v-card-text class="pa-8">
-                  <v-sheet>
-                    <!-- head -->
-                    <v-row align="center">
-                      <v-col cols="auto" class="avatar-wrapper">
-                        <div
-                          class="profile-card__avatar"
-                          :class="
-                            getUserData.avatar !== ''
-                              ? ''
-                              : 'primary  d-flex justify-center align-center'
-                          "
-                          :style="`background-image: url('${img_baseUrl}${getUserData.avatar}')`"
-                        >
-                          <span
-                            v-if="getUserData.avatar === ''"
-                            class="white--text text-h5 text-uppercase"
-                          >
-                            {{ getUserData.first_name[0] }}
-                            {{ getUserData.last_name[0] }}
-                          </span>
-                        </div>
-
-                        <img
-                          :src="membershipIcon"
-                          class="profile-card__membership"
-                          alt=""
-                        />
-                      </v-col>
-                      <v-col>
-                        <v-btn
-                          x-small
-                          rounded
-                          color="accent"
-                          class="btn-trial"
-                          v-if="inTrial"
-                        >
-                          Modo Trial
-                        </v-btn>
-                        <h2 class="profile-card__name font_one--text">
-                          {{ getUserData.first_name }}
-                          {{ getUserData.last_name }}
-                          <span class="profile-card__icon">
-                            <img
-                              :src="maleIcon"
-                              alt=""
-                              v-if="getUserData.gender === 1"
-                            />
-
-                            <img
-                              :src="femaleIcon"
-                              alt=""
-                              v-if="getUserData.gender === 0"
-                            />
-                          </span>
-                        </h2>
-                        <h3 class="profile-card__region font_one--text">
-                          {{ getUserData.region.name }}
-                        </h3>
-                      </v-col>
-                    </v-row>
-                    <!-- Profile state -->
-                    <v-row no-gutters class="mt-4">
-                      <v-col class="account-progress">
-                        <p class="mb-0 font_one--text account-progress__label">
-                          Estado de cuenta
-                        </p>
-                        <v-progress-linear
-                          color="primary"
-                          height="10"
-                          rounded
-                          :value="percent"
-                        ></v-progress-linear>
-                        <div
-                          class="
-                            percent
-                            primary--text
-                            text-right
-                            account-progress__percent
-                          "
-                        >
-                          {{ percent }}%
-                        </div>
-                      </v-col>
-                    </v-row>
-                  </v-sheet>
-                </v-card-text>
-              </v-card>
+              <wdc-profile-card />
             </v-col>
           </v-row>
 
           <!-- Menu -->
           <v-row no-gutters class="mt-8 menu-wrapper">
-            <v-col>
-              <v-card class="cm-round-1 cm-elevation-1">
-                <v-card-text class="pa-8">
-                  <v-sheet>
-                    <v-row>
-                      <v-col>
-                        <v-btn
-                          :ripple="false"
-                          color="primary"
-                          text
-                          class="text-capitalize"
-                          >Inicio</v-btn
-                        >
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        <v-btn
-                          :ripple="false"
-                          active-class=""
-                          color="primary"
-                          text
-                          class="text-capitalize"
-                          >Mensajes</v-btn
-                        >
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        <v-btn
-                          :ripple="false"
-                          color="primary"
-                          text
-                          class="text-capitalize"
-                          to="/profile"
-                          >Perfil</v-btn
-                        >
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        <v-btn
-                          :ripple="false"
-                          color="primary"
-                          text
-                          class="text-capitalize"
-                          @click="logoutAccount()"
-                          >Cerrar sesión</v-btn
-                        >
-                      </v-col>
-                    </v-row>
-                  </v-sheet>
-                </v-card-text>
-              </v-card>
-            </v-col>
+            <v-col> <wdc-menu /> </v-col>
           </v-row>
 
           <!-- Users online -->
@@ -718,40 +577,31 @@
     </v-row>
   </v-container>
 </template>
-
 <script>
 import accountIcon from '@/assets/ui-icon-account.svg'
-import maleIcon from '@/assets/ui-icon-male.svg'
-import femaleIcon from '@/assets/ui-icon-female.svg'
-import membershipIcon from '@/assets/ui-icon-membership.svg'
 import authMixin from '@/mixins/authMixin'
 import resourcesMixin from '@/mixins/resources'
 import snackMixin from '@/mixins/snackMixin'
 import loadingMixin from '@/mixins/loadingMixin'
+import wdc_menu from '~/components/wdc_menu.vue'
+import Wdc_profileCard from '~/components/wdc_profile-card.vue'
 export default {
+  components: { wdc_menu, Wdc_profileCard },
   mixins: [authMixin, resourcesMixin, snackMixin, loadingMixin],
   middleware: ['authenticated'],
   data() {
     return {
       //?icons
       accountIcon,
-      maleIcon,
-      femaleIcon,
-      membershipIcon,
-      //?request
-      userR: null,
+
       //?form
       profileTab: null,
       modalBirthday: false,
       user: null,
       civilStatesWoman: ['Soltera', 'Casada'],
       civilStatesMan: ['Soltero', 'Casado'],
-      // bodyType: ['Atlético', 'Delgado', 'Medio', 'Robusto'],
       //? gallery
       galleryImages: [],
-      //? profile card
-      percent: 50,
-      avatarFile: null,
       //? test
       url: null,
       image: null,
@@ -836,11 +686,7 @@ export default {
       formData.append('id_region', this.user.id_region)
       formData.append('_method', 'PUT')
       await this.$axios
-        .$post(
-          `${this.$axios.defaults.baseURL}auth/edit/${this.user.id}`,
-          formData,
-          config
-        )
+        .$post(`${this.$axios.defaults.baseURL}auth/edit`, formData, config)
         .then((res) => {
           this.getProfile()
           this.loadingOff()
@@ -868,59 +714,15 @@ export default {
 </script>
 
 <style lang="scss">
-$top-margin: 114px;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;700;800&family=Raleway:wght@100;300;400;600;700&display=swap');
 .profile {
   .info-description {
     font-weight: bold;
     font-size: 14px;
     line-height: 17px;
-    // letter-spacing: -0.025em;
     color: #f5f7fa;
   }
-  .profile-card {
-    position: relative;
-    .btn-trial {
-      position: absolute;
-      top: 0;
-      right: 0;
-      transform: translate(-20px, 20px);
-    }
-    &__name {
-      font-weight: bold;
-      font-size: 18px;
-      // line-height: 30px;
-    }
-    &__avatar {
-      border: 3px solid #ffffff;
-      box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
-      border-radius: 15px;
-      height: 90px;
-      width: 90px;
-      background-position: center;
-      background-size: cover;
-      background-repeat: no-repeat;
-    }
-    &__icon {
-      margin-left: 10px;
-    }
-    &__region {
-      font-weight: bold;
-      font-size: 14px;
-      // line-height: 30px;
-      opacity: 0.5;
-    }
-    &__membership {
-      position: absolute;
-      width: 25px;
-      height: auto;
-      bottom: 0;
-      right: 0;
-      transform: translate(-25%, -75%);
-    }
-    .avatar-wrapper {
-      position: relative;
-    }
-  }
+
   .account-progress {
     &__label {
       font-weight: bold;
@@ -971,35 +773,5 @@ $top-margin: 114px;
       border-radius: 100%;
     }
   }
-  .menu-wrapper {
-    .v-btn {
-      font-weight: bold;
-      font-size: 18px;
-      line-height: 30px;
-      color: #9d8080 !important;
-      opacity: 0.5;
-      &--active {
-        opacity: 1;
-        color: #f42f43 !important;
-        &::before {
-          opacity: 0;
-        }
-      }
-    }
-  }
-}
-
-.cm-round-1 {
-  border-radius: 10px !important;
-}
-.cm-elevation-1 {
-  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1) !important;
-}
-.page-layout-1 {
-  max-width: 1710px;
-  margin-top: $top-margin;
-}
-.block-section {
-  min-height: calc(100vh - #{$top-margin});
 }
 </style>
