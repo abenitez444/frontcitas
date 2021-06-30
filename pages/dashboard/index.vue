@@ -70,17 +70,17 @@
                 <v-row>
                   <v-dialog v-model="postDetail" width="900">
                     <v-card>
-                      <!-- <v-card-title class="text-h5 grey lighten-2">
-                        En desarrollo
-                      </v-card-title> -->
-
                       <v-card-text class="pa-15">
-                        <v-sheet>
+                        <v-sheet
+                          v-if="postSelected !== null"
+                          class="post-detail"
+                        >
+                          <!-- thumbnail | description -->
                           <v-row align="center">
                             <!-- Post Thumbnail -->
-                            <v-col cols="auto" class="post-detail">
+                            <v-col cols="auto" class="post-detail__thumbnail">
                               <img
-                                src="http://placehold.it/300"
+                                :src="`${img_baseUrl}${postSelected.image}`"
                                 class="img-fluid"
                                 alt=""
                               />
@@ -109,16 +109,12 @@
 
                             <!-- Description -->
                             <v-col>
-                              <p>
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Atque iusto consequuntur dolor
-                                consequatur dicta error reprehenderit adipisci
-                                ut dolore provident dolorum perspiciatis
-                                nesciunt saepe, vitae dolorem expedita autem
-                                neque nihil.
+                              <p class="post-detail__description">
+                                {{ postSelected.description }}
                               </p>
                             </v-col>
                           </v-row>
+
                           <!-- Comments -->
                           <v-row align="center">
                             <v-col cols="auto">
@@ -135,6 +131,12 @@
                               </p>
                             </v-col>
                           </v-row>
+
+                          <!-- <v-row>
+                            <pre>
+                              {{ postSelected }}
+                            </pre>
+                          </v-row> -->
                         </v-sheet>
                       </v-card-text>
 
@@ -201,22 +203,45 @@
                                 <!-- interaction bar -->
                                 <div class="post-interactions">
                                   <div class="comments interaction">
-                                    <v-icon color="white">
-                                      mdi-comment-outline
-                                    </v-icon>
-                                    <span class="interaction-number">1</span>
+                                    <v-btn
+                                      small
+                                      color="primary"
+                                      elevation="0"
+                                      @click.stop=""
+                                    >
+                                      <v-icon> mdi-comment-outline </v-icon>
+                                      <span class="interaction-number">
+                                        <template v-if="post.comments.length">
+                                          {{ post.comments.length }}
+                                        </template>
+                                      </span>
+                                    </v-btn>
                                   </div>
                                   <div class="likes interaction">
-                                    <v-icon color="white">
-                                      mdi-thumb-up-outline
-                                    </v-icon>
-                                    <span class="interaction-number">1</span>
+                                    <v-btn
+                                      small
+                                      color="primary"
+                                      elevation="0"
+                                      @click.stop=""
+                                    >
+                                      <v-icon> mdi-thumb-up-outline </v-icon>
+                                      <span class="interaction-number ml-1"
+                                        >1</span
+                                      >
+                                    </v-btn>
                                   </div>
                                   <div class="loves interaction">
-                                    <v-icon color="white">
-                                      mdi-heart-outline
-                                    </v-icon>
-                                    <span class="interaction-number">1</span>
+                                    <v-btn
+                                      small
+                                      color="primary"
+                                      elevation="0"
+                                      @click.stop=""
+                                    >
+                                      <v-icon> mdi-heart-outline </v-icon>
+                                      <span class="interaction-number ml-1"
+                                        >1</span
+                                      >
+                                    </v-btn>
                                   </div>
                                 </div>
                               </div>
@@ -231,9 +256,24 @@
                           >
                             <v-col cols="auto">
                               <div
+                                v-if="post.profile.avatar !== ''"
                                 class="author-avatar bg-img"
                                 :style="`background-image: url('${img_baseUrl}${post.profile.avatar}')`"
                               ></div>
+                              <div
+                                v-else
+                                class="
+                                  author-avatar
+                                  primary
+                                  d-flex
+                                  justify-center
+                                  align-center
+                                  white--text
+                                "
+                              >
+                                {{ post.profile.first_name[0] }}
+                                {{ post.profile.last_name[0] }}
+                              </div>
                             </v-col>
                             <v-col class="">
                               <p class="mb-0 post-description">
@@ -260,10 +300,26 @@
                             </v-col>
                             <v-col cols="auto">
                               <img
+                                v-if="getUserData.avatar !== ''"
                                 :style="`background-image: url('${img_baseUrl}${getUserData.avatar}')`"
                                 class="comment-avatar bg-img"
                                 alt=""
                               />
+                              <div
+                                v-else
+                                class="
+                                  white--text
+                                  text-h5 text-uppercase
+                                  primary
+                                  d-flex
+                                  justify-center
+                                  align-center
+                                  comment-avatar
+                                "
+                              >
+                                {{ getUserData.first_name[0] }}
+                                {{ getUserData.last_name[0] }}
+                              </div>
                             </v-col>
                           </v-row>
                         </v-sheet>
@@ -351,7 +407,7 @@ export default {
         .then((res) => {
           this.loadingOff()
           this.getAllPosts()
-          this.showPostDetail(post)
+          // this.showPostDetail(post)
           this.snackbarOn('Comentario creado exitosamente')
         })
         .catch((e) => {
@@ -362,9 +418,32 @@ export default {
           )
         })
     },
-    showPostDetail(post) {
-      this.postDetail = true
-      this.postSelected = post
+    async showPostDetail(post) {
+      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      // console.debug('hey friendo', newComment)
+      this.loadingOn()
+      let config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      await this.$axios
+        .$get(`${this.$axios.defaults.baseURL}auth/post/${post.id}`, config)
+        .then((res) => {
+          this.loadingOff()
+          this.getAllPosts()
+          this.postDetail = true
+          this.postSelected = res.post
+          // this.showPostDetail(post)
+          // this.snackbarOn('Comentario creado exitosamente')
+        })
+        .catch((e) => {
+          console.debug(e)
+          this.loadingOff()
+          this.snackbarOn(
+            'Ha ocurrido un error al ver la publicación, por favor pongase en contacto con el soporte.'
+          )
+        })
     },
     async getAllPosts() {
       const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
@@ -510,7 +589,7 @@ export default {
         .interaction {
         }
         .likes {
-          margin: 0 20px;
+          // margin: 0 20px;
         }
       }
       .timeline-thumbnail {
@@ -521,9 +600,11 @@ export default {
       height: 70px;
       width: 70px;
       border-radius: 10px;
-      background-color: #bada55;
       border: 3px solid #ffffff;
       box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+      font-size: 16px;
+      text-transform: uppercase;
+      font-weight: bold;
     }
     .post-description {
       font-size: 16px;
@@ -540,28 +621,43 @@ export default {
       border-radius: 50px;
       width: 45px;
       height: 45px;
+      font-size: 12px !important;
     }
   }
 }
 .post-detail {
-  position: relative;
-  .post-interactions {
-    background-color: $primary;
-    color: white;
-    border-radius: 50px;
-    padding: 5px 40px;
-    display: flex;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: max-content;
-    transform: translateX(-50%);
-    // min-height: 50px;
-    .interaction {
+  &__thumbnail {
+    position: relative;
+    .post-interactions {
+      background-color: $primary;
+      color: white;
+      border-radius: 50px;
+      padding: 5px 40px;
+      display: flex;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: max-content;
+      transform: translateX(-50%);
+      // min-height: 50px;
+      .interaction {
+      }
+      .likes {
+        margin: 0 20px;
+      }
+      .img-fluid {
+        max-width: 300px;
+      }
     }
-    .likes {
-      margin: 0 20px;
-    }
+  }
+  &__description {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 29px;
+    color: #242424;
+    opacity: 0.75;
   }
 }
 </style>

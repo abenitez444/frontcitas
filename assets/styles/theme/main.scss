@@ -69,3 +69,7 @@ ul {
   background-size    : cover;
   background-repeat  : no-repeat;
 }
+
+.v-dialog__content--active {
+  // z-index: 305 !important;
+}

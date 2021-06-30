@@ -648,6 +648,7 @@ export default {
       this.image = null
     },
     async submit() {
+      console.debug(this.user)
       this.loadingOn()
       const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
       let config = {
