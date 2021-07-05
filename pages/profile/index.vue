@@ -671,10 +671,11 @@ export default {
       formData.append('profession', this.user.profession)
       formData.append('hobbies', this.user.hobbies)
       formData.append('what_i_want', this.user.what_i_want)
-      formData.append('monthly_salary_id', this.user.monthly_salary_id)
       if (this.user.gender === 0) {
         formData.append('id_economic_level', '')
+        formData.append('monthly_salary_id', this.user.monthly_salary_id)
       } else {
+        formData.append('monthly_salary_id', '')
         formData.append('id_economic_level', this.user.id_economic_level)
       }
       formData.append('ideal_date', this.user.ideal_date)
@@ -760,7 +761,7 @@ export default {
   .custom-file-wrapper {
     position: relative;
     max-width: 100px;
-    border-radius: 100% !important;
+    border-radius: 100%;
     box-shadow: 0px 1px 5px rgba(50, 18, 21, 0.29);
     .preview-image {
       top: 0;

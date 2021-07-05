@@ -27,11 +27,12 @@
             <v-card-text class="pa-8">
               <v-sheet>
                 <v-row align="center">
-                  <v-col cols="1">
+                  <v-col cols="auto">
                     <div class="custom-file-wrapper">
                       <!-- @change="Preview_image" -->
                       <!-- @click:clear="resetThumbnail()" -->
                       <v-file-input
+                        @change="preview_image"
                         v-model="image"
                         height="100px"
                         class="custom-file-input"
@@ -41,6 +42,16 @@
                         prepend-icon=""
                       >
                       </v-file-input>
+                      <div
+                        v-if="postImagePreview"
+                        class="preview-image bg-img"
+                        :style="`background-image: url('${postImagePreview}')`"
+                      ></div>
+                      <div
+                        v-else
+                        class="preview-image bg-img placeholder"
+                        :style="`background-image: url('${iconPlaceholder}')`"
+                      ></div>
                     </div>
                   </v-col>
                   <v-col>
@@ -51,6 +62,7 @@
                       v-model="postDescription"
                     ></v-text-field>
                   </v-col>
+
                   <v-btn color="primary" class="publish-btn" @click="newPost()"
                     >Publicar</v-btn
                   >
@@ -76,7 +88,7 @@
                           class="post-detail"
                         >
                           <!-- thumbnail | description -->
-                          <v-row align="center">
+                          <v-row align="center" class="post-header">
                             <!-- Post Thumbnail -->
                             <v-col cols="auto" class="post-detail__thumbnail">
                               <img
@@ -86,23 +98,44 @@
                               />
                               <!-- interaction bar -->
                               <div class="post-interactions">
-                                <div class="comments interaction">
-                                  <v-icon color="white">
-                                    mdi-comment-outline
-                                  </v-icon>
-                                  <span class="interaction-number">1</span>
+                                <div
+                                  class="comments interaction"
+                                  v-if="postSelected.comments.length"
+                                >
+                                  <v-btn small color="primary" elevation="0">
+                                    <v-icon> mdi-comment-outline </v-icon>
+                                    <span class="interaction-number">
+                                      <template>
+                                        {{ postSelected.comments.length }}
+                                      </template>
+                                    </span>
+                                  </v-btn>
                                 </div>
                                 <div class="likes interaction">
-                                  <v-icon color="white">
-                                    mdi-thumb-up-outline
-                                  </v-icon>
-                                  <span class="interaction-number">1</span>
+                                  <v-btn
+                                    small
+                                    color="primary"
+                                    elevation="0"
+                                    @click.stop=""
+                                  >
+                                    <v-icon> mdi-thumb-up-outline </v-icon>
+                                    <span class="interaction-number ml-1"
+                                      >1</span
+                                    >
+                                  </v-btn>
                                 </div>
                                 <div class="loves interaction">
-                                  <v-icon color="white">
-                                    mdi-heart-outline
-                                  </v-icon>
-                                  <span class="interaction-number">1</span>
+                                  <v-btn
+                                    small
+                                    color="primary"
+                                    elevation="0"
+                                    @click.stop=""
+                                  >
+                                    <v-icon> mdi-heart-outline </v-icon>
+                                    <span class="interaction-number ml-1"
+                                      >1</span
+                                    >
+                                  </v-btn>
                                 </div>
                               </div>
                             </v-col>
@@ -116,20 +149,46 @@
                           </v-row>
 
                           <!-- Comments -->
-                          <v-row align="center">
+
+                          <v-row
+                            v-for="(comment, i) in postSelected.comments"
+                            class="comment-wrapper"
+                            :key="i"
+                          >
                             <v-col cols="auto">
-                              <img src="http://placehold.it/75" alt="" />
+                              <div
+                                v-if="comment.user.profile.avatar !== ''"
+                                class="avatar-box bg-img"
+                                :style="`background-image: url('${img_baseUrl}${comment.user.profile.avatar}')`"
+                              ></div>
+                              <div
+                                class="
+                                  primary
+                                  white--text
+                                  d-flex
+                                  justify-center
+                                  align-center
+                                  avatar-box
+                                "
+                                v-else
+                              >
+                                <span>
+                                  {{ comment.user.profile.first_name[0] }}
+                                  {{ comment.user.profile.last_name[0] }}
+                                </span>
+                              </div>
                             </v-col>
                             <v-col>
-                              <p class="mb-0">
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Necessitatibus culpa
-                                praesentium aliquid ab quidem dolores
-                                doloremque, iusto laborum, minus maxime facilis
-                                tempora tempore ipsam recusandae quas accusamus
-                                similique modi impedit.
+                              <p class="mb-0 comment-content font_one--text">
+                                {{ comment.comment }}
                               </p>
                             </v-col>
+                            <!-- <v-col cols="12">
+                              <pre>
+                              {{ comment.comment }}
+                            </pre
+                              >
+                            </v-col> -->
                           </v-row>
 
                           <!-- <v-row>
@@ -207,11 +266,12 @@
                                       small
                                       color="primary"
                                       elevation="0"
-                                      @click.stop=""
+                                      @click.stop="showPostDetail(post)"
+                                      v-if="post.comments.length"
                                     >
                                       <v-icon> mdi-comment-outline </v-icon>
                                       <span class="interaction-number">
-                                        <template v-if="post.comments.length">
+                                        <template>
                                           {{ post.comments.length }}
                                         </template>
                                       </span>
@@ -334,12 +394,12 @@
       </v-row>
 
       <!-- debug -->
-      <v-row>
+      <!-- <v-row>
         <pre>
-          <!-- {{ getUserData }} -->
-          <!-- {{ posts }} -->
+          {{ getUserData }}
+          {{ posts }}
         </pre>
-      </v-row>
+      </v-row> -->
     </v-sheet>
   </v-col>
 </template>
@@ -350,6 +410,7 @@ import authMixin from '@/mixins/authMixin'
 import resources from '@/mixins/resources'
 import loadingMixin from '@/mixins/loadingMixin'
 import snackMixin from '@/mixins/snackMixin'
+import iconPlaceholder from '@/assets/ui-icon-image.svg'
 export default {
   mixins: [authMixin, resources, loadingMixin, snackMixin],
   middleware: ['authenticated'],
@@ -360,11 +421,13 @@ export default {
   layout: 'dashboard',
   data() {
     return {
+      iconPlaceholder,
       featuredSlides: null,
       postDetail: false,
       posts: null,
       postSelected: null,
       //? new post
+      postImagePreview: null,
       image: null,
       postDescription: null,
     }
@@ -374,6 +437,13 @@ export default {
     this.getAllPosts()
   },
   methods: {
+    preview_image() {
+      if (this.image != null) {
+        this.postImagePreview = URL.createObjectURL(this.image)
+      } else {
+        this.postImagePreview = null
+      }
+    },
     async getCarouselTimeline() {
       await this.$axios
         .$get(`${this.$axios.defaults.baseURL}settings/3`)
@@ -407,7 +477,7 @@ export default {
         .then((res) => {
           this.loadingOff()
           this.getAllPosts()
-          // this.showPostDetail(post)
+          this.showPostDetail(post)
           this.snackbarOn('Comentario creado exitosamente')
         })
         .catch((e) => {
@@ -531,19 +601,36 @@ export default {
     background-repeat: no-repeat;
     border-radius: 15px;
   }
+  .preview-image {
+    height: 100px;
+    width: 100px;
+    border-radius: 15px !important;
+    box-shadow: 0px 1px 5px rgba(50, 18, 21, 0.29);
+    position: absolute;
+    top: 0;
+    left: 0;
+    &.placeholder {
+      background-size: 50%;
+    }
+  }
   .custom-file-wrapper {
     border-radius: 15px !important;
-    overflow: hidden;
     box-shadow: 0px 1px 5px rgba(50, 18, 21, 0.29);
+    overflow: hidden;
+    position: relative;
     .custom-file-input {
       margin-top: 0 !important;
       padding: 0 !important;
+      position: relative;
+      z-index: 100;
       .v-input__control {
-        height: 42px;
-        width: 42px;
+        height: 100%;
+        width: 100px;
+        border-radius: 15px !important;
       }
       .v-text-field__slot {
         opacity: 0;
+        height: 100%;
       }
       .v-input__slot::before,
       .v-input__slot::after {
@@ -628,6 +715,11 @@ export default {
 .post-detail {
   &__thumbnail {
     position: relative;
+    // max-width: 300px;
+    .img-fluid {
+      border-radius: 15px;
+      max-width: 300px;
+    }
     .post-interactions {
       background-color: $primary;
       color: white;
@@ -642,12 +734,6 @@ export default {
       // min-height: 50px;
       .interaction {
       }
-      .likes {
-        margin: 0 20px;
-      }
-      .img-fluid {
-        max-width: 300px;
-      }
     }
   }
   &__description {
@@ -659,5 +745,32 @@ export default {
     color: #242424;
     opacity: 0.75;
   }
+  .avatar-box {
+    font-size: 16px;
+    text-transform: uppercase;
+    border-radius: 15px;
+    height: 96px;
+    width: 96px;
+  }
+
+  .post-header {
+    margin-bottom: 24px;
+  }
+  .comment-content {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: -0.02em;
+    opacity: 0.75;
+    border: 2px solid #e9e9e9;
+    border-radius: 5px;
+    padding: 15px;
+    height: 100%;
+  }
+}
+.v-dialog.v-dialog--active {
+  max-height: 730px !important;
 }
 </style>
