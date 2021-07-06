@@ -7,6 +7,7 @@ export default {
     ...mapActions({
       snackbarOn: 'snackbar/snackbarOn',
       snackbarOff: 'snackbar/snackbarOff',
+      snackbarEnabled: 'snackbar/snackbarEnabled',
     }),
   },
   computed: {
@@ -14,5 +15,13 @@ export default {
       isSnackbar: 'snackbar/isSnackbar',
       snackbarText: 'snackbar/snackbarText',
     }),
+    showSnackbar: {
+      get: function () {
+        return this.isSnackbar
+      },
+      set: function () {
+        this.snackbarEnabled()
+      },
+    },
   },
 }

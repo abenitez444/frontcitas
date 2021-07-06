@@ -1,7 +1,7 @@
 const initialState = () => ({
-      multiLine: true,
-      snackbar: false,
-      text: `default`,
+  multiLine: true,
+  snackbar: false,
+  text: `default`,
 })
 
 const state = initialState
@@ -22,6 +22,9 @@ const actions = {
   snackbarOff({ commit }) {
     commit('SNACKBAR_OFF')
   },
+  snackbarEnabled({ commit }) {
+    commit('SNACKBAR_ENABLED')
+  },
 }
 
 const mutations = {
@@ -32,6 +35,9 @@ const mutations = {
   SNACKBAR_OFF(state) {
     state.snackbar = false
     state.text = 'default'
+  },
+  SNACKBAR_ENABLED(state) {
+    state.snackbar = true
   },
 }
 

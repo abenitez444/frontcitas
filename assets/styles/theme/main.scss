@@ -58,6 +58,11 @@ ul {
 .img-fluid {
   width : 100%;
   height: auto;
+
+  &--h {
+    height: 100%;
+    width : auto;
+  }
 }
 
 .cursor-pointer {

@@ -222,12 +222,16 @@
                                 class="thumbnail-wrapper bg-img"
                                 :style="`background-image: url('${img_baseUrl}${post.image}')`"
                               >
-                                <!-- image -->
-                                <!-- <img
-                                  src="http://placehold.it/300"
-                                  class="img-fluid timeline-thumbnail"
-                                  alt=""
-                                /> -->
+                                <!-- report -->
+                                <v-btn
+                                  x-small
+                                  rounded
+                                  color="error"
+                                  class="btn-report"
+                                  v-if="!post.status"
+                                >
+                                  Reportado
+                                </v-btn>
                                 <!-- options -->
                                 <div class="post-options">
                                   <v-menu offset-y>
@@ -247,14 +251,17 @@
                                     <v-list>
                                       <v-list-item>
                                         <v-list-item-title
-                                          >Reportar</v-list-item-title
+                                          @click="report(post.id)"
+                                          >Reportar
+                                          Publicación</v-list-item-title
                                         >
                                       </v-list-item>
-                                      <!-- <v-list-item>
+                                      <v-list-item>
                                         <v-list-item-title
-                                          >Opción 2</v-list-item-title
+                                          @click="report(post.id)"
+                                          >Reportar Usuario</v-list-item-title
                                         >
-                                      </v-list-item> -->
+                                      </v-list-item>
                                     </v-list>
                                   </v-menu>
                                 </div>
@@ -392,14 +399,6 @@
           </v-card>
         </v-col>
       </v-row>
-
-      <!-- debug -->
-      <!-- <v-row>
-        <pre>
-          {{ getUserData }}
-          {{ posts }}
-        </pre>
-      </v-row> -->
     </v-sheet>
   </v-col>
 </template>
@@ -437,6 +436,32 @@ export default {
     this.getAllPosts()
   },
   methods: {
+    async report(id) {
+      this.loadingOn()
+      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      const options = {
+        method: 'PUT',
+        url: `${this.$axios.defaults.baseURL}auth/report-post/${id}`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      await this.$axios
+        .request(options)
+        .then((res) => {
+          console.debug(res)
+          this.getAllPosts()
+          this.loadingOff()
+          this.snackbarOn('El post fue reportado exitosamente.')
+        })
+        .catch((e) => {
+          this.loadingOff()
+          this.snackbarOn(
+            'ha ocurrido un error al reportar el post, por favor ponerse en contacto con el soporte.'
+          )
+        })
+    },
     preview_image() {
       if (this.image != null) {
         this.postImagePreview = URL.createObjectURL(this.image)
@@ -547,6 +572,7 @@ export default {
       await this.$axios
         .$post(`${this.$axios.defaults.baseURL}auth/new-post`, formData, config)
         .then((res) => {
+          this.postImagePreview = null
           this.image = null
           this.postDescription = null
           this.loadingOff()
@@ -656,12 +682,15 @@ export default {
       height: 300px;
       position: relative;
       border-radius: 10px;
+      overflow: hidden;
+
       // margin-bottom: 10px;
       .post-options {
         top: 0;
         right: 0;
-        transform: translate(-1rem, 1rem);
+        transform: translate(-1rem, -150%);
         position: absolute;
+        transition: 0.5s ease;
       }
       .post-interactions {
         background-color: $primary;
@@ -673,6 +702,8 @@ export default {
         bottom: 10px;
         right: 5px;
         min-height: 50;
+        transform: translateY(150%);
+        transition: 0.5s ease;
         .interaction {
         }
         .likes {
@@ -681,6 +712,19 @@ export default {
       }
       .timeline-thumbnail {
         border-radius: 10px;
+      }
+      .btn-report {
+        transform: translate(1rem, 1.5rem);
+      }
+      &:hover {
+        .post-options {
+          opacity: 1;
+          transform: translate(-1rem, 1rem);
+        }
+        .post-interactions {
+          opacity: 1;
+          transform: translateY(0%);
+        }
       }
     }
     .author-avatar {

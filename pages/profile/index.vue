@@ -59,6 +59,108 @@
                     </v-row>
                   </v-sheet>
                   <v-tabs-items v-model="profileTab">
+                    <!-- galeria -->
+                    <v-tab-item>
+                      <v-sheet class="mt-10">
+                        <!-- alert -->
+                        <v-row>
+                          <v-col>
+                            <v-alert
+                              border="top"
+                              color="primary lighten-2"
+                              dark
+                            >
+                              Debe Introducir almenos 3 imagenes.
+                            </v-alert>
+                          </v-col>
+                        </v-row>
+
+                        <!-- Form -->
+                        <v-row align="center" justify="center">
+                          <v-col cols="6">
+                            <v-file-input
+                              v-model="galleryImage"
+                              accept="image/*"
+                              placeholder="Seleccione su imagen"
+                              prepend-icon=""
+                              prepend-inner-icon="mdi-image"
+                              solo
+                            >
+                            </v-file-input>
+                          </v-col>
+                          <v-col cols="auto" v-if="galleryImage !== null">
+                            <v-btn
+                              fab
+                              dark
+                              small
+                              color="success"
+                              @click="addImageToGallery()"
+                              elevation="0"
+                              class="mb-6"
+                            >
+                              <v-icon dark> mdi-plus </v-icon>
+                            </v-btn>
+                          </v-col>
+                        </v-row>
+
+                        <!-- preview images -->
+                        <v-row
+                          v-if="galleryImages.length"
+                          class="justify-space-around"
+                        >
+                          <v-col
+                            v-for="(image, i) in galleryImages"
+                            :key="i"
+                            cols="auto"
+                          >
+                            <img
+                              :src="getPreviewImage(image)"
+                              class="img-fluid--h rounded gallery-image"
+                              alt=""
+                            />
+                          </v-col>
+                        </v-row>
+                        <!-- submit -->
+                        <v-row
+                          justify="center"
+                          v-if="galleryImages.length >= 3"
+                        >
+                          <v-col cols="auto">
+                            <v-btn
+                              width="150px"
+                              class="text-capitalize"
+                              rounded
+                              large
+                              color="primary"
+                              @click="submitGallery()"
+                            >
+                              Enviar
+                            </v-btn>
+                          </v-col>
+                        </v-row>
+                        <!-- Loaded Gallery -->
+                        <v-row
+                          v-if="user !== null"
+                          class="justify-space-around"
+                        >
+                          <v-col cols="12">
+                            <h2 class="text-center">Mis imagenes</h2>
+                          </v-col>
+                          <v-col
+                            v-for="(image, i) in user.images"
+                            :key="i"
+                            cols="auto"
+                          >
+                            <img
+                              :src="`${img_baseUrl}${image.path}`"
+                              class="img-fluid--h rounded gallery-image"
+                              alt=""
+                            />
+                          </v-col>
+                        </v-row>
+                      </v-sheet>
+                    </v-tab-item>
+
                     <v-tab-item>
                       <!-- hombre -->
                       <template v-if="user.gender === 1">
@@ -496,51 +598,6 @@
                         </v-row>
                       </v-sheet>
                     </v-tab-item>
-                    <v-tab-item>
-                      <v-sheet class="mt-10">
-                        <v-row>
-                          <v-col>
-                            <v-file-input
-                              v-model="galleryImages"
-                              accept="image/*"
-                              color="deep-purple accent-4"
-                              counter
-                              label="File input"
-                              multiple
-                              placeholder="Select your files"
-                              prepend-icon="mdi-paperclip"
-                              outlined
-                              :show-size="1000"
-                              min="3"
-                            >
-                              <template v-slot:selection="{ index, text }">
-                                <v-chip
-                                  v-if="index < 2"
-                                  color="deep-purple accent-4"
-                                  dark
-                                  label
-                                  small
-                                >
-                                  {{ text }}
-                                </v-chip>
-
-                                <span
-                                  v-else-if="index === 2"
-                                  class="
-                                    text-overline
-                                    grey--text
-                                    text--darken-3
-                                    mx-2
-                                  "
-                                >
-                                  <!-- +{{ files.length - 2 }} File(s) -->
-                                </span>
-                              </template>
-                            </v-file-input>
-                          </v-col>
-                        </v-row>
-                      </v-sheet>
-                    </v-tab-item>
                   </v-tabs-items>
                 </v-card-text>
               </v-card>
@@ -575,6 +632,11 @@
         </v-sheet>
       </v-col>
     </v-row>
+    <!-- <v-row>
+      <pre>
+        {{ user }}
+      </pre>
+    </v-row> -->
   </v-container>
 </template>
 <script>
@@ -601,6 +663,7 @@ export default {
       civilStatesWoman: ['Soltera', 'Casada'],
       civilStatesMan: ['Soltero', 'Casado'],
       //? gallery
+      galleryImage: null,
       galleryImages: [],
       //? test
       url: null,
@@ -618,6 +681,46 @@ export default {
     this.getMonthlySalary()
   },
   methods: {
+    addImageToGallery() {
+      this.galleryImages.push(this.galleryImage)
+      this.galleryImage = null
+    },
+    getPreviewImage(image) {
+      return URL.createObjectURL(image)
+    },
+    async submitGallery() {
+      this.loadingOn()
+      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      let config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      const formData = new FormData()
+      this.galleryImages.forEach((image, i) => {
+        formData.append(`images[${i}]`, image)
+      })
+      await this.$axios
+        .$post(
+          `${this.$axios.defaults.baseURL}auth/images/profile/${sub}`,
+          formData,
+          config
+        )
+        .then((res) => {
+          console.debug(res)
+          this.loadingOff()
+          this.getProfile()
+          this.galleryImages = []
+          this.snackbarOn('Se guardaron las imagenes exitosamente.')
+        })
+        .catch((e) => {
+          console.debug(e)
+          this.loadingOff()
+          this.snackbarOn(
+            'Ha ocurrido un problema por favor pongase en contacto con el soporte.'
+          )
+        })
+    },
     async getProfile() {
       const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
       let config = {
@@ -774,6 +877,11 @@ export default {
       background-repeat: no-repeat;
       border-radius: 100%;
     }
+  }
+  .gallery-image {
+    max-height: 200px;
+    border: 3px solid #fff;
+    box-shadow: 0px 1px 10px rgb(0 0 0 / 10%);
   }
 }
 </style>
