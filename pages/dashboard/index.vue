@@ -357,9 +357,9 @@
                                       @click.stop="sendReaction(post.id, 1)"
                                     >
                                       <v-icon> mdi-heart-outline </v-icon>
-                                      <span class="interaction-number ml-1"
-                                        >1</span
-                                      >
+                                      <span class="interaction-number ml-1">{{
+                                        post.count_reactions.love_it
+                                      }}</span>
                                     </v-btn>
                                   </div>
                                   <div class="loves interaction">
@@ -375,9 +375,9 @@
                                         alt=""
                                       />
                                       <!-- <v-icon> mdi-heart-outline </v-icon> -->
-                                      <span class="interaction-number ml-1"
-                                        >10</span
-                                      >
+                                      <span class="interaction-number ml-1">{{
+                                        post.count_reactions.kiss_it
+                                      }}</span>
                                     </v-btn>
                                   </div>
                                 </div>
@@ -388,6 +388,7 @@
                           <!-- description -->
                           <!-- <v-row>
                             <pre>
+                              {{post.count_reactions}}
                               Profile: {{ post.profile.id }}
                               User: {{ post.profile.user.id }}
                             </pre>
