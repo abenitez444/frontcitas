@@ -3,6 +3,7 @@ import placeHolderSlide from '@/assets/slide_1.jpg'
 import asset_wave from '@/assets/asset_wave.svg'
 import maleIcon from '@/assets/ui-icon-male.svg'
 import femaleIcon from '@/assets/ui-icon-female.svg'
+import kissIcon from '@/assets/ui-icon-kiss.svg'
 export default {
   data() {
     return {
@@ -17,8 +18,10 @@ export default {
       contactPreferences: [],
       economicLevels: [],
       monthlySalary: [],
+      report_types: [],
       maleIcon,
       femaleIcon,
+      kissIcon,
     }
   },
   methods: {
@@ -86,6 +89,17 @@ export default {
         .then((res) => {
           console.debug(res)
           this.economicLevels = res.economic_levels
+        })
+        .catch((e) => {
+          console.debug(e)
+        })
+    },
+    async getReportTypes() {
+      await this.$axios
+        .$get(`${this.$axios.defaults.baseURL}report-type`)
+        .then((res) => {
+          console.debug(res)
+          this.report_types = res.report_types
         })
         .catch((e) => {
           console.debug(e)

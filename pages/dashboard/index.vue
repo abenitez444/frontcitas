@@ -1,7 +1,61 @@
 <template>
   <!-- content -->
   <v-col cols="6" class="timeline-page">
+    <v-dialog v-model="reportDialog" width="500">
+      <v-card>
+        <v-card-title class="text-h5 white--text primary">
+          Reportando usuario
+        </v-card-title>
+        <v-card-text class="pa-10">
+          <v-sheet>
+            <v-row>
+              <v-col cols="12">
+                <v-select
+                  :items="report_types"
+                  :item-text="(item) => item.name"
+                  :item-value="(item) => item.id"
+                  @change="$v.report.id_report_type.$touch()"
+                  @blur="$v.report.id_report_type.$touch()"
+                  :error-messages="userToReportErrors"
+                  label="Tipo de reporte"
+                  solo
+                  v-model="report.id_report_type"
+                ></v-select>
+              </v-col>
+              <v-col cols="12">
+                <v-textarea
+                  solo
+                  name="input-7-4"
+                  label="Motivo del reporte"
+                  v-model="report.description"
+                  :error-messages="descriptionErrors"
+                  @input="$v.report.description.$touch()"
+                  @blur="$v.report.description.$touch()"
+                ></v-textarea>
+              </v-col>
+            </v-row>
+          </v-sheet>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="reportDialog = false">
+            Volver
+          </v-btn>
+          <v-btn color="primary" @click="reportUser(userToReport)">
+            Reportar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-sheet color="transparent">
+      <!-- <v-row>
+        <pre>
+          {{ report }}
+        </pre>
+      </v-row> -->
       <!-- info -->
       <v-row no-gutters>
         <v-col v-if="featuredSlides !== null">
@@ -232,6 +286,15 @@
                                 >
                                   Reportado
                                 </v-btn>
+                                <v-btn
+                                  x-small
+                                  rounded
+                                  color="error"
+                                  class="btn-report"
+                                  v-if="post.profile.status === 3"
+                                >
+                                  Usuario Bloqueado
+                                </v-btn>
                                 <!-- options -->
                                 <div class="post-options">
                                   <v-menu offset-y>
@@ -251,14 +314,16 @@
                                     <v-list>
                                       <v-list-item>
                                         <v-list-item-title
-                                          @click="report(post.id)"
+                                          @click="reportPost(post.id)"
                                           >Reportar
                                           Publicación</v-list-item-title
                                         >
                                       </v-list-item>
                                       <v-list-item>
                                         <v-list-item-title
-                                          @click="report(post.id)"
+                                          @click="
+                                            reportDialogOn(post.profile.user.id)
+                                          "
                                           >Reportar Usuario</v-list-item-title
                                         >
                                       </v-list-item>
@@ -289,9 +354,9 @@
                                       small
                                       color="primary"
                                       elevation="0"
-                                      @click.stop=""
+                                      @click.stop="sendReaction(post.id, 1)"
                                     >
-                                      <v-icon> mdi-thumb-up-outline </v-icon>
+                                      <v-icon> mdi-heart-outline </v-icon>
                                       <span class="interaction-number ml-1"
                                         >1</span
                                       >
@@ -302,11 +367,16 @@
                                       small
                                       color="primary"
                                       elevation="0"
-                                      @click.stop=""
+                                      @click.stop="sendReaction(post.id, 2)"
                                     >
-                                      <v-icon> mdi-heart-outline </v-icon>
+                                      <img
+                                        :src="kissIcon"
+                                        style="width: 24px; height: auto"
+                                        alt=""
+                                      />
+                                      <!-- <v-icon> mdi-heart-outline </v-icon> -->
                                       <span class="interaction-number ml-1"
-                                        >1</span
+                                        >10</span
                                       >
                                     </v-btn>
                                   </div>
@@ -316,6 +386,12 @@
                           </v-row>
 
                           <!-- description -->
+                          <!-- <v-row>
+                            <pre>
+                              Profile: {{ post.profile.id }}
+                              User: {{ post.profile.user.id }}
+                            </pre>
+                          </v-row> -->
                           <v-row
                             align="center"
                             class="cursor-pointer"
@@ -389,6 +465,11 @@
                               </div>
                             </v-col>
                           </v-row>
+                          <!-- <v-row>
+                            <pre>
+                              {{ post.profile.status }}
+                            </pre>
+                          </v-row> -->
                         </v-sheet>
                       </v-card-text>
                     </v-card>
@@ -410,14 +491,22 @@ import resources from '@/mixins/resources'
 import loadingMixin from '@/mixins/loadingMixin'
 import snackMixin from '@/mixins/snackMixin'
 import iconPlaceholder from '@/assets/ui-icon-image.svg'
+import { validationMixin } from 'vuelidate'
+import { required, maxLength, email } from 'vuelidate/lib/validators'
 export default {
-  mixins: [authMixin, resources, loadingMixin, snackMixin],
+  mixins: [authMixin, resources, loadingMixin, snackMixin, validationMixin],
   middleware: ['authenticated'],
   components: {
     Carousel,
     Slide,
   },
   layout: 'dashboard',
+  validations: {
+    report: {
+      id_report_type: { required },
+      description: { required },
+    },
+  },
   data() {
     return {
       iconPlaceholder,
@@ -429,14 +518,54 @@ export default {
       postImagePreview: null,
       image: null,
       postDescription: null,
+      //? Report
+      reportDialog: false,
+      userToReport: null,
+      report: {},
     }
   },
   mounted() {
+    this.getReportTypes()
     this.getCarouselTimeline()
     this.getAllPosts()
   },
   methods: {
-    async report(id) {
+    reportDialogOn(id) {
+      this.reportDialog = true
+      this.userToReport = id
+    },
+    async reportUser(id) {
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        this.loadingOn()
+        const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+        const options = {
+          method: 'post',
+          url: `${this.$axios.defaults.baseURL}auth/report-user/${id}`,
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          data: this.report,
+        }
+        await this.$axios
+          .request(options)
+          .then((res) => {
+            console.debug(res)
+            this.loadingOff()
+            this.reportDialog = false
+            this.getAllPosts()
+            this.snackbarOn('El Usuario fue reportado exitosamente.')
+          })
+          .catch((e) => {
+            this.loadingOff()
+            this.snackbarOn(
+              'ha ocurrido un error al reportar al Usuario, por favor ponerse en contacto con el soporte.'
+            )
+          })
+      }
+    },
+    async reportPost(id) {
       this.loadingOn()
       const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
       const options = {
@@ -586,6 +715,47 @@ export default {
             'Ha ocurrido un error al crear la publicación, por favor pongase en contacto con el soporte.'
           )
         })
+    },
+    async sendReaction(postId, reactionId) {
+      console.debug(postId, reactionId)
+      this.loadingOn()
+      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+
+      let config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      await this.$axios
+        .$put(
+          `${this.$axios.defaults.baseURL}auth/raction-post/${postId}/reaction/${reactionId}`,
+          null,
+          config
+        )
+        .then((res) => {
+          this.loadingOff()
+          this.getAllPosts()
+        })
+        .catch((e) => {
+          console.debug(e)
+          this.loadingOff()
+        })
+    },
+  },
+  computed: {
+    userToReportErrors() {
+      const errors = []
+      if (!this.$v.report.id_report_type.$dirty) return errors
+      !this.$v.report.id_report_type.required &&
+        errors.push('El tipo de reporte es requerido')
+      return errors
+    },
+    descriptionErrors() {
+      const errors = []
+      if (!this.$v.report.description.$dirty) return errors
+      !this.$v.report.description.required &&
+        errors.push('El motivo del reporte es requerido')
+      return errors
     },
   },
 }
