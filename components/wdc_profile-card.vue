@@ -14,6 +14,10 @@
               "
               :style="`background-image: url('${img_baseUrl}${getUserData.avatar}')`"
             >
+              <!-- <pre>
+              {{ img_baseUrl }}{{ getUserData.avatar }}
+            </pre
+              > -->
               <span
                 v-if="getUserData.avatar === ''"
                 class="white--text text-h5 text-uppercase"
@@ -72,6 +76,11 @@
             </div>
           </v-col>
         </v-row>
+        <!-- <v-row>
+          <pre>
+            {{ getUserData }}
+          </pre>
+        </v-row> -->
       </v-sheet>
     </v-card-text>
   </v-card>

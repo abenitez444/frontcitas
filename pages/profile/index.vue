@@ -89,6 +89,9 @@
                               class="preview-image"
                               :style="`background-image: url('${url}')`"
                             ></div>
+                            <!-- <pre v-if="url === null">
+                              {{ img_baseUrl }}{{ user.avatar }}
+                            </pre> -->
                           </div>
 
                           <!-- Name -->
@@ -629,6 +632,12 @@
         </v-sheet>
       </v-col>
     </v-row>
+    <!-- <v-row>
+      <pre>
+        {{ user }}
+        {{ getUserData }}
+      </pre>
+    </v-row> -->
   </v-container>
 </template>
 <script>
@@ -725,6 +734,7 @@ export default {
         .then((res) => {
           console.debug(res)
           this.user = res.profile
+          this.settingUserData(res.profile)
           // this.loadingForm = false
           // this.authenticating(res)
         })

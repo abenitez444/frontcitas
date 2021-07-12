@@ -170,12 +170,14 @@
                                     small
                                     color="primary"
                                     elevation="0"
-                                    @click.stop=""
+                                    @click.stop="
+                                      sendReaction(postSelected.id, 1)
+                                    "
                                   >
-                                    <v-icon> mdi-thumb-up-outline </v-icon>
-                                    <span class="interaction-number ml-1"
-                                      >1</span
-                                    >
+                                    <v-icon> mdi-heart-outline </v-icon>
+                                    <span class="interaction-number ml-1">{{
+                                      postSelected.count_reactions.love_it
+                                    }}</span>
                                   </v-btn>
                                 </div>
                                 <div class="loves interaction">
@@ -183,12 +185,19 @@
                                     small
                                     color="primary"
                                     elevation="0"
-                                    @click.stop=""
+                                    @click.stop="
+                                      sendReaction(postSelected.id, 2)
+                                    "
                                   >
-                                    <v-icon> mdi-heart-outline </v-icon>
-                                    <span class="interaction-number ml-1"
-                                      >1</span
-                                    >
+                                    <img
+                                      :src="kissIcon"
+                                      style="width: 24px; height: auto"
+                                      alt=""
+                                    />
+                                    <!-- <v-icon> mdi-heart-outline </v-icon> -->
+                                    <span class="interaction-number ml-1">{{
+                                      postSelected.count_reactions.kiss_it
+                                    }}</span>
                                   </v-btn>
                                 </div>
                               </div>
@@ -735,6 +744,7 @@ export default {
         )
         .then((res) => {
           this.loadingOff()
+          this.postDetail = false
           this.getAllPosts()
         })
         .catch((e) => {
