@@ -51,11 +51,6 @@
       </v-card>
     </v-dialog>
     <v-sheet color="transparent">
-      <!-- <v-row>
-        <pre>
-          {{ report }}
-        </pre>
-      </v-row> -->
       <!-- info -->
       <v-row no-gutters>
         <v-col v-if="featuredSlides !== null">

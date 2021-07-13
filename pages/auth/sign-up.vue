@@ -120,7 +120,7 @@
                       <v-text-field
                         label="Usuario"
                         class="rounded-b"
-                        solo
+                        outlined
                         hide-details=""
                         v-model="newUser.username"
                       ></v-text-field>
@@ -130,14 +130,15 @@
                       <v-text-field
                         label="Correo"
                         class="rounded-b"
-                        solo
+                        outlined
                         type="email"
                         hide-details=""
                         v-model="newUser.email"
                       ></v-text-field>
                     </v-col>
                     <!-- Telefono -->
-                    <v-col cols="12">
+                    <v-col cols="12" class="fixed-label">
+                      <label for="" class="fixed-label-item">Teléfono</label>
                       <phone-mask-input
                         v-model="newUser.phone"
                         autoDetectCountry
@@ -153,7 +154,7 @@
                         @click:append="passwordShow = !passwordShow"
                         label="Contraseña"
                         class="rounded-b"
-                        solo
+                        outlined
                         hide-details=""
                         v-model="newUser.password"
                       ></v-text-field>
@@ -170,7 +171,7 @@
                         "
                         label="Confirmar Contraseña"
                         class="rounded-b"
-                        solo
+                        outlined
                         hide-details=""
                         v-model="newUser.password_confirmation"
                       ></v-text-field>
@@ -192,7 +193,7 @@
                       <v-text-field
                         label="Nombre"
                         class="rounded-b"
-                        solo
+                        outlined
                         hide-details=""
                         v-model="newUser.first_name"
                       ></v-text-field>
@@ -201,7 +202,7 @@
                       <v-text-field
                         label="Apellido"
                         class="rounded-b"
-                        solo
+                        outlined
                         hide-details=""
                         v-model="newUser.last_name"
                       ></v-text-field>
@@ -222,7 +223,7 @@
                             label="Fecha de nacimiento"
                             append-icon="mdi-calendar"
                             readonly
-                            solo
+                            outlined
                             v-bind="attrs"
                             v-on="on"
                             hide-details=""
@@ -261,7 +262,7 @@
                         label="Estado civil"
                         hide-details=""
                         v-model="newUser.civil_status"
-                        solo
+                        outlined
                       ></v-select>
                       <v-select
                         v-if="newUser.gender === 0"
@@ -269,12 +270,8 @@
                         label="Estado civil"
                         hide-details=""
                         v-model="newUser.civil_status"
-                        solo
+                        outlined
                       ></v-select>
-
-                      <!-- <pre>
-                        {{ newUser.gender }}
-                      </pre> -->
                     </v-col>
 
                     <!-- Profesion -->
@@ -282,7 +279,7 @@
                       <v-text-field
                         label="Profesión"
                         class="rounded-b"
-                        solo
+                        outlined
                         hide-details=""
                         v-model="newUser.profession"
                       ></v-text-field>
@@ -640,6 +637,15 @@ export default {
         // background-color: #bada55;
         outline: 0;
       }
+    }
+  }
+  .fixed-label {
+    position: relative;
+    &-item {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translate(1.5rem, 0%);
     }
   }
 }

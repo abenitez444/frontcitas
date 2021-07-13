@@ -6,7 +6,7 @@
           <v-col cols="12">
             <v-text-field
               label="Correo"
-              solo
+              outlined
               hide-details=""
               v-model="user.email"
             ></v-text-field>
@@ -18,7 +18,7 @@
               :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
               :type="!showPassword ? 'text' : 'password'"
               @click:append="showPassword = !showPassword"
-              solo
+              outlined
               hide-details=""
             ></v-text-field>
           </v-col>

@@ -45,6 +45,18 @@
               color="primary"
               text
               class="text-capitalize"
+              to="/participants"
+              >Ver Participantes</v-btn
+            >
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-btn
+              :ripple="false"
+              color="primary"
+              text
+              class="text-capitalize"
               @click="logoutAccount()"
               >Cerrar sesión</v-btn
             >

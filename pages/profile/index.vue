@@ -99,7 +99,7 @@
                             <v-col>
                               <v-text-field
                                 label="Nombre"
-                                solo
+                                outlined
                                 hide-details=""
                                 v-model="user.first_name"
                                 color="primary"
@@ -108,7 +108,7 @@
                             <v-col>
                               <v-text-field
                                 label="Apellido"
-                                solo
+                                outlined
                                 hide-details=""
                                 v-model="user.last_name"
                               ></v-text-field>
@@ -120,7 +120,7 @@
                             <v-col>
                               <v-text-field
                                 label="Profesión"
-                                solo
+                                outlined
                                 hide-details=""
                                 v-model="user.profession"
                               ></v-text-field>
@@ -143,7 +143,7 @@
                                     label="Fecha de nacimiento"
                                     append-icon="mdi-calendar"
                                     readonly
-                                    solo
+                                    outlined
                                     v-bind="attrs"
                                     v-on="on"
                                     hide-details=""
@@ -179,7 +179,7 @@
                                 label="Estado civil"
                                 hide-details=""
                                 v-model="user.civil_status"
-                                solo
+                                outlined
                               ></v-select>
                             </v-col>
                           </v-row>
@@ -194,13 +194,13 @@
                                 label="Nivel Economico"
                                 v-model="user.id_economic_level"
                                 hide-details=""
-                                solo
+                                outlined
                               ></v-select>
                             </v-col>
                             <v-col>
                               <v-text-field
                                 label="¿Qué buscas en una Sugar Baby?"
-                                solo
+                                outlined
                                 hide-details=""
                                 v-model="user.what_i_want"
                               ></v-text-field>
@@ -211,7 +211,7 @@
                           <v-row>
                             <v-col>
                               <v-textarea
-                                solo
+                                outlined
                                 rows="3"
                                 row-height="20"
                                 label="¿Cual es tu cita ideal?"
@@ -226,7 +226,7 @@
                             <v-col>
                               <v-text-field
                                 label="Cuentanos sobre tus intereses o hobbies"
-                                solo
+                                outlined
                                 hide-details=""
                                 v-model="user.hobbies"
                               ></v-text-field>
@@ -239,7 +239,7 @@
                                 label="Estado físico"
                                 hide-details=""
                                 v-model="user.id_physical_figure"
-                                solo
+                                outlined
                               ></v-select>
                             </v-col>
                           </v-row>
@@ -254,7 +254,7 @@
                                 label="Región"
                                 hide-details=""
                                 v-model="user.id_region"
-                                solo
+                                outlined
                               ></v-select>
                             </v-col>
                           </v-row>
@@ -294,7 +294,7 @@
                             <v-col>
                               <v-text-field
                                 label="Nombre"
-                                solo
+                                outlined
                                 hide-details=""
                                 v-model="user.first_name"
                               ></v-text-field>
@@ -302,7 +302,7 @@
                             <v-col>
                               <v-text-field
                                 label="Apellido"
-                                solo
+                                outlined
                                 hide-details=""
                                 v-model="user.last_name"
                               ></v-text-field>
@@ -325,7 +325,7 @@
                                     label="Fecha de nacimiento"
                                     append-icon="mdi-calendar"
                                     readonly
-                                    solo
+                                    outlined
                                     v-bind="attrs"
                                     v-on="on"
                                     hide-details=""
@@ -361,7 +361,7 @@
                                 label="Estado civil"
                                 hide-details=""
                                 v-model="user.civil_status"
-                                solo
+                                outlined
                               ></v-select>
                               <!-- <pre>
                             {{ user.civil_status }}
@@ -373,7 +373,7 @@
                           <v-row>
                             <v-col>
                               <v-textarea
-                                solo
+                                outlined
                                 rows="3"
                                 row-height="20"
                                 label="¿Cual es tu cita ideal?"
@@ -388,7 +388,7 @@
                             <v-col>
                               <v-text-field
                                 label="Profesión"
-                                solo
+                                outlined
                                 hide-details=""
                                 v-model="user.profession"
                               ></v-text-field>
@@ -396,7 +396,7 @@
                             <v-col>
                               <v-text-field
                                 label="¿Qué buscas en un Sugar Daddy?"
-                                solo
+                                outlined
                                 hide-details=""
                                 v-model="user.what_i_want"
                               ></v-text-field>
@@ -408,7 +408,7 @@
                             <v-col>
                               <v-text-field
                                 label="Cuentanos sobre tus intereses o hobbies"
-                                solo
+                                outlined
                                 hide-details=""
                                 v-model="user.hobbies"
                               ></v-text-field>
@@ -421,7 +421,7 @@
                                 label="Estado físico"
                                 hide-details=""
                                 v-model="user.id_physical_figure"
-                                solo
+                                outlined
                               ></v-select>
                             </v-col>
                           </v-row>
@@ -436,7 +436,7 @@
                                 label="Región"
                                 hide-details=""
                                 v-model="user.id_region"
-                                solo
+                                outlined
                               ></v-select>
                             </v-col>
                             <v-col>
@@ -447,7 +447,7 @@
                                 label="Presupuesto"
                                 hide-details=""
                                 v-model="user.monthly_salary_id"
-                                solo
+                                outlined
                               ></v-select>
                             </v-col>
                           </v-row>
@@ -462,7 +462,7 @@
                                 label="Hijos"
                                 hide-details=""
                                 v-model="user.id_children"
-                                solo
+                                outlined
                               ></v-select>
                             </v-col>
                             <v-col>
@@ -473,7 +473,7 @@
                                 label="Preferencias de contacto"
                                 hide-details=""
                                 v-model="user.id_contact_preferences"
-                                solo
+                                outlined
                               ></v-select>
                             </v-col>
                           </v-row>
@@ -522,7 +522,7 @@
                               placeholder="Seleccione su imagen"
                               prepend-icon=""
                               prepend-inner-icon="mdi-image"
-                              solo
+                              outlined
                             >
                             </v-file-input>
                           </v-col>
