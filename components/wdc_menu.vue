@@ -22,6 +22,7 @@
               color="primary"
               text
               class="text-capitalize"
+              to="/messages"
               >Mensajes</v-btn
             >
           </v-col>

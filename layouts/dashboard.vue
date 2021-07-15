@@ -115,13 +115,7 @@
           <!-- Users list -->
           <v-col cols="3">
             <v-card class="cm-round-1 cm-elevation-1">
-              <v-card-text class="pa-8">
-                <v-sheet color="transparent">
-                  <v-row no-gutters>
-                    <v-col> En desarrollo </v-col>
-                  </v-row>
-                </v-sheet>
-              </v-card-text>
+              <v-card-text class="pa-8"> <wdc-participants /> </v-card-text>
             </v-card>
           </v-col>
 
@@ -264,8 +258,9 @@ import authMixin from '@/mixins/authMixin'
 import resourcesMixin from '@/mixins/resources'
 import loadingMixin from '@/mixins/loadingMixin'
 import wdc_snackbar from '~/components/wdc_snackbar.vue'
+import Wdc_participants from '~/components/wdc_participants.vue'
 export default {
-  components: { wdc_snackbar },
+  components: { wdc_snackbar, Wdc_participants },
   mixins: [authMixin, resourcesMixin, loadingMixin],
   data() {
     return {
