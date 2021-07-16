@@ -35,7 +35,12 @@
                           <v-btn fab icon small color="primary" class="ml-4"
                             ><v-icon>mdi-account</v-icon></v-btn
                           >
-                          <v-btn fab icon small color="primary"
+                          <v-btn
+                            fab
+                            icon
+                            small
+                            :to="`/messages/${item.id}`"
+                            color="primary"
                             ><v-icon>mdi-message</v-icon></v-btn
                           >
                         </div>

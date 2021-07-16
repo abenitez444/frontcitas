@@ -35,7 +35,7 @@
     </v-app-bar>
     <v-main
       class="main-content d-flex align-center auth-layout"
-      :style="`background-image: url('${bgHero}')`"
+      :style="`background-image: url('${bgAuth}')`"
     >
       <v-container fluid class="page-sigin">
         <v-row>
@@ -80,6 +80,7 @@ import iconGems from '@/assets/ui-icon-gems.svg'
 import iconHeart from '@/assets/ui-icon-heart-filled.svg'
 import iconHighHeel from '@/assets/ui-icon-high-heel.svg'
 import bgHero from '@/assets/bg-hero.jpg'
+import bgAuth from '@/assets/bg-auth.png'
 export default {
   // head() {
   //   return {
@@ -94,6 +95,7 @@ export default {
       logoDefault,
       logoDark,
       bgHero,
+      bgAuth,
       iconGems,
       iconHeart,
       iconHighHeel,
@@ -182,7 +184,7 @@ export default {
 .auth-layout {
   overflow: hidden;
 
-  &:before {
+  &::before {
     content: '';
     position: absolute;
     top: 0;
@@ -197,14 +199,14 @@ export default {
     mix-blend-mode: normal;
     opacity: 0.5;
   }
-  &:after {
+  &::after {
     content: '';
     position: absolute;
     top: 0;
     height: 100%;
     width: 100%;
     left: 0;
-    background-image: url('~@/assets/ui-pattern-auth.png');
+    // background-image: url('~@/assets/ui-pattern-auth.png');
     background-repeat: repeat;
     opacity: 0.08;
   }
@@ -219,7 +221,9 @@ export default {
       line-height: 28px;
       letter-spacing: 0.05em;
       color: #f5f7fa;
+      font-weight: bold;
       max-width: 290px;
+      text-shadow: 1px 1px 10px rgba($primary, $alpha: 0.7);
       &:nth-child(2) {
         margin: 60px 0;
       }

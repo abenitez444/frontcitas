@@ -9,8 +9,8 @@ export default {
     return {
       bgHero,
       placeHolderSlide,
-      // img_baseUrl: 'http://127.0.0.1:8000',
-      img_baseUrl: 'https://dev.clubsugar.cl/backendcitas/public',
+      img_baseUrl: 'http://127.0.0.1:8000',
+      // img_baseUrl: 'https://dev.clubsugar.cl/backendcitas/public',
       asset_wave,
       regions: [],
       bodyTypes: [],

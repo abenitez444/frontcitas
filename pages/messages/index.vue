@@ -83,6 +83,7 @@ export default {
       .user-avatar {
         width: 90px;
         height: 90px;
+        border-radius: 15px;
       }
       .message-card {
         .message-time {

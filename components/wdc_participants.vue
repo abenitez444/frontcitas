@@ -1,15 +1,10 @@
 <template>
   <v-sheet color="transparent">
-    <v-row
-      no-gutters
-      v-for="(item, i) in participants"
-      :key="i"
-      class="participant-card"
-    >
+    <v-row v-for="(item, i) in participants" :key="i" class="participant-card">
       <v-col>
         <v-card class="card-wrapper" :to="`/messages/${item.id}`">
           <v-card-text>
-            <v-sheet>
+            <v-sheet color="transparent">
               <v-row align="center">
                 <v-col cols="auto">
                   <div
@@ -18,20 +13,13 @@
                   ></div>
                 </v-col>
                 <v-col>
+                  <!-- <p>{{ getActiveClasses(item.id) }}</p> -->
                   <p class="fullname font_one--text ma-0">
                     {{ item.first_name }} {{ item.last_name }}
                     <span class="gender">
-                      <img
-                        :src="maleIcon"
-                        alt=""
-                        v-if="getUserData.gender === 1"
-                      />
+                      <img :src="maleIcon" alt="" v-if="item.gender === 1" />
 
-                      <img
-                        :src="femaleIcon"
-                        alt=""
-                        v-if="getUserData.gender === 0"
-                      />
+                      <img :src="femaleIcon" alt="" v-if="item.gender === 0" />
                     </span>
                   </p>
                   <p class="region ma-0">{{ item.region.name }}</p>
@@ -85,7 +73,17 @@ export default {
           )
         })
     },
+    getActiveClasses(participantId) {
+      let activeClasses =
+        this.$route.name === 'messages-id' &&
+        participantId == this.$route.params.id
+          ? 'enabled'
+          : ''
+
+      return activeClasses
+    },
   },
+  computed: {},
 }
 </script>
 
@@ -125,6 +123,11 @@ export default {
     opacity: 0.5;
   }
   .card-wrapper {
+    &.nuxt-link-active {
+      background-color: #eee;
+      &::before {
+      }
+    }
   }
 }
 </style>

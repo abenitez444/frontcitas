@@ -35,9 +35,9 @@
                         >
                           <div
                             class="user-avatar bg-img"
-                            style="
-                              background-image: url('http://placehold.it/90');
-                            "
+                            :style="`background-image: url('${getAvatar(
+                              item
+                            )}')`"
                           ></div>
                           <v-card class="message-card">
                             <v-card-text>
@@ -57,6 +57,9 @@
                                   </v-col>
                                 </v-row>
                               </v-sheet>
+                              <!-- <pre>
+                                {{ item }}
+                              </pre> -->
                             </v-card-text>
                           </v-card>
                         </div>
@@ -147,6 +150,9 @@ export default {
   mounted() {
     this.getMessagesByProfile(this.$route.params.id)
   },
+  updated() {
+    this.scrollToBottom()
+  },
   methods: {
     async getMessagesByProfile(id) {
       this.loadingOn()
@@ -212,15 +218,25 @@ export default {
     },
     scrollToBottom() {
       vuescroll.refreshAll()
-      if (process.browser) {
-        this.$refs.vuescroll.scrollTo(
-          {
-            y: '100%',
-          },
-          500,
-          'easeInQuad'
-        )
-      }
+      this.$refs.vuescroll.scrollTo(
+        {
+          y: '100%',
+        },
+        500,
+        'easeInQuad'
+      )
+      // if (process.browser) {
+      //   this.$refs.vuescroll.scrollTo(
+      //     {
+      //       y: '100%',
+      //     },
+      //     500,
+      //     'easeInQuad'
+      //   )
+      // }
+    },
+    getAvatar(item) {
+      return `${this.img_baseUrl}${item.from.avatar}`
     },
   },
   computed: {},
@@ -248,6 +264,7 @@ export default {
       .user-avatar {
         width: 90px;
         height: 90px;
+        border-radius: 15px;
       }
       .message-card {
         .message-time {
