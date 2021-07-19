@@ -53,6 +53,8 @@ ul {
 
 .block-section {
   min-height: calc(100vh - 114px);
+  z-index   : 100;
+  position  : relative;
 }
 
 .img-fluid {

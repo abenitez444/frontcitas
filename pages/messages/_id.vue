@@ -2,16 +2,6 @@
   <!-- content -->
   <v-col cols="6" class="messages-page" v-if="getUserData">
     <v-sheet color="transparent">
-      <!-- <v-row>
-        <pre>
-          {{ participants }}
-        </pre>
-      </v-row> -->
-      <!-- <v-row>
-        <pre>
-          {{ getUserData }}
-        </pre>
-      </v-row> -->
       <!-- chatbox -->
       <v-row no-gutters class="messages-wrapper">
         <v-col>
@@ -30,7 +20,7 @@
                               ? 'from-me'
                               : 'to-me'
                           "
-                          v-for="(item, i) in messages"
+                          v-for="(item, i) in chat"
                           :key="i"
                         >
                           <div
@@ -105,6 +95,11 @@
           </v-card>
         </v-col>
       </v-row>
+      <!-- <v-row>
+        <pre>
+          {{ chat[0] }}
+        </pre>
+      </v-row> -->
     </v-sheet>
   </v-col>
 </template>
@@ -115,7 +110,18 @@ import resources from '@/mixins/resources'
 import loadingMixin from '@/mixins/loadingMixin'
 import snackMixin from '@/mixins/snackMixin'
 import vuescroll from 'vuescroll'
-// import vuescroll from 'vuescroll/dist/vuescroll-native'
+//Echo
+// import Echo from 'laravel-echo'
+// window.Pusher = require('pusher-js')
+// window.Echo = new Echo({
+//   broadcaster: 'pusher',
+//   key: 'ASDASD2121',
+//   wsHost: '127.0.0.1',
+//   wsPort: 6001,
+//   forceTLS: false,
+//   disableStats: true,
+// })
+//Fin Echo
 export default {
   mixins: [authMixin, resources, loadingMixin, snackMixin],
   middleware: ['authenticated'],
@@ -141,14 +147,22 @@ export default {
         bar: {},
       },
       message: '',
-      messages: [],
+      // messages: [],
+      chat: [],
     }
   },
   components: {
     vuescroll,
   },
   mounted() {
-    this.getMessagesByProfile(this.$route.params.id)
+    // this.getMessagesByProfile(this.$route.params.id)
+
+    this.broadcastMessages(this.$route.params.id)
+
+    this.$echo.channel('chat').listen('NewMessage', (e) => {
+      console.debug('Hey punk', e)
+      this.chat = e.chat
+    })
   },
   updated() {
     this.scrollToBottom()
@@ -176,7 +190,7 @@ export default {
         .catch((e) => {
           this.loadingOff()
           this.scrollToBottom()
-          console.debug(e)
+          // console.debug(e)
         })
     },
     async sendMessage() {
@@ -199,12 +213,13 @@ export default {
         )
         .then((res) => {
           this.loadingOff()
-          this.getMessagesByProfile(profileId)
+          // this.getMessagesByProfile(profileId)
+          this.broadcastMessages(profileId)
           this.message = ''
           // this.snackbarOn('La publicación fue creada exitosamente')
         })
         .catch((e) => {
-          console.debug(e)
+          // console.debug(e)
           this.loadingOff()
           // this.snackbarOn(
           //   'Ha ocurrido un error al crear la publicación, por favor pongase en contacto con el soporte.'
@@ -237,6 +252,33 @@ export default {
     },
     getAvatar(item) {
       return `${this.img_baseUrl}${item.from.avatar}`
+    },
+    async broadcastMessages(id) {
+      this.loadingOn()
+      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      let config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      await this.$axios
+        .$get(
+          `${this.$axios.defaults.baseURL}auth/chat-websocket-with/profile/${id}`,
+          config
+        )
+        .then((res) => {
+          console.debug(res)
+          this.loadingOff()
+          this.messages = res.chat
+          // this.scrollToBottom()
+          // this.settingUserData(res.profile)
+        })
+        .catch((e) => {
+          console.debug(e)
+          this.loadingOff()
+          // this.scrollToBottom()
+          // console.debug(e)
+        })
     },
   },
   computed: {},
