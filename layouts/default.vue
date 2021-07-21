@@ -27,7 +27,7 @@
       </template>
     </v-dialog>
     <v-app-bar
-      :clipped-left="clipped"
+      :clipped-left="true"
       fixed
       app
       color="white"
@@ -36,15 +36,26 @@
       height="114px"
     >
       <router-link to="/" class="text-decoration-none">
-        <img :src="logoDefault" alt="" />
+        <img :src="logoDefault" class="brand-image" alt="" />
       </router-link>
       <v-spacer />
+      <!-- login / register -->
       <template v-if="getUserData === null">
+        <v-btn
+          class="mx-2 d-flex d-md-none"
+          @click.stop="drawer = !drawer"
+          small
+          fab
+          dark
+          color="primary"
+        >
+          <v-icon dark> mdi-menu </v-icon>
+        </v-btn>
         <v-btn
           to="/auth/sign-up"
           elevation="0"
           rounded
-          class="text-capitalize px-7"
+          class="text-capitalize px-7 d-none d-md-flex"
           color="primary"
         >
           Registro
@@ -53,12 +64,14 @@
           to="/auth/sign-in"
           elevation="0"
           rounded
-          class="ml-5 text-capitalize px-7"
+          class="ml-5 text-capitalize px-7 d-none d-md-flex"
           color="primary"
         >
           Ingresar
         </v-btn>
       </template>
+
+      <!-- profile template -->
       <template v-else>
         <span class="font-weight-bold primary--text mr-6">
           {{ getUserData.first_name }} {{ getUserData.last_name }}
@@ -104,8 +117,23 @@
       </template>
     </v-app-bar>
 
+    <v-navigation-drawer v-model="drawer" fixed bottom temporary>
+      <v-list nav>
+        <v-list-item-group active-class="primary--text text--accent-4">
+          <v-list-item to="/auth/sign-up">
+            <v-list-item-title>Registro</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item to="/auth/sign-in">
+            <v-list-item-title>Ingresar</v-list-item-title>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+
     <wdc-snackbar />
     <wdc-loading />
+
     <!-- page content -->
     <v-main class="main-content" :class="`${$route.name}-main`">
       <nuxt />
@@ -116,14 +144,29 @@
       <v-container>
         <!-- content -->
         <v-row>
-          <v-col>
+          <v-col
+            class="text-center text-md-left"
+            order="1"
+            order-lg="1"
+            cols="12"
+            md="6"
+            lg=""
+          >
             <img :src="logoDark" alt="" />
-            <p class="brand-description">
+            <p class="brand-description ma-auto ma-md-0">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
               eiusmod incididunt ut labore et dolore magna aliqua.
             </p>
           </v-col>
-          <v-col class="text-center" cols="6">
+          <v-col
+            class="text-center"
+            order="2"
+            order-md="3"
+            order-lg="2"
+            cols="12"
+            md="12"
+            lg="6"
+          >
             <h2 class="footer-title white--text">Secciones</h2>
             <ul class="footer-menu">
               <li>
@@ -157,9 +200,14 @@
               </li>
             </ul>
           </v-col>
-          <v-col class="text-right">
-            <h2 class="footer-title hidden">Extras</h2>
-            <ul>
+          <v-col
+            class="text-center text-md-right"
+            order="3"
+            order-md="2"
+            order-lg="3"
+          >
+            <h2 class="footer-title hidden d-none d-md-block">Extras</h2>
+            <ul class="mt-0 mt-md-13">
               <!-- <li>Iniciar Sesión</li>
               <li>Nueva Cuenta</li> -->
               <!-- <li>
@@ -180,15 +228,26 @@
             </ul>
           </v-col>
         </v-row>
+
         <!-- copyright -->
-        <v-row>
-          <v-col cols="4">
+        <v-row justify="space-around">
+          <!-- <v-col cols="4">
             <img src="" alt="" />
-          </v-col>
-          <v-col cols="4" class="text-center copyright">
+          </v-col> -->
+          <v-col
+            cols="12"
+            md="4"
+            offset="0"
+            offset-md="4"
+            class="text-center copyright"
+          >
             <p>Lorem Corporation © 2021</p>
           </v-col>
-          <v-col cols="4" class="text-right methods-payment">
+          <v-col
+            cols="12"
+            md="4"
+            class="text-center text-md-right methods-payment"
+          >
             <a href="#" class="white--text footer-anchor"> Paypal </a> |
             <a href="#" class="white--text footer-anchor">Binance</a>
           </v-col>
@@ -198,7 +257,7 @@
     <!-- whatss app btn -->
     <div class="ws-btn">
       <a href=" https://web.whatsapp.com/" target="_blank">
-        <v-btn fab large color="primary" elevation="0">
+        <v-btn fab small color="primary" elevation="0">
           <img :src="asset_ws" class="ws-icon" alt="" />
         </v-btn>
       </a>
@@ -354,6 +413,20 @@ export default {
     .copyright {
       opacity: 1;
     }
+  }
+}
+.brand-image {
+}
+@media (max-width: 576px) {
+  .brand-image {
+    width: 250px;
+    height: auto;
+  }
+}
+@media (max-width: 414px) {
+  .brand-image {
+    width: 150px;
+    height: auto;
   }
 }
 </style>

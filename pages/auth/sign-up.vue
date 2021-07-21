@@ -1,62 +1,7 @@
 <template>
-  <v-col>
-    <v-row>
+  <v-col order="1" order-md="2">
+    <v-row class="pa-4">
       <v-stepper v-model="step" width="500px" class="ma-auto" editable>
-        <!-- Alerts -->
-        <v-alert
-          v-model="alertStepper"
-          border="left"
-          close-text="Close Alert"
-          color="warning lighten-1"
-          class="font-weight-bold ma-5"
-          dark
-          dismissible
-        >
-          <ul>
-            <li v-if="!$v.newUser.gender.required">El genero es requerido</li>
-            <li v-if="!$v.newUser.phone.required">
-              El número de telefono es requerido
-            </li>
-            <li v-if="!$v.newUser.username.required">
-              El nombre usuario es requerido
-            </li>
-            <li v-if="!$v.newUser.email.required">El correo es requerido</li>
-            <!--  -->
-            <li v-if="!$v.newUser.password.required">
-              La contraseña es requerida
-            </li>
-            <li v-if="!$v.newUser.password.minLength">
-              La contraseña debe poseer almenos 8 caracteres
-            </li>
-            <li v-if="!$v.newUser.password_confirmation.sameAsPassword">
-              Las contraseñas no coinciden
-            </li>
-            <!--  -->
-            <li v-if="!$v.newUser.first_name.required">
-              El nombre es requerido
-            </li>
-            <li v-if="!$v.newUser.last_name.required">
-              El apellido es requerido
-            </li>
-            <li v-if="!$v.newUser.birth_day.required">
-              La fecha de cumpleaños es requerida
-            </li>
-            <li v-if="!$v.newUser.civil_status.required">
-              El estatus es requerido
-            </li>
-            <li v-if="!$v.newUser.profession.required">
-              La profesión es requerida
-            </li>
-
-            <!-- otros errores -->
-            <!-- v-for="(error, i) in errors" -->
-            <li v-if="errors">
-              Lo sentimos, ha ocurrido un error pongase en contacto con el
-              soporte
-            </li>
-          </ul>
-        </v-alert>
-
         <!-- Stepper header -->
         <v-stepper-header>
           <v-stepper-step step="1" :complete="step > 1"> </v-stepper-step>
@@ -69,7 +14,7 @@
         <!-- Stepper items -->
         <v-stepper-items>
           <v-stepper-content step="1">
-            <v-card class="mb-12" color="trasparent" tile elevation="0">
+            <v-card class="mb-6" color="trasparent" tile elevation="0">
               <p class="gender-label text-center text-1">
                 ¿Eres Hombre ó Mujer?
               </p>
@@ -110,7 +55,7 @@
 
           <!-- Informacion de cuenta -->
           <v-stepper-content step="2">
-            <v-card class="mb-12" color="transparent" elevation="0">
+            <v-card class="mb-6" color="transparent" elevation="0">
               <v-card-text>
                 <!-- Formulario -->
                 <v-sheet>
@@ -183,7 +128,7 @@
           </v-stepper-content>
 
           <v-stepper-content step="3">
-            <v-card class="mb-12" color="transparent" elevation="0">
+            <v-card class="mb-6" color="transparent" elevation="0">
               <v-card-text>
                 <!-- Formulario -->
                 <v-sheet>
@@ -343,6 +288,64 @@
         </div>
       </v-stepper>
     </v-row>
+
+    <!-- Alerts -->
+    <v-alert
+      v-model="alertStepper"
+      border="left"
+      close-text="Close Alert"
+      color="error lighten-1"
+      class="font-weight-bold ma-5"
+      dark
+      dismissible
+    >
+      <ul class="error-text">
+        <li class="" v-if="!$v.newUser.gender.required">
+          El genero es requerido
+        </li>
+        <li class="" v-if="!$v.newUser.phone.required">
+          El número de telefono es requerido
+        </li>
+        <li class="" v-if="!$v.newUser.username.required">
+          El nombre usuario es requerido
+        </li>
+        <li class="" v-if="!$v.newUser.email.required">
+          El correo es requerido
+        </li>
+        <!--  -->
+        <li class="" v-if="!$v.newUser.password.required">
+          La contraseña es requerida
+        </li>
+        <li class="" v-if="!$v.newUser.password.minLength">
+          La contraseña debe poseer almenos 8 caracteres
+        </li>
+        <li class="" v-if="!$v.newUser.password_confirmation.sameAsPassword">
+          Las contraseñas no coinciden
+        </li>
+        <!--  -->
+        <li class="" v-if="!$v.newUser.first_name.required">
+          El nombre es requerido
+        </li>
+        <li class="" v-if="!$v.newUser.last_name.required">
+          El apellido es requerido
+        </li>
+        <li class="" v-if="!$v.newUser.birth_day.required">
+          La fecha de cumpleaños es requerida
+        </li>
+        <li class="" v-if="!$v.newUser.civil_status.required">
+          El estado civil es requerido
+        </li>
+        <li class="" v-if="!$v.newUser.profession.required">
+          La profesión es requerida
+        </li>
+
+        <!-- otros errores -->
+        <!-- v-for="(error, i) in errors" -->
+        <li class="" v-if="errors">
+          Lo sentimos, ha ocurrido un error pongase en contacto con el soporte
+        </li>
+      </ul>
+    </v-alert>
   </v-col>
 </template>
 
@@ -646,6 +649,17 @@ export default {
       top: 0;
       left: 0;
       transform: translate(1.5rem, 0%);
+    }
+  }
+  .error-text {
+    font-size: 14px;
+    // margin-bottom: 4px;
+  }
+}
+@media (max-width: 576px) {
+  .page-sigin {
+    .login-wrapper {
+      padding: 90px 30px 47px 30px;
     }
   }
 }

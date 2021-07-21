@@ -28,7 +28,7 @@ ul {
   position     : fixed;
   bottom       : 65px;
   right        : 45px;
-  z-index      : 500;
+  z-index      : 6;
   border-radius: 100%;
   border       : 4px solid white !important;
 
@@ -52,9 +52,9 @@ ul {
 }
 
 .block-section {
-  min-height: calc(100vh - 114px);
-  z-index   : 100;
-  position  : relative;
+  min-height   : calc(100vh - 114px);
+  // z-index   : 100;
+  position     : relative;
 }
 
 .img-fluid {

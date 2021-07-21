@@ -2,23 +2,39 @@
   <v-container fluid class="landing-page">
     <!-- Hero -->
     <v-row
+      v-if="true"
       class="block-section hero-section align-center text-center bg-img"
       :style="`background-image: url('${bgHero}')`"
     >
       <v-col class="hero-section__content">
         <div class="carousel-wrapper">
           <v-carousel
+            cycle
+            continuous
+            interval="3000"
             v-model="model"
             :show-arrows="false"
-            continuous
-            cycle
-            interval="3000"
+            height="auto"
           >
             <v-carousel-item v-for="(slide, i) in slides" :key="i">
               <v-sheet height="100%" tile color="transparent">
                 <v-row class="fill-height transparent" align="center">
-                  <v-col class="text-left">
-                    <div class="slide-content white--text">
+                  <!-- text -->
+                  <v-col
+                    order="2"
+                    order-md="1"
+                    cols="12"
+                    md=""
+                    class="text-left"
+                  >
+                    <div
+                      class="
+                        slide-content
+                        white--text
+                        text-center text-md-left
+                        ma-auto ma-md-0
+                      "
+                    >
                       <h1>
                         {{ slide.title }}
                       </h1>
@@ -35,7 +51,8 @@
                       </v-btn>
                     </div>
                   </v-col>
-                  <v-col>
+                  <!-- image -->
+                  <v-col order="1" order-md="2" cols="12" md="">
                     <!-- :style="`background-image: url('${placeHolderSlide}')`" -->
                     <div
                       class="carousel-item bg-img"
@@ -51,7 +68,7 @@
     </v-row>
 
     <!-- Videos -->
-    <v-row class="block-section video-section align-center">
+    <v-row v-if="false" class="block-section video-section align-center">
       <img :src="asset_wave" class="bg-wave" alt="" />
       <v-col class="video-section__content">
         <carousel ref="carousel" :per-page="1">
@@ -91,7 +108,7 @@
     </v-row>
 
     <!-- Members PENDIENTE -->
-    <v-row class="block-section members-section" justify="center">
+    <v-row v-if="false" class="block-section members-section" justify="center">
       <div class="wave-wrapper">
         <img :src="asset_wave" class="bg-wave" alt="" />
       </div>
@@ -121,7 +138,7 @@
     </v-row>
 
     <!-- Testimonials -->
-    <v-row class="block-section testimonial-section align-center">
+    <v-row v-if="false" class="block-section testimonial-section align-center">
       <img :src="asset_wave" class="bg-wave" alt="" />
       <v-col>
         <div class="boxed">
@@ -154,7 +171,10 @@
     </v-row>
 
     <!-- FAQ -->
-    <v-row class="block-section faq-section align-center text-center">
+    <v-row
+      v-if="false"
+      class="block-section faq-section align-center text-center"
+    >
       <v-col>
         <h2 class="header-1 primary--text mb-7">Preguntas Frecuentes</h2>
         <h3 class="text-1 subtitle">
@@ -548,13 +568,16 @@ export default {
   }
   &__content {
     position: relative;
-    z-index: 200;
+    z-index: 2;
+    max-width: calc(100% - 120px);
+    margin: 0 auto;
   }
   .v-carousel {
     &__controls {
       background-color: transparent;
-      transform: translateY(-50%);
+      transform: translate(-2rem, 0);
       right: 0 !important;
+      bottom: 0;
       width: auto;
       &__item {
         background-color: white !important;
@@ -564,6 +587,14 @@ export default {
         span {
           display: none;
         }
+      }
+    }
+    @media (max-width: 964px) {
+      &__controls {
+        position: unset;
+        transform: translate(0);
+        // bottom: unset;
+        // top: 100%;
       }
     }
   }
@@ -585,6 +616,9 @@ export default {
       );
       height: 100%;
       width: 100%;
+    }
+    @media (max-width: 959px) {
+      height: 250px;
     }
   }
   .slide-content {

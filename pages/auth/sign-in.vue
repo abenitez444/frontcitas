@@ -1,5 +1,11 @@
 <template>
-  <v-col cols="auto">
+  <v-col
+    cols="12"
+    order="1"
+    order-md="2"
+    md="auto"
+    class="d-flex justify-center"
+  >
     <v-card width="500px">
       <v-sheet max-width="500px" class="login-wrapper">
         <v-row>
@@ -28,7 +34,7 @@
             <v-btn
               rounded
               class="font-weight-bold btn-action"
-              width="250px"
+              width="220px"
               color="primary"
               large
               @click="submit()"
@@ -106,6 +112,16 @@ export default {
   }
   .btn-action {
     margin-top: 120px;
+  }
+}
+@media (max-width: 576px) {
+  .page-sigin {
+    .login-wrapper {
+      padding: 90px 30px 47px 30px;
+    }
+    .btn-action {
+      margin-top: 60px;
+    }
   }
 }
 </style>

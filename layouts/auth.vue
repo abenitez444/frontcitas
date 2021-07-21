@@ -11,14 +11,23 @@
     >
       <!-- <v-toolbar-title  to="/" v-text="title" /> -->
       <router-link to="/" class="pl-5 text-decoration-none">
-        <img :src="logoDark" alt="" />
+        <img :src="logoDark" class="brand-image" alt="" />
       </router-link>
       <v-spacer />
+      <v-btn
+        class="mx-2 d-flex d-md-none"
+        @click.stop="drawer = !drawer"
+        small
+        fab
+        light
+      >
+        <v-icon dark> mdi-menu </v-icon>
+      </v-btn>
       <v-btn
         to="/auth/sign-up"
         elevation="0"
         rounded
-        class="text-capitalize px-7 white--text"
+        class="text-capitalize px-7 white--text d-none d-md-flex"
         color="primary lighten-1"
       >
         Registro
@@ -27,19 +36,38 @@
         to="/auth/sign-in"
         elevation="0"
         rounded
-        class="ml-5 text-capitalize px-7 white--text"
+        class="ml-5 text-capitalize px-7 white--text d-none d-md-flex"
         color="primary lighten-1"
       >
         Ingresar
       </v-btn>
     </v-app-bar>
+    <v-navigation-drawer v-model="drawer" fixed bottom temporary>
+      <v-list nav>
+        <v-list-item-group active-class="primary--text text--accent-4">
+          <v-list-item to="/auth/sign-up">
+            <v-list-item-title>Registro</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item to="/auth/sign-in">
+            <v-list-item-title>Ingresar</v-list-item-title>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
     <v-main
       class="main-content d-flex align-center auth-layout"
       :style="`background-image: url('${bgAuth}')`"
     >
       <v-container fluid class="page-sigin">
         <v-row>
-          <v-col class="text-center d-flex justify-center align-center">
+          <v-col
+            cols="6"
+            md=""
+            order="2"
+            order-md="1"
+            class="text-center justify-center align-center d-none d-md-flex"
+          >
             <ul class="featured-wrapper">
               <li class="featured-wrapper__phrase">Encuentra tu cita ideal</li>
               <li class="featured-wrapper__phrase">Conoce mujeres solteras</li>
@@ -47,7 +75,13 @@
             </ul>
           </v-col>
           <nuxt />
-          <v-col class="text-center d-flex justify-center align-center">
+          <v-col
+            cols="6"
+            md=""
+            order="2"
+            order-md="3"
+            class="text-center justify-center align-center d-none d-md-flex"
+          >
             <ul class="featured-wrapper">
               <li class="featured-wrapper__phrase">
                 Disfruta tu vida al máximo
@@ -58,13 +92,6 @@
               <li class="featured-wrapper__phrase">Pásala bien</li>
             </ul></v-col
           >
-        </v-row>
-        <v-row justify="center">
-          <v-col class="icons-wrapper" cols="auto">
-            <img :src="iconHeart" class="icons-wrapper__icon" alt="" />
-            <img :src="iconGems" class="icons-wrapper__icon" alt="" />
-            <img :src="iconHighHeel" class="icons-wrapper__icon" alt="" />
-          </v-col>
         </v-row>
       </v-container>
     </v-main>
@@ -213,7 +240,8 @@ export default {
   .page-sigin {
     // background-color: #bada55;
     position: relative;
-    z-index: 100;
+    // z-index: 100;
+    z-index: 6;
   }
   .featured-wrapper {
     &__phrase {
@@ -238,6 +266,38 @@ export default {
         margin: 0 60px;
       }
     }
+  }
+}
+.brand-image {
+}
+@media (max-width: 991px) {
+  .auth-layout {
+    .featured-wrapper {
+      &__phrase {
+        font-size: 16px;
+        line-height: 28px;
+        letter-spacing: 0.05em;
+        color: #f5f7fa;
+        font-weight: bold;
+        max-width: 290px;
+        text-shadow: 1px 1px 10px rgba($primary, $alpha: 0.7);
+        &:nth-child(2) {
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 576px) {
+  .brand-image {
+    width: 250px;
+    height: auto;
+  }
+}
+@media (max-width: 414px) {
+  .brand-image {
+    width: 150px;
+    height: auto;
   }
 }
 </style>
