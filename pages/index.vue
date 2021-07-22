@@ -2,7 +2,6 @@
   <v-container fluid class="landing-page">
     <!-- Hero -->
     <v-row
-      v-if="true"
       class="block-section hero-section align-center text-center bg-img"
       :style="`background-image: url('${bgHero}')`"
     >
@@ -68,7 +67,7 @@
     </v-row>
 
     <!-- Videos -->
-    <v-row v-if="false" class="block-section video-section align-center">
+    <v-row class="video-section align-center">
       <img :src="asset_wave" class="bg-wave" alt="" />
       <v-col class="video-section__content">
         <carousel ref="carousel" :per-page="1">
@@ -77,20 +76,27 @@
             <div class="slide-wrap">
               <div class="avatar-box">
                 <v-sheet color="transparent">
-                  <v-row>
+                  <v-row class="row-video-wrapper">
                     <v-col
-                      cols="7"
+                      cols="12"
+                      md="12"
+                      lg="7"
                       class="d-flex justify-center align-center wrapper-video"
                     >
                       <client-only placeholder="Loading...">
+                        <!-- :player-height="439" -->
                         <youtube
                           :player-vars="{ autoplay: 0 }"
                           :video-id="video.link"
-                          :player-height="439"
                         />
                       </client-only>
                     </v-col>
-                    <v-col cols="" class="d-flex flex-column justify-center">
+                    <v-col
+                      cols="12"
+                      md=""
+                      lg=""
+                      class="d-flex flex-column justify-center mt-10 mt-lg-0"
+                    >
                       <h2 class="header-2 primary--text mb-7">
                         {{ video.title }}
                       </h2>
@@ -108,7 +114,7 @@
     </v-row>
 
     <!-- Members PENDIENTE -->
-    <v-row v-if="false" class="block-section members-section" justify="center">
+    <v-row class="block-section members-section" justify="center">
       <div class="wave-wrapper">
         <img :src="asset_wave" class="bg-wave" alt="" />
       </div>
@@ -512,6 +518,9 @@ export default {
   letter-spacing: 0.015em;
   color: #321215;
   opacity: 0.5;
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
 }
 .boxed {
   max-width: 1440px;
@@ -544,7 +553,7 @@ export default {
   }
 }
 .block-section {
-  min-height: 100vh;
+  // min-height: 100vh;
   // max-height: ;
 }
 .bg-img {
@@ -571,6 +580,9 @@ export default {
     z-index: 2;
     max-width: calc(100% - 120px);
     margin: 0 auto;
+    @media (max-width: 576px) {
+      max-width: calc(100% - 60px);
+    }
   }
   .v-carousel {
     &__controls {
@@ -638,8 +650,16 @@ export default {
   // max-width: 1158px;
   margin: 0 auto;
 }
+
 .video-section {
   position: relative;
+  &__content {
+    max-width: calc(100% - 120px);
+    margin: 0 auto;
+    @media (max-width: 576px) {
+      max-width: calc(100% - 60px);
+    }
+  }
   .bg-wave {
     position: absolute;
     top: 0;
@@ -656,10 +676,55 @@ export default {
     background-color: $primary !important;
   }
   .wrapper-video {
+    // max-height: 360px;
+    border-radius: 10px;
+    // overflow: hidden;
     & > div {
       display: flex;
+      align-items: center;
       border-radius: 10px;
-      overflow: hidden;
+      // max-width: 640px;
+      iframe {
+        border-radius: 10px;
+      }
+    }
+    @media (max-width: 1263px) {
+      & > div {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        // overflow: hidden;
+        // padding-bottom: 56.25%;
+        // padding-top: 30px;
+        max-width: 640px;
+        height: 360px;
+        iframe {
+          max-height: 360px;
+          // display: none;
+          // max-width: calc(100vw - 160px);
+          // height: auto;
+          position: absolute;
+          height: 100%;
+          width: 100%;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+
+      // .div_contenedor {
+      // 	position: relative;
+      // 	padding-bottom: 56.25%; /*panorámico*/
+      // 	padding-top: 25px;
+      // 	height: 0;
+      // }
+      // .div_contenedor iframe {
+      // 	position: absolute;
+      // 	top: 0;
+      // 	left: 0;
+      // 	width: 100%;
+      // 	height: 100%;
+      // }
     }
   }
 }
@@ -681,6 +746,30 @@ export default {
     grid-gap: 35px;
     padding: 1rem;
     // min-width: 1440px;
+    @media (max-width: 1264px) {
+      grid-template-columns: repeat(3, 1fr);
+      .avatar-box {
+        &:nth-last-child(1) {
+          display: none;
+        }
+      }
+    }
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+      .avatar-box {
+        &:nth-last-child(2) {
+          display: none;
+        }
+      }
+    }
+    @media (max-width: 576px) {
+      grid-template-columns: repeat(1, 1fr);
+      .avatar-box {
+        &:nth-last-child(2) {
+          display: none;
+        }
+      }
+    }
   }
   .avatar-box {
     // padding: ;
@@ -716,7 +805,8 @@ export default {
     position: relative;
     margin-top: 2rem;
     img {
-      width: 350px;
+      max-width: 350px;
+      width: 100%;
       height: auto;
     }
     .v-btn {

@@ -53,8 +53,21 @@ ul {
 
 .block-section {
   min-height   : calc(100vh - 114px);
-  // z-index   : 100;
+  min-height   : 100vh;
   position     : relative;
+  // z-index   : 100;
+
+  &--content {
+    min-height: 768px;
+  }
+}
+
+.row-video-wrapper {
+  margin-top: 150px;
+
+  @media (max-width: 991px) {
+    margin-top: 75px;
+  }
 }
 
 .img-fluid {
