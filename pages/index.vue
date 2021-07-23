@@ -144,7 +144,7 @@
     </v-row>
 
     <!-- Testimonials -->
-    <v-row v-if="false" class="block-section testimonial-section align-center">
+    <v-row v-if="true" class="block-section testimonial-section align-center">
       <img :src="asset_wave" class="bg-wave" alt="" />
       <v-col>
         <div class="boxed">
@@ -411,6 +411,17 @@ export default {
         infiniteScroll: true,
         centerMode: true,
         itemsToShow: 4.25,
+        breakpoints: {
+          1264: {
+            itemsToShow: 4.25,
+          },
+          768: {
+            itemsToShow: 2.15,
+          },
+          0: {
+            itemsToShow: 1,
+          },
+        },
       },
       model: 0,
       colors: ['primary', 'secondary', 'yellow darken-2', 'red', 'orange'],
@@ -551,10 +562,6 @@ export default {
     border-radius: 100px !important;
     filter: $elevation-1;
   }
-}
-.block-section {
-  // min-height: 100vh;
-  // max-height: ;
 }
 .bg-img {
   background-position: center;
@@ -833,6 +840,17 @@ export default {
 }
 .testimonial-section {
   position: relative;
+  .boxed {
+    max-width: calc(100% - 120px);
+    margin: 0 auto;
+    @media (min-width: 1599px) {
+      max-width: 1600px;
+    }
+    @media (max-width: 576px) {
+      max-width: calc(100% - 60px);
+    }
+  }
+
   .bg-wave {
     position: absolute;
     top: 0;
@@ -883,6 +901,10 @@ export default {
           letter-spacing: 0.015em;
           color: #321215;
           opacity: 0;
+          @media (max-width: 768px) {
+            font-size: 18px;
+            max-width: 350px;
+          }
         }
 
         &__description.shadow {
