@@ -26,7 +26,7 @@
 
     <!-- Appbar -->
     <v-app-bar
-      :clipped-left="clipped"
+      :clipped-left="true"
       fixed
       app
       color="white"
@@ -35,15 +35,25 @@
       height="114px"
     >
       <router-link to="/" class="text-decoration-none">
-        <img :src="logoDefault" alt="" />
+        <img :src="logoDefault" class="brand-image" alt="" />
       </router-link>
       <v-spacer />
+      <v-btn
+        class="mx-2 d-flex d-md-none"
+        @click.stop="drawer = !drawer"
+        small
+        fab
+        dark
+        color="primary"
+      >
+        <v-icon dark> mdi-menu </v-icon>
+      </v-btn>
       <template v-if="getUserData === null">
         <v-btn
           to="/auth/sign-up"
           elevation="0"
           rounded
-          class="text-capitalize px-7"
+          class="text-capitalize px-7 d-none d-md-flex"
           color="primary"
         >
           Registro
@@ -52,14 +62,14 @@
           to="/auth/sign-in"
           elevation="0"
           rounded
-          class="ml-5 text-capitalize px-7"
+          class="ml-5 text-capitalize px-7 d-none d-md-flex"
           color="primary"
         >
           Ingresar
         </v-btn>
       </template>
       <template v-else>
-        <span class="font-weight-bold primary--text mr-6">
+        <span class="font-weight-bold primary--text mr-6 d-none d-md-block">
           {{ getUserData.first_name }} {{ getUserData.last_name }}
         </span>
         <v-menu offset-y>
@@ -75,7 +85,7 @@
               width="auto"
               rounded
               fab
-              class="mr-5"
+              class="mr-5 d-none d-md-flex"
             >
               <v-avatar size="60" color="primary">
                 <img
@@ -103,6 +113,33 @@
       </template>
     </v-app-bar>
 
+    <v-navigation-drawer v-model="drawer" fixed bottom temporary>
+      <v-list nav>
+        <v-list-item-group active-class="primary--text text--accent-4">
+          <v-list-item to="/dashboard">
+            <v-list-item-title>Inicio</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item to="/messages">
+            <v-list-item-title>Mensajes</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item to="/profile">
+            <v-list-item-title>Perfil</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item to="/participants">
+            <v-list-item-title>Participantes</v-list-item-title>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title @click="logoutAccount()"
+              >Cerrar sesión</v-list-item-title
+            >
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+
     <!-- UI dialogs -->
     <wdc-snackbar />
     <wdc-loading />
@@ -111,9 +148,9 @@
     <v-main class="main-content" :class="`${$route.name}-main`">
       <!-- <nuxt /> -->
       <v-container fluid fill-height class="page-layout-1 profile">
-        <v-row class="block-section">
+        <v-row>
           <!-- Users list -->
-          <v-col cols="3">
+          <v-col cols="3" v-if="!$vuetify.breakpoint.mdAndDown">
             <v-card class="cm-round-1 cm-elevation-1">
               <v-card-text class="pa-8"> <wdc-participants /> </v-card-text>
             </v-card>
@@ -123,25 +160,41 @@
           <nuxt />
 
           <!-- profile | menu | users on -->
-          <v-col cols="3">
+          <v-col class="order-1 order-md-2" cols="12" sm="12" md="4" lg="3">
             <v-sheet color="transparent">
               <!-- profile -->
-              <v-row no-gutters v-if="getUserData !== null">
-                <v-col>
-                  <wdc-profile-card />
-                </v-col>
-              </v-row>
+              <template v-if="!$vuetify.breakpoint.mdAndDown">
+                <v-row no-gutters v-if="getUserData !== null">
+                  <v-col>
+                    <wdc-profile-card />
+                  </v-col>
+                </v-row>
+              </template>
 
               <!-- Menu -->
-              <v-row no-gutters class="mt-8 menu-wrapper">
+              <v-row
+                no-gutters
+                class="mt-8 menu-wrapper"
+                v-if="!$vuetify.breakpoint.mdAndDown"
+              >
                 <v-col> <wdc-menu /> </v-col>
               </v-row>
 
               <!-- Users online -->
-              <v-row no-gutters class="mt-8">
+              <!-- <v-row no-gutters class="mt-8">
                 <v-col>
                   <v-card class="cm-round-1 cm-elevation-1">
                     <v-card-text class="pa-8"> En desarrollo </v-card-text>
+                  </v-card>
+                </v-col>
+              </v-row> -->
+              <!-- users -->
+              <v-row no-gutters class="">
+                <v-col v-if="$vuetify.breakpoint.mdAndDown">
+                  <v-card class="cm-round-1 cm-elevation-1">
+                    <v-card-text class="pa-8">
+                      <wdc-participants />
+                    </v-card-text>
                   </v-card>
                 </v-col>
               </v-row>
@@ -152,99 +205,16 @@
     </v-main>
 
     <!-- footer -->
-    <footer class="footer-app primary">
-      <img :src="asset_wave" class="wave-footer" alt="" />
-      <v-container>
-        <!-- content -->
-        <v-row>
-          <v-col>
-            <img :src="logoDark" alt="" />
-            <p class="brand-description">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod incididunt ut labore et dolore magna aliqua.
-            </p>
-          </v-col>
-          <v-col class="text-center" cols="6">
-            <h2 class="footer-title white--text">Secciones</h2>
-            <ul class="footer-menu">
-              <li>
-                <router-link to="/" class="footer-anchor">Inicio</router-link>
-              </li>
-              <li>
-                <router-link to="/" class="footer-anchor">Videos</router-link>
-              </li>
-              <li>
-                <router-link to="/" class="footer-anchor"
-                  >Miembros del club</router-link
-                >
-              </li>
-              <li>
-                <router-link to="/" class="footer-anchor"
-                  >Testimonios</router-link
-                >
-              </li>
-              <li>
-                <router-link to="/" class="footer-anchor"
-                  >Membresía</router-link
-                >
-              </li>
-              <li class="mt-5">
-                <a
-                  href="https://www.instagram.com/"
-                  title="Visita nuestro Instagram"
-                  target="_blank"
-                  ><img class="insta-picture" :src="logoInsta" alt=""
-                /></a>
-              </li>
-            </ul>
-          </v-col>
-          <v-col class="text-right">
-            <h2 class="footer-title hidden">Extras</h2>
-            <ul>
-              <!-- <li>Iniciar Sesión</li>
-              <li>Nueva Cuenta</li> -->
-              <!-- <li>
-                <router-link to="/" class="footer-anchor"
-                  >Preguntas Frecuentes</router-link
-                >
-              </li> -->
-              <li>
-                <router-link to="/policies" class="footer-anchor"
-                  >Politicas de Privacidad</router-link
-                >
-              </li>
-              <li>
-                <router-link to="/terms" class="footer-anchor"
-                  >Términos y condiciones</router-link
-                >
-              </li>
-            </ul>
-          </v-col>
-        </v-row>
-        <!-- copyright -->
-        <v-row>
-          <v-col cols="4">
-            <img src="" alt="" />
-          </v-col>
-          <v-col cols="4" class="text-center copyright">
-            <p>Lorem Corporation © 2021</p>
-          </v-col>
-          <v-col cols="4" class="text-right methods-payment">
-            <a href="#" class="white--text footer-anchor"> Paypal </a> |
-            <a href="#" class="white--text footer-anchor">Binance</a>
-          </v-col>
-        </v-row>
-      </v-container>
-    </footer>
+    <wdc-footer />
 
     <!-- whatss app btn -->
-    <div class="ws-btn">
+    <!-- <div class="ws-btn">
       <a href=" https://web.whatsapp.com/" target="_blank">
         <v-btn fab large color="primary" elevation="0">
           <img :src="asset_ws" class="ws-icon" alt="" />
         </v-btn>
       </a>
-    </div>
+    </div> -->
   </v-app>
 </template>
 
@@ -259,11 +229,13 @@ import resourcesMixin from '@/mixins/resources'
 import loadingMixin from '@/mixins/loadingMixin'
 import wdc_snackbar from '~/components/wdc_snackbar.vue'
 import Wdc_participants from '~/components/wdc_participants.vue'
+import Wdc_footer from '~/components/wdc_footer.vue'
 export default {
-  components: { wdc_snackbar, Wdc_participants },
+  components: { wdc_snackbar, Wdc_participants, Wdc_footer },
   mixins: [authMixin, resourcesMixin, loadingMixin],
   data() {
     return {
+      drawer: false,
       //
       asset_wave,
       asset_ws,

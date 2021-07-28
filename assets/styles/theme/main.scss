@@ -47,8 +47,15 @@ ul {
 }
 
 .page-layout-1 {
-  max-width : 1710px;
+  // max-width : 1710px;
+  // w
+  max-width : 1600px;
   margin-top: 114px;
+  width     : calc(100% - 120px);
+
+  @media (max-width: 576px) {
+    width: calc(100% - 60px);
+  }
 }
 
 .block-section {
@@ -92,4 +99,20 @@ ul {
 
 .v-dialog__content--active {
   // z-index: 305 !important;
+}
+
+.brand-image {}
+
+@media (max-width: 576px) {
+  .brand-image {
+    width : 250px;
+    height: auto;
+  }
+}
+
+@media (max-width: 414px) {
+  .brand-image {
+    width : 150px;
+    height: auto;
+  }
 }

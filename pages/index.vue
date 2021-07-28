@@ -2,6 +2,7 @@
   <v-container fluid class="landing-page">
     <!-- Hero -->
     <v-row
+      v-if="true"
       class="block-section hero-section align-center text-center bg-img"
       :style="`background-image: url('${bgHero}')`"
     >
@@ -67,7 +68,7 @@
     </v-row>
 
     <!-- Videos -->
-    <v-row class="video-section align-center">
+    <v-row v-if="true" class="video-section align-center">
       <img :src="asset_wave" class="bg-wave" alt="" />
       <v-col class="video-section__content">
         <carousel ref="carousel" :per-page="1">
@@ -114,7 +115,7 @@
     </v-row>
 
     <!-- Members PENDIENTE -->
-    <v-row class="block-section members-section" justify="center">
+    <v-row v-if="true" class="block-section members-section" justify="center">
       <div class="wave-wrapper">
         <img :src="asset_wave" class="bg-wave" alt="" />
       </div>
@@ -178,7 +179,7 @@
 
     <!-- FAQ -->
     <v-row
-      v-if="false"
+      v-if="true"
       class="block-section faq-section align-center text-center"
     >
       <v-col>
@@ -188,7 +189,6 @@
           eiusmod incididunt ut labore et dolore magna aliqua.
         </h3>
         <div class="faq-wrapper">
-          <!-- @mouseleave="enableHover('default')" -->
           <div class="faq-pill">
             <!-- Men -->
             <div
@@ -278,7 +278,6 @@
             </div>
 
             <!-- Woman -->
-            <!-- @click="enableHover('woman')" @mouseleave="enableHover('default')" -->
             <div
               class="faq-pill__woman cursor-pointer"
               :class="
@@ -370,6 +369,26 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="faq-wrapper faq-wrapper--responsive">
+          <v-btn
+            rounded
+            width="250"
+            class="font-weight-bold"
+            @click="faq_man = !faq_man"
+            color="accent"
+          >
+            Hombres
+          </v-btn>
+          <v-btn
+            rounded
+            width="250"
+            class="font-weight-bold white--text"
+            color="#f42f43"
+            @click="faq_woman = !faq_woman"
+          >
+            Mujeres
+          </v-btn>
         </div>
       </v-col>
     </v-row>
@@ -975,6 +994,14 @@ export default {
   }
 }
 .faq-section {
+  max-width: calc(100% - 120px);
+  margin: 0 auto;
+  @media (min-width: 1599px) {
+    max-width: 1600px;
+  }
+  @media (max-width: 576px) {
+    max-width: calc(100% - 60px);
+  }
   .subtitle {
     // background-color: #bada55;
     max-width: 950px;
@@ -983,6 +1010,23 @@ export default {
   .faq-wrapper {
     position: relative;
     min-height: 580px;
+    &--responsive {
+      min-height: auto;
+      display: none;
+    }
+    @media (max-width: 1366px) {
+      display: none;
+      &--responsive {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 28px;
+        gap: 40px;
+        justify-content: center;
+        .faq-pill {
+          width: 100%;
+        }
+      }
+    }
   }
   .faq-pill {
     display: grid;
@@ -1139,6 +1183,9 @@ export default {
       text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
       position: absolute;
       z-index: 250;
+    }
+    @media (max-width: 1366px) {
+      width: 100%;
     }
   }
 }

@@ -1,5 +1,10 @@
 <template>
   <v-sheet color="transparent">
+    <v-row>
+      <v-col>
+        <h2 class="primary--text font-weight-light">Participantes Recientes</h2>
+      </v-col>
+    </v-row>
     <v-row v-for="(item, i) in participants" :key="i" class="participant-card">
       <v-col>
         <v-card class="card-wrapper" :to="`/messages/${item.id}`">

@@ -11,21 +11,10 @@
         <v-row>
           <v-col cols="12">
             <v-text-field
-              label="Correo Electrónico"
+              label="Correo Electrónico Registrado"
               outlined
               hide-details=""
               v-model="user.email"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12">
-            <v-text-field
-              label="Contraseña"
-              v-model="user.password"
-              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="!showPassword ? 'text' : 'password'"
-              @click:append="showPassword = !showPassword"
-              outlined
-              hide-details=""
             ></v-text-field>
           </v-col>
         </v-row>
@@ -38,7 +27,7 @@
               color="primary"
               large
               @click="submit()"
-              >Unirse</v-btn
+              >Enviar</v-btn
             >
             <p class="text-center mt-2">
               ¿Eres nuevo?, registrate
@@ -47,11 +36,9 @@
               </router-link>
             </p>
             <p class="text-center">
-              <router-link
-                class="text-decoration-none"
-                to="/auth/password-recovery"
-              >
-                Olvidé mi contraseña
+              ¿Ya eres miembro?,
+              <router-link class="text-decoration-none" to="/auth/sign-in">
+                Ingresa
               </router-link>
             </p>
           </v-col>
@@ -76,11 +63,9 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import authMixin from '@/mixins/authMixin'
-import snackMixin from '@/mixins/snackMixin'
-import loadingMixin from '@/mixins/loadingMixin'
 export default {
   layout: 'auth',
-  mixins: [authMixin, snackMixin, loadingMixin],
+  mixins: [authMixin],
   data() {
     return {
       showPassword: true,
@@ -97,20 +82,23 @@ export default {
   },
   methods: {
     async submit() {
-      this.loadingForm = true
-      await this.$axios
-        .$post(`${this.$axios.defaults.baseURL}login`, this.user)
-        .then((res) => {
-          this.loadingForm = false
-          this.authenticating(res)
-          this.$router.push('/profile')
-        })
-        .catch((e) => {
-          console.debug(e)
-          this.loadingForm = false
-          // this.errors = e.response.data.error
-          this.snackbarOn('Los datos suministrados son incorrectos.')
-        })
+      // this.loadingForm = true
+      // await this.$axios
+      //   .$post(`${this.$axios.defaults.baseURL}login`, this.user)
+      //   .then((res) => {
+      //     this.loadingForm = false
+      //     this.authenticating(res)
+      //     this.$router.push('/profile')
+      //   })
+      //   .catch((e) => {
+      //     console.debug(e)
+      //     this.loadingForm = false
+      //     this.errors = e.response.data.error
+      //   })
+      alert('Endpoint en desarrollo')
+      alert(
+        'El correo electrónico que introdujo no se encuentra registrado en nuestro sitio web, por favor verifique e intente de nuevo.'
+      )
     },
   },
 }

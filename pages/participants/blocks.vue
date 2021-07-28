@@ -88,6 +88,7 @@ export default {
   },
   mounted() {
     this.getParticipants()
+    alert('Falta integracion con api')
   },
   methods: {
     async getParticipants() {

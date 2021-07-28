@@ -2,21 +2,19 @@
   <v-container fluid fill-height class="page-layout-1 profile">
     <v-row class="block-section">
       <!-- Users list -->
-      <v-col cols="3">
+      <v-col cols="3" v-if="!$vuetify.breakpoint.mdAndDown">
         <v-card class="cm-round-1 cm-elevation-1">
-          <v-card-text class="pa-8">
-            <v-sheet color="transparent">
-              <v-row no-gutters>
-                <v-col> En desarrollo </v-col>
-              </v-row>
-            </v-sheet>
-          </v-card-text>
+          <v-card-text class="pa-8"> <wdc-participants /> </v-card-text>
         </v-card>
       </v-col>
 
       <!-- content -->
-      <v-col cols="6">
+      <v-col class="order-2 order-md-1" cols="12" sm="12" md="8" lg="6">
         <v-sheet color="transparent">
+          <!-- <v-row>
+            {{ $vuetify.breakpoint.name }}
+            {{ $vuetify.breakpoint.mdAndDown }}
+          </v-row> -->
           <!-- info -->
           <v-row no-gutters>
             <v-col>
@@ -46,25 +44,19 @@
             <v-col>
               <v-card class="cm-round-1 cm-elevation-1" v-if="user !== null">
                 <v-card-text class="pa-8">
-                  <v-sheet>
-                    <v-row j>
-                      <v-col cols="auto">
-                        <v-tabs v-model="profileTab" align-with-title>
-                          <v-tabs-slider color="primary"></v-tabs-slider>
+                  <v-tabs centered v-model="profileTab">
+                    <v-tabs-slider color="primary"></v-tabs-slider>
 
-                          <v-tab> Perfil </v-tab>
-                          <v-tab> Galería </v-tab>
-                        </v-tabs>
-                      </v-col>
-                    </v-row>
-                  </v-sheet>
+                    <v-tab> Perfil </v-tab>
+                    <v-tab> Galería </v-tab>
+                  </v-tabs>
                   <v-tabs-items v-model="profileTab">
                     <v-tab-item>
                       <!-- hombre -->
                       <template v-if="user.gender === 1">
                         <v-sheet color="transparent">
                           <!-- file -->
-                          <div class="custom-file-wrapper mx-auto mb-8">
+                          <div class="custom-file-wrapper mx-auto mb-8 mt-12">
                             <v-file-input
                               @change="Preview_image"
                               v-model="image"
@@ -96,7 +88,7 @@
 
                           <!-- Name -->
                           <v-row>
-                            <v-col>
+                            <v-col cols="12" sm="12" lg="6">
                               <v-text-field
                                 label="Nombre"
                                 outlined
@@ -105,7 +97,7 @@
                                 color="primary"
                               ></v-text-field>
                             </v-col>
-                            <v-col>
+                            <v-col cols="12" sm="12" lg="6">
                               <v-text-field
                                 label="Apellido"
                                 outlined
@@ -129,7 +121,7 @@
 
                           <!-- Birthday | civil state -->
                           <v-row>
-                            <v-col>
+                            <v-col cols="12" sm="12" lg="6">
                               <v-dialog
                                 ref="dialog"
                                 v-model="modalBirthday"
@@ -173,7 +165,7 @@
                                 </v-date-picker>
                               </v-dialog>
                             </v-col>
-                            <v-col>
+                            <v-col cols="12" sm="12" lg="6">
                               <v-select
                                 :items="civilStatesMan"
                                 label="Estado civil"
@@ -186,7 +178,7 @@
 
                           <!-- Nivel Economico | Sugar baby  -->
                           <v-row>
-                            <v-col>
+                            <v-col cols="12" sm="12" lg="6">
                               <v-select
                                 :items="economicLevels"
                                 :item-text="(item) => item.name"
@@ -197,7 +189,7 @@
                                 outlined
                               ></v-select>
                             </v-col>
-                            <v-col>
+                            <v-col cols="12" sm="12" lg="6">
                               <v-text-field
                                 label="¿Qué buscas en una Sugar Baby?"
                                 outlined
@@ -223,7 +215,7 @@
 
                           <!-- intereses, hobbies | body type -->
                           <v-row>
-                            <v-col>
+                            <v-col cols="12" sm="12" lg="6">
                               <v-text-field
                                 label="Cuentanos sobre tus intereses o hobbies"
                                 outlined
@@ -231,7 +223,7 @@
                                 v-model="user.hobbies"
                               ></v-text-field>
                             </v-col>
-                            <v-col>
+                            <v-col cols="12" sm="12" lg="6">
                               <v-select
                                 :items="bodyTypes.men"
                                 :item-text="(item) => item.name"
@@ -607,7 +599,7 @@
       </v-col>
 
       <!-- profile | menu | users on -->
-      <v-col cols="3">
+      <v-col class="order-1 order-md-2" cols="12" sm="12" md="4" lg="3">
         <v-sheet color="transparent">
           <!-- profile -->
           <v-row no-gutters v-if="getUserData !== null">
@@ -617,27 +609,33 @@
           </v-row>
 
           <!-- Menu -->
-          <v-row no-gutters class="mt-8 menu-wrapper">
+          <v-row
+            no-gutters
+            class="mt-8 menu-wrapper"
+            v-if="!$vuetify.breakpoint.mdAndDown"
+          >
             <v-col> <wdc-menu /> </v-col>
           </v-row>
 
           <!-- Users online -->
-          <v-row no-gutters class="mt-8">
+          <!-- <v-row no-gutters class="mt-8">
             <v-col>
               <v-card class="cm-round-1 cm-elevation-1">
                 <v-card-text class="pa-8"> En desarrollo </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row> -->
+          <!-- users -->
+          <v-row no-gutters class="mt-8">
+            <v-col v-if="$vuetify.breakpoint.mdAndDown">
+              <v-card class="cm-round-1 cm-elevation-1">
+                <v-card-text class="pa-8"> <wdc-participants /> </v-card-text>
               </v-card>
             </v-col>
           </v-row>
         </v-sheet>
       </v-col>
     </v-row>
-    <!-- <v-row>
-      <pre>
-        {{ user }}
-        {{ getUserData }}
-      </pre>
-    </v-row> -->
   </v-container>
 </template>
 <script>
@@ -648,8 +646,9 @@ import snackMixin from '@/mixins/snackMixin'
 import loadingMixin from '@/mixins/loadingMixin'
 import wdc_menu from '~/components/wdc_menu.vue'
 import Wdc_profileCard from '~/components/wdc_profile-card.vue'
+import Wdc_participants from '~/components/wdc_participants.vue'
 export default {
-  components: { wdc_menu, Wdc_profileCard },
+  components: { wdc_menu, Wdc_profileCard, Wdc_participants },
   mixins: [authMixin, resourcesMixin, snackMixin, loadingMixin],
   middleware: ['authenticated'],
   data() {

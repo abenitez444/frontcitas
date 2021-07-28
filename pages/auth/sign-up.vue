@@ -13,6 +13,7 @@
 
         <!-- Stepper items -->
         <v-stepper-items>
+          <!-- genero -->
           <v-stepper-content step="1">
             <v-card class="mb-6" color="trasparent" tile elevation="0">
               <p class="gender-label text-center text-1">
@@ -63,50 +64,96 @@
                     <!-- Username -->
                     <v-col cols="12">
                       <v-text-field
+                        autocomplete="off"
                         label="Usuario"
                         class="rounded-b"
-                        outlined
-                        hide-details=""
                         v-model="newUser.username"
+                        required
+                        outlined
+                        :error-messages="nameErrors"
+                        @input="$v.newUser.username.$touch()"
+                        @blur="$v.newUser.username.$touch()"
                       ></v-text-field>
                     </v-col>
                     <!-- Correo -->
                     <v-col cols="12">
                       <v-text-field
+                        autocomplete="off"
                         label="Correo"
                         class="rounded-b"
                         outlined
                         type="email"
-                        hide-details=""
+                        required
                         v-model="newUser.email"
+                        :error-messages="emailErrors"
+                        @input="$v.newUser.email.$touch()"
+                        @blur="$v.newUser.email.$touch()"
                       ></v-text-field>
                     </v-col>
                     <!-- Telefono -->
                     <v-col cols="12" class="fixed-label">
-                      <label for="" class="fixed-label-item">Teléfono</label>
-                      <phone-mask-input
+                      <!-- <label for="" class="fixed-label-item">Teléfono</label> -->
+                      <!-- <phone-mask-input
                         v-model="newUser.phone"
                         autoDetectCountry
                         wrapperClass="phone-input"
                         placeholder="Teléfono"
-                      />
+                      /> -->
+                      <v-text-field
+                        autocomplete="off"
+                        label="Teléfono"
+                        class="rounded-b"
+                        outlined
+                        required
+                        v-model="newUser.phone"
+                        type="number"
+                      ></v-text-field>
                     </v-col>
                     <!-- Contraseña -->
                     <v-col cols="12">
-                      <v-text-field
-                        :append-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
-                        :type="!passwordShow ? 'text' : 'password'"
-                        @click:append="passwordShow = !passwordShow"
-                        label="Contraseña"
-                        class="rounded-b"
-                        outlined
-                        hide-details=""
-                        v-model="newUser.password"
-                      ></v-text-field>
+                      <v-tooltip right>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-text-field
+                            autocomplete="off"
+                            v-bind="attrs"
+                            v-on="on"
+                            :append-icon="
+                              passwordShow ? 'mdi-eye' : 'mdi-eye-off'
+                            "
+                            :type="!passwordShow ? 'text' : 'password'"
+                            @click:append="passwordShow = !passwordShow"
+                            label="Contraseña"
+                            class="rounded-b"
+                            outlined
+                            v-model="newUser.password"
+                            :error-messages="passwordErrors"
+                            @input="$v.newUser.password.$touch()"
+                            @blur="$v.newUser.password.$touch()"
+                          ></v-text-field>
+                        </template>
+                        <ul>
+                          <li>Debe contener mínimo 8 caracteres</li>
+                          <li>Al menos 1 Letra minúscula del alfabeto (a-z)</li>
+                          <li>Al menos 1 Cifra entera (0-9)</li>
+                          <li>
+                            Al menos 1 caracter especial, tales como @#$%&*-+=/
+                          </li>
+                          <li>
+                            No se permite la letra “ñ” ni letras con tilde ni
+                            espacios
+                          </li>
+                        </ul>
+                      </v-tooltip>
                     </v-col>
+                    <!-- <v-col>
+                      <pre>
+                        {{ $v.newUser.password }}
+                      </pre>
+                    </v-col> -->
                     <!-- Confirmar contraseña -->
                     <v-col cols="12">
                       <v-text-field
+                        autocomplete="off"
                         :append-icon="
                           confirmPasswordShow ? 'mdi-eye' : 'mdi-eye-off'
                         "
@@ -117,8 +164,10 @@
                         label="Confirmar Contraseña"
                         class="rounded-b"
                         outlined
-                        hide-details=""
                         v-model="newUser.password_confirmation"
+                        :error-messages="passwordConfirmErrors"
+                        @input="$v.newUser.password_confirmation.$touch()"
+                        @blur="$v.newUser.password_confirmation.$touch()"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -127,6 +176,7 @@
             </v-card>
           </v-stepper-content>
 
+          <!-- otra info -->
           <v-stepper-content step="3">
             <v-card class="mb-6" color="transparent" elevation="0">
               <v-card-text>
@@ -136,20 +186,26 @@
                     <!-- Nombre completo -->
                     <v-col cols="6">
                       <v-text-field
+                        autocomplete="off"
                         label="Nombre"
                         class="rounded-b"
                         outlined
-                        hide-details=""
                         v-model="newUser.first_name"
+                        :error-messages="firstNameErrors"
+                        @input="$v.newUser.first_name.$touch()"
+                        @blur="$v.newUser.first_name.$touch()"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="6">
                       <v-text-field
+                        autocomplete="off"
                         label="Apellido"
                         class="rounded-b"
                         outlined
-                        hide-details=""
                         v-model="newUser.last_name"
+                        :error-messages="lastNameErrors"
+                        @input="$v.newUser.last_name.$touch()"
+                        @blur="$v.newUser.last_name.$touch()"
                       ></v-text-field>
                     </v-col>
 
@@ -164,6 +220,7 @@
                       >
                         <template v-slot:activator="{ on, attrs }">
                           <v-text-field
+                            autocomplete="off"
                             v-model="newUser.birth_day"
                             label="Fecha de nacimiento"
                             append-icon="mdi-calendar"
@@ -171,7 +228,9 @@
                             outlined
                             v-bind="attrs"
                             v-on="on"
-                            hide-details=""
+                            :error-messages="birthDayErrors"
+                            @input="$v.newUser.birth_day.$touch()"
+                            @blur="$v.newUser.birth_day.$touch()"
                           ></v-text-field>
                         </template>
                         <v-date-picker
@@ -205,28 +264,35 @@
                         v-if="newUser.gender === 1"
                         :items="civilStatesMan"
                         label="Estado civil"
-                        hide-details=""
                         v-model="newUser.civil_status"
                         outlined
+                        :error-messages="civilStatusErrors"
+                        @input="$v.newUser.civil_status.$touch()"
+                        @blur="$v.newUser.civil_status.$touch()"
                       ></v-select>
                       <v-select
                         v-if="newUser.gender === 0"
                         :items="civilStatesWoman"
                         label="Estado civil"
-                        hide-details=""
                         v-model="newUser.civil_status"
                         outlined
+                        :error-messages="civilStatusErrors"
+                        @input="$v.newUser.civil_status.$touch()"
+                        @blur="$v.newUser.civil_status.$touch()"
                       ></v-select>
                     </v-col>
 
                     <!-- Profesion -->
                     <v-col cols="12">
                       <v-text-field
+                        autocomplete="off"
                         label="Profesión"
                         class="rounded-b"
                         outlined
-                        hide-details=""
                         v-model="newUser.profession"
+                        :error-messages="professionErrors"
+                        @input="$v.newUser.profession.$touch()"
+                        @blur="$v.newUser.profession.$touch()"
                       ></v-text-field>
                     </v-col>
 
@@ -298,6 +364,7 @@
       class="font-weight-bold ma-5"
       dark
       dismissible
+      prominent
     >
       <ul class="error-text">
         <li class="" v-if="!$v.newUser.gender.required">
@@ -355,7 +422,13 @@ import icon_female from '@/assets/auth/ui-icon-female.svg'
 import icon_male from '@/assets/auth/ui-icon-male.svg'
 import { validationMixin } from 'vuelidate'
 import authMixin from '@/mixins/authMixin'
-import { required, sameAs, minLength } from 'vuelidate/lib/validators'
+import {
+  required,
+  sameAs,
+  minLength,
+  email,
+  alpha,
+} from 'vuelidate/lib/validators'
 
 export default {
   mixins: [validationMixin, authMixin],
@@ -367,7 +440,7 @@ export default {
       icon_male,
 
       //? Stepper
-      step: 1,
+      step: 3,
       maxStep: 3,
       gender: 'default',
 
@@ -409,6 +482,9 @@ export default {
       alertStepper: false,
       errors: false,
     }
+  },
+  mounted() {
+    console.debug('accent', `${/^[áéíóúñüàè]+$/i.test('asdasdñ')}`)
   },
   methods: {
     setGender(gender) {
@@ -495,6 +571,101 @@ export default {
       }
       return validationSuccess
     },
+    nameErrors() {
+      const errors = []
+      if (!this.$v.newUser.username.$dirty) return errors
+      !this.$v.newUser.username.required &&
+        errors.push('El nombre de usuario es requerido.')
+      return errors
+    },
+    emailErrors() {
+      const errors = []
+      if (!this.$v.newUser.email.$dirty) return errors
+      !this.$v.newUser.email.email &&
+        errors.push(
+          'El correo electrónico debe poseer el siguiente formato ejemplo: correo@correo.com'
+        )
+      !this.$v.newUser.email.required &&
+        errors.push('El correo electrónico es requerido')
+      return errors
+    },
+    passwordErrors() {
+      const errors = []
+      if (!this.$v.newUser.password.$dirty) return errors
+      !this.$v.newUser.password.minLength &&
+        errors.push('La contraseña debe contener mínimo 8 caractere')
+      !this.$v.newUser.password.required &&
+        errors.push('La contraseña es requerida')
+      !this.$v.newUser.password.containsLowercase &&
+        errors.push(
+          'Debe contener al menos 1 Letra minúscula del alfabeto (a-z)'
+        )
+      !this.$v.newUser.password.containsUppercase &&
+        errors.push(
+          'Debe contener al menos 1 Letra mayúscula del alfabeto (A-Z)'
+        )
+      !this.$v.newUser.password.containsNumber &&
+        errors.push('Debe contener al menos 1 Cifra entera (0-9)')
+      !this.$v.newUser.password.containsSpecial &&
+        errors.push(
+          'Debe contener al menos 1 caracter especial, tales como @#$%&*-+=/'
+        )
+      this.$v.newUser.password.containsAccent &&
+        errors.push(
+          'No se permite la letra “ñ” ni letras con tilde ni espacios'
+        )
+      return errors
+    },
+    passwordConfirmErrors() {
+      const errors = []
+      if (!this.$v.newUser.password_confirmation.$dirty) return errors
+      !this.$v.newUser.password_confirmation.sameAsPassword &&
+        errors.push(
+          'La contrsaeña introducida es distinta a la anterior, por favor intente de nuevo'
+        )
+      return errors
+    },
+    firstNameErrors() {
+      const errors = []
+      if (!this.$v.newUser.first_name.$dirty) return errors
+      !this.$v.newUser.first_name.required &&
+        errors.push('El nombre es requerido')
+      !this.$v.newUser.first_name.alpha &&
+        errors.push('Solo se aceptan caracteres alfabéticos')
+      return errors
+    },
+    lastNameErrors() {
+      const errors = []
+      if (!this.$v.newUser.last_name.$dirty) return errors
+      !this.$v.newUser.last_name.required &&
+        errors.push('El apellido es requerido')
+      !this.$v.newUser.last_name.alpha &&
+        errors.push('Solo se aceptan caracteres alfabéticos')
+      return errors
+    },
+    birthDayErrors() {
+      const errors = []
+      if (!this.$v.newUser.birth_day.$dirty) return errors
+      !this.$v.newUser.birth_day.required &&
+        errors.push('La fecha de nacimiento es requerida')
+      return errors
+    },
+    civilStatusErrors() {
+      const errors = []
+      if (!this.$v.newUser.civil_status.$dirty) return errors
+      !this.$v.newUser.civil_status.required &&
+        errors.push('El estado civil es requerido')
+      return errors
+    },
+    professionErrors() {
+      const errors = []
+      if (!this.$v.newUser.profession.$dirty) return errors
+      !this.$v.newUser.profession.required &&
+        errors.push('La profesión es requerida')
+      !this.$v.newUser.profession.alpha &&
+        errors.push('Solo se aceptan caracteres alfabéticos')
+      return errors
+    },
   },
   validations: {
     newUser: {
@@ -509,10 +680,38 @@ export default {
       },
       email: {
         required,
+        email,
       },
       password: {
         required,
         minLength: minLength(8),
+        containsLowercase: function (value) {
+          return /[a-z]/.test(value)
+        },
+        containsUppercase: function (value) {
+          return /[A-Z]/.test(value)
+        },
+        containsNumber: function (value) {
+          return /[0-9]/.test(value)
+        },
+        containsSpecial: function (value) {
+          return /[#?!@$%^&*-]/.test(value)
+        },
+        containsAccent: function (value) {
+          return /[À-ÿ\u00f1\u00d1\s]/.test(value)
+        },
+        // valid: function (value) {
+        //   const containsUppercase = /[A-Z]/.test(value)
+        //   const containsLowercase = /[a-z]/.test(value)
+        //   const containsNumber = /[0-9]/.test(value)
+        //   const containsSpecial = /[#?!@$%^&*-]/.test(value)
+        //   return (
+        //     containsUppercase &&
+        //     containsLowercase &&
+        //     containsNumber &&
+        //     containsSpecial
+        //   )
+        // },
       },
       password_confirmation: {
         sameAsPassword: sameAs(function () {
@@ -521,9 +720,11 @@ export default {
       },
       first_name: {
         required,
+        alpha,
       },
       last_name: {
         required,
+        alpha,
       },
       birth_day: {
         required,
@@ -533,6 +734,7 @@ export default {
       },
       profession: {
         required,
+        alpha,
       },
     },
   },

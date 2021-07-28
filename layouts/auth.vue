@@ -55,6 +55,8 @@
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
+    <wdc-snackbar />
+    <wdc-loading />
     <v-main
       class="main-content d-flex align-center auth-layout"
       :style="`background-image: url('${bgAuth}')`"
@@ -95,6 +97,16 @@
         </v-row>
       </v-container>
     </v-main>
+    <!-- whatss app btn -->
+    <template v-if="$route.name === 'auth-sign-up'">
+      <div class="ws-btn">
+        <a href=" https://web.whatsapp.com/" target="_blank">
+          <v-btn fab small color="primary" elevation="0">
+            <img :src="asset_ws" class="ws-icon" alt="" />
+          </v-btn>
+        </a>
+      </div>
+    </template>
   </v-app>
 </template>
 
@@ -286,18 +298,6 @@ export default {
         }
       }
     }
-  }
-}
-@media (max-width: 576px) {
-  .brand-image {
-    width: 250px;
-    height: auto;
-  }
-}
-@media (max-width: 414px) {
-  .brand-image {
-    width: 150px;
-    height: auto;
   }
 }
 </style>

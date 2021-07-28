@@ -1,6 +1,12 @@
 <template>
   <!-- content -->
-  <v-col cols="6" class="timeline-page">
+  <v-col
+    cols="12"
+    sm="12"
+    md="8"
+    lg="6"
+    class="timeline-page order-2 order-md-1"
+  >
     <v-dialog v-model="reportDialog" width="500">
       <v-card>
         <v-card-title class="text-h5 white--text primary">
@@ -50,6 +56,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
     <v-sheet color="transparent">
       <!-- info -->
       <v-row no-gutters>
@@ -261,7 +268,8 @@
                     </v-card>
                   </v-dialog>
                   <v-col
-                    cols="6"
+                    cols="12"
+                    md="6"
                     v-for="(post, i) in posts"
                     :key="i"
                     class="post-wrapper"
@@ -723,7 +731,7 @@ export default {
     },
     async sendReaction(postId, reactionId) {
       console.debug(postId, reactionId)
-      this.loadingOn()
+      // this.loadingOn()
       const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
 
       let config = {
@@ -738,13 +746,13 @@ export default {
           config
         )
         .then((res) => {
-          this.loadingOff()
+          // this.loadingOff()
           this.postDetail = false
           this.getAllPosts()
         })
         .catch((e) => {
           console.debug(e)
-          this.loadingOff()
+          // this.loadingOff()
         })
     },
   },

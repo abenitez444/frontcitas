@@ -16,6 +16,7 @@
     "laravel-echo": "^1.11.0",
     "nuxt": "^2.15.3",
     "pusher-js": "^7.0.3",
+    "v-mask": "^2.2.4",
     "vue-carousel": "^0.18.0",
     "vue-phone-mask-input": "^1.1.11",
     "vue-youtube-embed": "^2.2.2",

@@ -41,14 +41,41 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-btn
-              :ripple="false"
-              color="primary"
-              text
-              class="text-capitalize"
-              to="/participants"
-              >Ver Participantes</v-btn
-            >
+            <v-list-group :value="false" no-action>
+              <template v-slot:activator>
+                <v-list-item-content>
+                  <v-list-item-title>Participantes</v-list-item-title>
+                </v-list-item-content>
+              </template>
+
+              <v-list-item link to="/participants">
+                <v-list-item-title>Participantes</v-list-item-title>
+              </v-list-item>
+              <v-list-item link to="/participants/blocks">
+                <v-list-item-title>Miembros Bloqueados</v-list-item-title>
+              </v-list-item>
+            </v-list-group>
+            <!-- <v-menu offset-y>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  :ripple="false"
+                  color="primary"
+                  text
+                  class="text-capitalize"
+                  >Ver Participantes</v-btn
+                >
+              </template>
+              <v-list>
+                <v-list-item to="/participants">
+                  <v-list-item-title>Participantes</v-list-item-title>
+                </v-list-item>
+                <v-list-item to="/participants/block">
+                  <v-list-item-title>Miembros bloqueados</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu> -->
           </v-col>
         </v-row>
         <v-row>
@@ -86,6 +113,20 @@ export default {}
       &::before {
         opacity: 0;
       }
+    }
+  }
+  .v-list-item {
+    &__title {
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 30px;
+      color: #9d8080 !important;
+      opacity: 0.5;
+    }
+  }
+  .v-list-group__items {
+    .v-list-item {
+      padding-left: 2rem !important;
     }
   }
 }

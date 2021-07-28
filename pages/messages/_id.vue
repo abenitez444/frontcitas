@@ -1,6 +1,13 @@
 <template>
   <!-- content -->
-  <v-col cols="6" class="messages-page" v-if="getUserData">
+  <v-col
+    cols="12"
+    sm="12"
+    md="8"
+    lg="6"
+    class="messages-page order-2 order-md-1"
+    v-if="getUserData"
+  >
     <v-sheet color="transparent">
       <!-- chatbox -->
       <v-row no-gutters class="messages-wrapper">
@@ -364,7 +371,7 @@ export default {
     transform: translate(-12px, -12px);
   }
   .messages-wrapper {
-    z-index: 100;
+    z-index: 6;
     position: relative;
   }
   .__bar-is-vertical {
