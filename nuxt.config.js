@@ -26,7 +26,7 @@ export default {
   css: ['@/assets/styles/theme/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/youtube', '@/plugins/laravelEcho'],
+  plugins: ['@/plugins/youtube', '@/plugins/laravelEcho', '@/plugins/vMask'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

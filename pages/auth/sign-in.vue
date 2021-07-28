@@ -109,7 +109,9 @@ export default {
           console.debug(e)
           this.loadingForm = false
           // this.errors = e.response.data.error
-          this.snackbarOn('Los datos suministrados son incorrectos.')
+          this.snackbarOn(
+            'El correo electrónico y/o la contraseña son inválidas por favor verifique e intente de nuevo o le invitamos a registrarse en nuestro sitio web CLUB SUGAR.'
+          )
         })
     },
   },

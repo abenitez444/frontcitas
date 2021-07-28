@@ -16,15 +16,17 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-btn
-              :ripple="false"
-              active-class=""
-              color="primary"
-              text
-              class="text-capitalize"
-              to="/messages"
-              >Mensajes</v-btn
-            >
+            <v-badge bordered color="error" overlap :content="5">
+              <v-btn
+                :ripple="false"
+                active-class=""
+                color="primary"
+                text
+                class="text-capitalize"
+                to="/messages"
+                >Mensajes</v-btn
+              >
+            </v-badge>
           </v-col>
         </v-row>
         <v-row>

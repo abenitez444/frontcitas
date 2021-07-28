@@ -83,14 +83,83 @@
                                 v-model="message"
                               ></v-textarea>
                             </v-col>
-                            <v-btn
-                              class="send-message-btn text-capitalize"
-                              color="primary"
-                              width="115px"
-                              @click="sendMessage()"
-                            >
-                              enviar
-                            </v-btn>
+                            <div class="wrapper-toolbar">
+                              <div>
+                                <v-btn
+                                  color="primary"
+                                  class="text-none"
+                                  small
+                                  fab
+                                  :loading="isSelectingVideo"
+                                  @click="onButtonClickVideo"
+                                >
+                                  <v-icon> mdi-video </v-icon>
+                                  <!-- {{ buttonText }} -->
+                                </v-btn>
+                                <input
+                                  ref="uploader_video"
+                                  class="d-none"
+                                  type="file"
+                                  accept="video/*"
+                                  @change="onVideoChanged"
+                                />
+                              </div>
+                              <div class="mx-3">
+                                <v-btn
+                                  color="primary"
+                                  class="text-none"
+                                  small
+                                  fab
+                                  :loading="isSelectingImg"
+                                  @click="onButtonClickImg"
+                                >
+                                  <v-icon> mdi-image </v-icon>
+                                  <!-- {{ buttonText }} -->
+                                </v-btn>
+                                <input
+                                  ref="uploader_img"
+                                  class="d-none"
+                                  type="file"
+                                  accept="image/*"
+                                  @change="onImgChanged"
+                                />
+                              </div>
+                              <!-- <v-btn fab x-small class="">
+                                <v-icon color="primary"> mdi-video </v-icon>
+                              </v-btn>
+                              <v-btn fab x-small class="mx-3">
+                                <v-icon color="primary"> mdi-image </v-icon>
+                              </v-btn> -->
+                              <!-- <v-file-input
+                                v-model="files"
+                                placeholder="Upload your documents"
+                                label="File input"
+                                multiple
+                                prepend-icon="mdi-paperclip"
+                              >
+                                <template v-slot:selection="{ text }">
+                                  <v-chip small label color="primary">
+                                    {{ text }}
+                                  </v-chip>
+                                </template>
+                              </v-file-input> -->
+                              <v-btn
+                                class="send-message-btn text-capitalize"
+                                color="primary"
+                                width="115px"
+                                @click="sendMessage()"
+                              >
+                                enviar
+                              </v-btn>
+                              <!-- <v-btn
+                                class="send-message-btn text-capitalize"
+                                color="primary"
+                                width="115px"
+                                @click="sendMessage()"
+                              >
+                                <v-icon> mdi-image </v-icon>
+                              </v-btn> -->
+                            </div>
                           </v-row>
                         </v-sheet>
                       </v-card-text>
@@ -117,24 +186,20 @@ import resources from '@/mixins/resources'
 import loadingMixin from '@/mixins/loadingMixin'
 import snackMixin from '@/mixins/snackMixin'
 import vuescroll from 'vuescroll'
-//Echo
-// import Echo from 'laravel-echo'
-// window.Pusher = require('pusher-js')
-// window.Echo = new Echo({
-//   broadcaster: 'pusher',
-//   key: 'ASDASD2121',
-//   wsHost: '127.0.0.1',
-//   wsPort: 6001,
-//   forceTLS: false,
-//   disableStats: true,
-// })
-//Fin Echo
 export default {
   mixins: [authMixin, resources, loadingMixin, snackMixin],
   middleware: ['authenticated'],
   layout: 'dashboard',
   data() {
     return {
+      defaultButtonText: 'upload',
+      selectedImg: null,
+      isSelectingImg: false,
+      selectedVideo: null,
+      isSelectingVideo: false,
+      //
+      files: [],
+      //
       ops: {
         vuescroll: {},
         scrollPanel: {
@@ -287,8 +352,61 @@ export default {
           // console.debug(e)
         })
     },
+    //custom file
+    onButtonClickImg() {
+      this.isSelectingImg = true
+      window.addEventListener(
+        'focus',
+        () => {
+          this.isSelectingImg = false
+        },
+        { once: true }
+      )
+
+      this.$refs.uploader_img.click()
+    },
+    onButtonClickVideo() {
+      this.isSelectingVideo = true
+      window.addEventListener(
+        'focus',
+        () => {
+          this.isSelectingVideo = false
+        },
+        { once: true }
+      )
+
+      this.$refs.uploader_video.click()
+    },
+    onImgChanged(e) {
+      this.selectedImg = e.target.files[0]
+
+      // do something
+    },
+    async onVideoChanged(e) {
+      this.selectedVideo = e.target.files[0]
+      const duration = await this.getVideoDuration(this.selectedVideo)
+      // console.debug(this.selectedVideo)
+
+      // do something
+    },
+    getVideoDuration(file) {
+      new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = () => {
+          const media = new Audio(reader.result)
+          media.onloadedmetadata = () => resolve(media.duration)
+          console.debug(media)
+        }
+        reader.readAsDataURL(file)
+        reader.onerror = (error) => reject(error)
+      })
+    },
   },
-  computed: {},
+  computed: {
+    // buttonText() {
+    //   return this.selectedFile ? this.selectedFile.name : this.defaultButtonText
+    // },
+  },
 }
 </script>
 
@@ -364,11 +482,18 @@ export default {
       }
     }
   }
-  .send-message-btn {
+  .wrapper-toolbar {
+    // background-color: #bada55;
     position: absolute;
     bottom: 0;
     right: 0;
+    display: flex;
+    justify-content: flex-end;
     transform: translate(-12px, -12px);
+    // height: 20px;
+    width: 100%;
+    .send-message-btn {
+    }
   }
   .messages-wrapper {
     z-index: 6;

@@ -141,10 +141,10 @@ export default {
     }
   }
   .send-message-btn {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    transform: translate(-12px, -12px);
+    // position: absolute;
+    // bottom: 0;
+    // right: 0;
+    // transform: translate(-12px, -12px);
   }
   .messages-wrapper {
     z-index: 6;

@@ -143,6 +143,7 @@
     <!-- UI dialogs -->
     <wdc-snackbar />
     <wdc-loading />
+    <wdc-notifications />
 
     <!-- page content -->
     <v-main class="main-content" :class="`${$route.name}-main`">

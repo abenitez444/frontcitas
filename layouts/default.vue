@@ -149,6 +149,9 @@
 
     <wdc-snackbar />
     <wdc-loading />
+    <!-- <v-btn dark color="indigo" @click="notiSnack = true"> Open Snackbar </v-btn> -->
+
+    <wdc-notifications />
 
     <!-- page content -->
     <v-main class="main-content" :class="`${$route.name}-main`">
@@ -180,8 +183,13 @@ import resourcesMixin from '@/mixins/resources'
 import loadingMixin from '@/mixins/loadingMixin'
 import wdc_snackbar from '~/components/wdc_snackbar.vue'
 import Wdc_footer from '~/components/wdc_footer.vue'
+import Wdc_notifications from '~/components/wdc_notifications.vue'
 export default {
-  components: { wdc_snackbar, Wdc_footer },
+  components: {
+    wdc_snackbar,
+    Wdc_footer,
+    Wdc_notifications,
+  },
   mixins: [authMixin, resourcesMixin, loadingMixin],
   // head() {
   //   return {
@@ -190,6 +198,7 @@ export default {
   // },
   data() {
     return {
+      notiSnack: true,
       //
       asset_wave,
       asset_ws,

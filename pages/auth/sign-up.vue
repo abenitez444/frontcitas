@@ -102,12 +102,19 @@
                       <v-text-field
                         autocomplete="off"
                         label="Teléfono"
+                        v-mask="'(+##) # ##-### ###'"
                         class="rounded-b"
                         outlined
                         required
                         v-model="newUser.phone"
-                        type="number"
+                        type="text"
+                        :error-messages="phoneErrors"
+                        @input="$v.newUser.phone.$touch()"
+                        @blur="$v.newUser.phone.$touch()"
                       ></v-text-field>
+                      <!-- <pre>
+                        {{ newUser.phone.length }}
+                      </pre> -->
                     </v-col>
                     <!-- Contraseña -->
                     <v-col cols="12">
@@ -440,7 +447,7 @@ export default {
       icon_male,
 
       //? Stepper
-      step: 3,
+      step: 1,
       maxStep: 3,
       gender: 'default',
 
@@ -482,9 +489,6 @@ export default {
       alertStepper: false,
       errors: false,
     }
-  },
-  mounted() {
-    console.debug('accent', `${/^[áéíóúñüàè]+$/i.test('asdasdñ')}`)
   },
   methods: {
     setGender(gender) {
@@ -621,7 +625,7 @@ export default {
       if (!this.$v.newUser.password_confirmation.$dirty) return errors
       !this.$v.newUser.password_confirmation.sameAsPassword &&
         errors.push(
-          'La contrsaeña introducida es distinta a la anterior, por favor intente de nuevo'
+          'La contraseña introducida es distinta a la anterior, por favor intente de nuevo'
         )
       return errors
     },
@@ -666,11 +670,22 @@ export default {
         errors.push('Solo se aceptan caracteres alfabéticos')
       return errors
     },
+    phoneErrors() {
+      const errors = []
+      if (!this.$v.newUser.phone.$dirty) return errors
+      !this.$v.newUser.phone.required && errors.push('El Teléfono es requerido')
+      !this.$v.newUser.phone.minLength &&
+        errors.push(
+          'El número de teléfono debe poseer el siguiente formato: +56 9 XX-XXX XXX'
+        )
+      return errors
+    },
   },
   validations: {
     newUser: {
       phone: {
         required,
+        minLength: minLength(18),
       },
       gender: {
         required,
