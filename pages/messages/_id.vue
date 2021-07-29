@@ -13,7 +13,7 @@
       <v-row no-gutters class="messages-wrapper">
         <v-col>
           <v-card class="cm-round-1 cm-elevation-1">
-            <v-card-text class="pa-8">
+            <v-card-text class="pa-4 pa-sm-8">
               <v-sheet>
                 <div>
                   <div class="parent-wrapper">
@@ -425,6 +425,7 @@ export default {
       margin: 1rem 1.5rem 2rem 0.5rem;
       grid-template-columns: auto 1fr;
       grid-gap: 15px;
+      position: relative;
       &.from-me {
         grid-template-columns: 1fr auto;
       }
@@ -432,6 +433,32 @@ export default {
         width: 90px;
         height: 90px;
         border-radius: 15px;
+      }
+      @media (max-width: 576px) {
+        grid-template-columns: 1fr;
+        margin: 1rem 1.5rem 4rem 0.5rem;
+        &:last-child {
+          margin: 1rem 1.5rem 2rem 0.5rem;
+        }
+        .user-avatar {
+          width: 50px;
+          height: 50px;
+          position: absolute;
+          top: 0;
+          right: unset;
+          left: 0;
+          transform: translate(-10px, -35px);
+          z-index: 2;
+        }
+        &.from-me {
+          grid-template-columns: 1fr;
+          .user-avatar {
+            top: 0;
+            right: 0;
+            left: unset;
+            transform: translate(10px, -35px);
+          }
+        }
       }
       .message-card {
         .message-time {

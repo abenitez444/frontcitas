@@ -2,7 +2,9 @@
   <v-sheet color="transparent">
     <v-row>
       <v-col>
-        <h2 class="primary--text font-weight-light">Participantes Recientes</h2>
+        <h2 class="primary--text text-center text-sm-left">
+          Participantes Recientes
+        </h2>
       </v-col>
     </v-row>
     <v-row v-for="(item, i) in participants" :key="i" class="participant-card">

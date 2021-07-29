@@ -1,6 +1,6 @@
 <template>
   <v-container fluid fill-height class="page-layout-1 profile">
-    <v-row class="block-section">
+    <v-row class="">
       <!-- Users list -->
       <v-col cols="3" v-if="!$vuetify.breakpoint.mdAndDown">
         <v-card class="cm-round-1 cm-elevation-1">
@@ -9,7 +9,13 @@
       </v-col>
 
       <!-- content -->
-      <v-col class="order-2 order-md-1" cols="12" sm="12" md="8" lg="6">
+      <v-col
+        class="order-2 order-md-1 profile-tab"
+        cols="12"
+        sm="12"
+        md="8"
+        lg="6"
+      >
         <v-sheet color="transparent">
           <!-- <v-row>
             {{ $vuetify.breakpoint.name }}
@@ -22,11 +28,13 @@
                 <v-card-text class="pa-8">
                   <v-sheet color="transparent">
                     <v-row align="center">
-                      <v-col cols="auto" class="d-flex align-center">
+                      <v-col cols="auto" class="d-none d-sm-flex align-center">
                         <img :src="accountIcon" alt="" />
                       </v-col>
                       <v-col>
-                        <p class="mb-0 info-description">
+                        <p
+                          class="mb-0 info-description text-center text-sm-left"
+                        >
                           Por favor, complete la información de su perfil para
                           disfrutar de todas las caracteristicas de la
                           aplicación
@@ -43,8 +51,8 @@
           <v-row no-gutters class="mt-8">
             <v-col>
               <v-card class="cm-round-1 cm-elevation-1" v-if="user !== null">
-                <v-card-text class="pa-8">
-                  <v-tabs centered v-model="profileTab">
+                <v-card-text class="pa-4 pa-sm-8">
+                  <v-tabs centered v-model="profileTab" class="cm-tab">
                     <v-tabs-slider color="primary"></v-tabs-slider>
 
                     <v-tab> Perfil </v-tab>
@@ -507,7 +515,7 @@
 
                         <!-- Form -->
                         <v-row align="center" justify="center">
-                          <v-col cols="6">
+                          <v-col cols="12" md="6">
                             <v-file-input
                               v-model="galleryImage"
                               accept="image/*"
@@ -629,7 +637,9 @@
           <v-row no-gutters class="mt-8">
             <v-col v-if="$vuetify.breakpoint.mdAndDown">
               <v-card class="cm-round-1 cm-elevation-1">
-                <v-card-text class="pa-8"> <wdc-participants /> </v-card-text>
+                <v-card-text class="pa-4 pa-sm-8">
+                  <wdc-participants />
+                </v-card-text>
               </v-card>
             </v-col>
           </v-row>
@@ -828,7 +838,11 @@ export default {
     line-height: 17px;
     color: #f5f7fa;
   }
-
+  .profile-tab {
+    z-index: 6;
+    position: relative;
+    // margin-bottom: 250px;
+  }
   .account-progress {
     &__label {
       font-weight: bold;
@@ -883,6 +897,14 @@ export default {
     max-height: 200px;
     border: 3px solid #fff;
     box-shadow: 0px 1px 10px rgb(0 0 0 / 10%);
+  }
+  .cm-tab {
+    .v-tabs-bar {
+      // background-color: #bada55;
+    }
+    .v-slide-group__prev--disabled {
+      display: none !important;
+    }
   }
 }
 </style>

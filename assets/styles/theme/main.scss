@@ -56,12 +56,19 @@ ul {
   @media (max-width: 576px) {
     width: calc(100% - 60px);
   }
+
+  @media (max-width: 414px) {
+    width: calc(100% - 30px);
+  }
 }
 
 .block-section {
-  min-height   : calc(100vh - 114px);
-  min-height   : 100vh;
-  position     : relative;
+  min-height         : calc(100vh - 114px);
+  min-height         : 100vh;
+  // height: 100vh;
+  // min-height      : 768px;
+  // height          : 100vh;
+  position           : relative;
   // z-index   : 100;
 
   &--content {

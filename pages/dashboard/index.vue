@@ -62,7 +62,7 @@
       <v-row no-gutters>
         <v-col v-if="featuredSlides !== null">
           <v-card color="" class="cm-round-1 cm-elevation-1 light">
-            <v-card-text class="pa-8">
+            <v-card-text class="pa-4 pa-sm-8">
               <carousel :perPage="1">
                 <slide v-for="(slide, i) in featuredSlides" :key="i">
                   <div
@@ -80,11 +80,11 @@
       <v-row no-gutters class="mt-8 publish-wrapper">
         <v-col>
           <v-card class="cm-round-1 cm-elevation-1">
-            <v-card-text class="pa-8">
+            <v-card-text class="pa-4 pa-sm-8">
               <v-sheet>
                 <v-row align="center">
-                  <v-col cols="auto">
-                    <div class="custom-file-wrapper">
+                  <v-col cols="12" sm="auto">
+                    <div class="custom-file-wrapper mx-auto">
                       <!-- @change="Preview_image" -->
                       <!-- @click:clear="resetThumbnail()" -->
                       <v-file-input
@@ -110,7 +110,7 @@
                       ></div>
                     </div>
                   </v-col>
-                  <v-col>
+                  <v-col class="mb-5 mb-sm-0" cols="12" sm="">
                     <v-text-field
                       label="¿Qué tienes en mente?"
                       solo
@@ -133,7 +133,7 @@
       <v-row no-gutters class="mt-8 timeline-wrapper">
         <v-col>
           <v-card class="cm-round-1 cm-elevation-1">
-            <v-card-text class="pa-8">
+            <v-card-text class="pa-4 pa-sm-8">
               <v-sheet>
                 <v-row>
                   <v-dialog v-model="postDetail" width="900">
@@ -454,7 +454,7 @@
                                 @click:append="sendComment(post)"
                               ></v-text-field>
                             </v-col>
-                            <v-col cols="auto">
+                            <v-col cols="auto" class="d-none d-sm-block">
                               <img
                                 v-if="getUserData.avatar !== ''"
                                 :style="`background-image: url('${img_baseUrl}${getUserData.avatar}')`"

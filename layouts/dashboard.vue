@@ -193,7 +193,7 @@
               <v-row no-gutters class="">
                 <v-col v-if="$vuetify.breakpoint.mdAndDown">
                   <v-card class="cm-round-1 cm-elevation-1">
-                    <v-card-text class="pa-8">
+                    <v-card-text class="pa-4 pa-sm-8">
                       <wdc-participants />
                     </v-card-text>
                   </v-card>

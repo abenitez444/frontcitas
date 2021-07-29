@@ -1,6 +1,6 @@
 <template>
   <v-card class="cm-round-1 cm-elevation-1 profile-card">
-    <v-card-text class="pa-8">
+    <v-card-text class="pa-4 pa-sm-8">
       <v-sheet>
         <!-- head -->
         <v-row align="center">
@@ -110,11 +110,17 @@ export default {
     top: 0;
     right: 0;
     transform: translate(-20px, 20px);
+    @media (max-width: 576px) {
+      transform: translate(-20px, -10px);
+    }
   }
   &__name {
     font-weight: bold;
     font-size: 18px;
     // line-height: 30px;
+    @media (max-width: 414px) {
+      font-size: 14px;
+    }
   }
   &__avatar {
     border: 3px solid #ffffff;

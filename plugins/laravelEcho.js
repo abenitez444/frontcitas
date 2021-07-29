@@ -13,6 +13,8 @@ echo.install = function (Vue) {
     wsPort: 6001,
     forceTLS: false,
     disableStats: true,
+    scheme: 'https',
+    enabledTransports: ['ws', 'wss'],
   })
 }
 
