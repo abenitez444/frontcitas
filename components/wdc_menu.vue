@@ -1,5 +1,5 @@
 <template>
-  <v-card class="cm-round-1 cm-elevation-1">
+  <v-card class="cm-round-1 cm-elevation-1 main-menu">
     <v-card-text class="pa-8">
       <v-sheet>
         <v-row>
@@ -98,10 +98,17 @@
 </template>
 
 <script>
-export default {}
+import authMixin from '@/mixins/authMixin'
+export default {
+  mixins: [authMixin],
+}
 </script>
 
 <style lang="scss">
+.main-menu {
+  z-index: 6;
+  position: relative;
+}
 .menu-wrapper {
   .v-btn {
     font-weight: bold;

@@ -31,11 +31,38 @@
                           :key="i"
                         >
                           <div
+                            v-if="item.from.avatar"
                             class="user-avatar bg-img"
                             :style="`background-image: url('${getAvatar(
                               item
                             )}')`"
+                            :class="
+                              item.from.gender === 1
+                                ? 'man_color'
+                                : 'woman_color'
+                            "
                           ></div>
+                          <div
+                            class="
+                              user-avatar
+                              bg-img
+                              d-flex
+                              justify-center
+                              align-center
+                              white--text
+                            "
+                            v-else
+                            :class="
+                              item.from.gender === 1
+                                ? 'man_color'
+                                : 'woman_color'
+                            "
+                          >
+                            <span class="font-weight-bold text-uppercase">
+                              {{ item.from.first_name[0]
+                              }}{{ item.from.last_name[0] }}
+                            </span>
+                          </div>
                           <v-card class="message-card">
                             <v-card-text>
                               <v-sheet>
@@ -53,6 +80,56 @@
                                     </p>
                                   </v-col>
                                 </v-row>
+                                <v-row no-gutters>
+                                  <v-col cols="auto" v-if="item.image">
+                                    <v-dialog v-model="dialog" width="500">
+                                      <template
+                                        v-slot:activator="{ on, attrs }"
+                                      >
+                                        <v-btn
+                                          height="auto"
+                                          width="auto"
+                                          class="pa-0"
+                                          v-bind="attrs"
+                                          v-on="on"
+                                        >
+                                          <!-- :src="`${img_baseUrl}${item.image}`" -->
+                                          <img
+                                            :src="`${img_baseUrl}${item.image}`"
+                                            class="message-img-thumb"
+                                            alt=""
+                                          />
+                                        </v-btn>
+                                      </template>
+
+                                      <v-card class="pa-8">
+                                        <v-card-text class="pa-0">
+                                          <img
+                                            :src="`${img_baseUrl}${item.image}`"
+                                            class="img-fluid rounded-lg"
+                                            alt=""
+                                          />
+                                        </v-card-text>
+                                      </v-card>
+                                    </v-dialog>
+                                    <!-- <p>
+                                      {{ item.image }}
+                                    </p> -->
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    class="mt-5"
+                                    v-if="item.video"
+                                  >
+                                    <video width="100%" height="auto" controls>
+                                      <source
+                                        :src="`${img_baseUrl}${item.video}`"
+                                        type="video/mp4"
+                                      />
+                                    </video>
+                                    <!-- <p>{{ img_baseUrl }}{{ item.video }}</p> -->
+                                  </v-col>
+                                </v-row>
                               </v-sheet>
                               <!-- <pre>
                                 {{ item }}
@@ -64,7 +141,49 @@
                     </vuescroll>
                   </div>
                 </div>
-
+                <!-- <v-row>
+                  <pre>
+                    {{ selectedImg }}
+                    {{ selectedVideo }}
+                    {{ !!isSelectingImg }}
+                    {{ !!isSelectingVideo }}
+                  </pre>
+                </v-row> -->
+                <v-row>
+                  <v-col cols="auto" v-if="selectedImg">
+                    <img
+                      class="img-fluid preview-img"
+                      :src="getPreviewImage(selectedImg)"
+                      alt=""
+                    />
+                    <v-btn
+                      fab
+                      x-small
+                      color="error"
+                      class="remove-item"
+                      @click="resetSelectedImg()"
+                    >
+                      <v-icon> mdi-minus </v-icon>
+                    </v-btn>
+                  </v-col>
+                  <v-col v-if="selectedVideo">
+                    <video width="250px" height="auto" controls>
+                      <source
+                        :src="getPreviewVideo(selectedVideo).url"
+                        :type="getPreviewVideo(selectedVideo).type"
+                      />
+                    </video>
+                    <v-btn
+                      fab
+                      x-small
+                      color="error"
+                      class="remove-item"
+                      @click="resetSelectedVideo()"
+                    >
+                      <v-icon> mdi-minus </v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
                 <!-- send message form -->
                 <v-row class="message-box mt-5">
                   <v-col>
@@ -232,7 +351,8 @@ export default {
     this.broadcastMessages(this.$route.params.id)
 
     this.$echo.channel('chat').listen('NewMessage', (e) => {
-      console.debug('Hey punk', e)
+      console.clear()
+      console.debug('Debug chat:', e)
       this.chat = e.chat
     })
   },
@@ -240,9 +360,19 @@ export default {
     this.scrollToBottom()
   },
   methods: {
+    getPreviewImage(image) {
+      return URL.createObjectURL(image)
+    },
+    getPreviewVideo(video) {
+      console.debug(video)
+      return {
+        url: URL.createObjectURL(video),
+        type: video.type,
+      }
+    },
     async getMessagesByProfile(id) {
       this.loadingOn()
-      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       let config = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -267,11 +397,15 @@ export default {
     },
     async sendMessage() {
       this.loadingOn()
-      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       const profileId = this.$route.params.id
       const newMessage = {
         content: this.message,
       }
+      const formData = new FormData()
+      formData.append('content', this.message)
+      formData.append('image', this.selectedImg)
+      formData.append('video', this.selectedVideo)
       let config = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -280,7 +414,7 @@ export default {
       await this.$axios
         .$post(
           `${this.$axios.defaults.baseURL}auth/message-to/profile/${profileId}`,
-          newMessage,
+          formData,
           config
         )
         .then((res) => {
@@ -288,6 +422,8 @@ export default {
           // this.getMessagesByProfile(profileId)
           this.broadcastMessages(profileId)
           this.message = ''
+          this.resetSelectedImg()
+          this.resetSelectedVideo()
           // this.snackbarOn('La publicación fue creada exitosamente')
         })
         .catch((e) => {
@@ -327,7 +463,7 @@ export default {
     },
     async broadcastMessages(id) {
       this.loadingOn()
-      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       let config = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -339,7 +475,7 @@ export default {
           config
         )
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.messages = res.chat
           // this.scrollToBottom()
@@ -382,24 +518,20 @@ export default {
 
       // do something
     },
-    async onVideoChanged(e) {
+    onVideoChanged(e) {
       this.selectedVideo = e.target.files[0]
-      const duration = await this.getVideoDuration(this.selectedVideo)
+      // const duration = await this.getVideoDuration(this.selectedVideo)
       // console.debug(this.selectedVideo)
 
       // do something
     },
-    getVideoDuration(file) {
-      new Promise((resolve, reject) => {
-        const reader = new FileReader()
-        reader.onload = () => {
-          const media = new Audio(reader.result)
-          media.onloadedmetadata = () => resolve(media.duration)
-          console.debug(media)
-        }
-        reader.readAsDataURL(file)
-        reader.onerror = (error) => reject(error)
-      })
+    resetSelectedImg() {
+      this.selectedImg = null
+      this.isSelectingImg = false
+    },
+    resetSelectedVideo() {
+      this.selectedVideo = null
+      this.isSelectingVideo = false
     },
   },
   computed: {
@@ -437,6 +569,9 @@ export default {
       @media (max-width: 576px) {
         grid-template-columns: 1fr;
         margin: 1rem 1.5rem 4rem 0.5rem;
+        &:first-child {
+          margin: 4rem 1.5rem 4rem 0.5rem;
+        }
         &:last-child {
           margin: 1rem 1.5rem 2rem 0.5rem;
         }
@@ -483,6 +618,10 @@ export default {
           opacity: 0.75;
           padding: 0 1rem;
         }
+        .message-img-thumb {
+          width: 150px;
+          height: auto;
+        }
       }
       &.to-me {
         .user-avatar {
@@ -528,6 +667,9 @@ export default {
   }
   .__bar-is-vertical {
     background: #480b0e !important;
+  }
+  .preview-img {
+    width: 100px;
   }
 }
 </style>

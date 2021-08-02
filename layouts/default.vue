@@ -245,14 +245,14 @@ export default {
     },
     async getProfile() {
       this.loadingOn()
-      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       let config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
       await this.$axios
-        .$get(`${this.$axios.defaults.baseURL}auth/profile/${sub}`, config)
+        .$get(`${this.$axios.defaults.baseURL}auth/profile/${prof}`, config)
         .then((res) => {
           this.loadingOff()
           this.user = res.profile

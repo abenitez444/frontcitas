@@ -8,13 +8,13 @@ echo.install = function (Vue) {
   Vue.prototype.$echo = new Echo({
     broadcaster: 'pusher',
     key: 'ASDASD2121',
-    wsHost: '127.0.0.1',
-    // wsHost: 'https://dev.clubsugar.cl/backendcitas/public/',
+    // wsHost: '127.0.0.1',
+    wsHost: '//dev.clubsugar.cl',
     wsPort: 6001,
     forceTLS: false,
     disableStats: true,
-    scheme: 'https',
-    enabledTransports: ['ws', 'wss'],
+    scheme: 'http',
+    enabledTransports: ['ws'],
   })
 }
 

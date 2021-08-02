@@ -92,16 +92,16 @@ export default {
   methods: {
     async getParticipants() {
       this.loadingOn()
-      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       let config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
       await this.$axios
-        .$get(`${this.$axios.defaults.baseURL}auth/opposite-sex/`, config)
+        .$get(`${this.$axios.defaults.baseURL}auth/opposite-sex`, config)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.participants = res.users
         })

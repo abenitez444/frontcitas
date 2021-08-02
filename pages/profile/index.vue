@@ -1,9 +1,13 @@
 <template>
   <v-container fluid fill-height class="page-layout-1 profile">
+    <!-- <pre>
+      {{ getUser }}
+      {{ getUserData }}
+    </pre> -->
     <v-row class="">
       <!-- Users list -->
       <v-col cols="3" v-if="!$vuetify.breakpoint.mdAndDown">
-        <v-card class="cm-round-1 cm-elevation-1">
+        <v-card class="cm-round-1 cm-elevation-1 participants-wrapper">
           <v-card-text class="pa-8"> <wdc-participants /> </v-card-text>
         </v-card>
       </v-col>
@@ -479,6 +483,7 @@
                           </v-row>
                         </v-sheet>
                       </template>
+
                       <v-sheet color="transparent" class="mt-10">
                         <v-row justify="center">
                           <v-col cols="auto">
@@ -636,7 +641,7 @@
           <!-- users -->
           <v-row no-gutters class="mt-8">
             <v-col v-if="$vuetify.breakpoint.mdAndDown">
-              <v-card class="cm-round-1 cm-elevation-1">
+              <v-card class="cm-round-1 cm-elevation-1 participants-wrapper">
                 <v-card-text class="pa-4 pa-sm-8">
                   <wdc-participants />
                 </v-card-text>
@@ -700,7 +705,7 @@ export default {
     },
     async submitGallery() {
       this.loadingOn()
-      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       let config = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -712,12 +717,12 @@ export default {
       })
       await this.$axios
         .$post(
-          `${this.$axios.defaults.baseURL}auth/images/profile/${sub}`,
+          `${this.$axios.defaults.baseURL}auth/images/profile/${prof}`,
           formData,
           config
         )
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.getProfile()
           this.galleryImages = []
@@ -732,16 +737,16 @@ export default {
         })
     },
     async getProfile() {
-      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       let config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
       await this.$axios
-        .$get(`${this.$axios.defaults.baseURL}auth/profile/${sub}`, config)
+        .$get(`${this.$axios.defaults.baseURL}auth/profile/${prof}`, config)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.user = res.profile
           this.settingUserData(res.profile)
           // this.loadingForm = false
@@ -764,7 +769,7 @@ export default {
     async submit() {
       console.debug(this.user)
       this.loadingOn()
-      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       let config = {
         headers: {
           Authorization: `Bearer ${token}`,

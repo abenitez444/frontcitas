@@ -1,3 +1,5 @@
+// @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700&display=swap');
+
 // $primary: #f42f43;
 $primary     : #480b0e;
 $accent      : #bada55;
@@ -122,4 +124,11 @@ ul {
     width : 150px;
     height: auto;
   }
+}
+
+.participants-wrapper {
+  z-index            : 6;
+  position           : relative;
+  margin-bottom      : 250px;
+  // background-color: #bada55 !important;
 }

@@ -1,5 +1,5 @@
 <template>
-  <v-sheet color="transparent">
+  <v-sheet color="transparent" class="">
     <v-row>
       <v-col>
         <h2 class="primary--text text-center text-sm-left">
@@ -15,9 +15,26 @@
               <v-row align="center">
                 <v-col cols="auto">
                   <div
+                    v-if="item.avatar"
                     class="thumbnail bg-img"
                     :style="`background-image: url('${img_baseUrl}${item.avatar}');`"
                   ></div>
+                  <div
+                    class="
+                      thumbnail
+                      bg-img
+                      d-flex
+                      justify-center
+                      align-center
+                      white--text
+                    "
+                    v-else
+                    :class="item.gender === 1 ? 'man_color' : 'woman_color'"
+                  >
+                    <span class="font-weight-bold text-uppercase">
+                      {{ item.first_name[0] }}{{ item.last_name[0] }}
+                    </span>
+                  </div>
                 </v-col>
                 <v-col>
                   <!-- <p>{{ getActiveClasses(item.id) }}</p> -->
@@ -59,16 +76,16 @@ export default {
   methods: {
     async getParticipants() {
       this.loadingOn()
-      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       let config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
       await this.$axios
-        .$get(`${this.$axios.defaults.baseURL}auth/opposite-sex/`, config)
+        .$get(`${this.$axios.defaults.baseURL}auth/opposite-sex`, config)
         .then((res) => {
-          console.debug(res)
+          // // console.debug(res)
           this.loadingOff()
           this.participants = res.users
         })
@@ -95,6 +112,7 @@ export default {
 </script>
 
 <style lang="scss">
+// @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700&display=swap');
 .participant-card {
   .thumbnail {
     width: 60px;

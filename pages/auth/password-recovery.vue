@@ -63,42 +63,40 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import authMixin from '@/mixins/authMixin'
+import snackMixin from '@/mixins/snackMixin'
 export default {
   layout: 'auth',
-  mixins: [authMixin],
+  mixins: [authMixin, snackMixin],
   data() {
     return {
-      showPassword: true,
       loadingForm: false,
       user: {
         //? debug
-        // email: 'Admin@gmail.com',
-        // password: '12345678',
         email: '',
-        password: '',
       },
       errors: null,
     }
   },
   methods: {
     async submit() {
-      // this.loadingForm = true
-      // await this.$axios
-      //   .$post(`${this.$axios.defaults.baseURL}login`, this.user)
-      //   .then((res) => {
-      //     this.loadingForm = false
-      //     this.authenticating(res)
-      //     this.$router.push('/profile')
-      //   })
-      //   .catch((e) => {
-      //     console.debug(e)
-      //     this.loadingForm = false
-      //     this.errors = e.response.data.error
-      //   })
-      alert('Endpoint en desarrollo')
-      alert(
-        'El correo electrónico que introdujo no se encuentra registrado en nuestro sitio web, por favor verifique e intente de nuevo.'
-      )
+      this.loadingForm = true
+      await this.$axios
+        .$post(`${this.$axios.defaults.baseURL}forgot`, this.user.email)
+        .then((res) => {
+          this.loadingForm = false
+          this.snackbarOn('Enviado.')
+        })
+        .catch((e) => {
+          console.debug(e)
+          this.loadingForm = false
+          this.snackbarOn(
+            'El correo electrónico que introdujo no se encuentra registrado en nuestro sitio web, por favor verifique e intente de nuevo.'
+          )
+        })
+      // alert('Endpoint en desarrollo')
+      // alert(
+      //   'El correo electrónico que introdujo no se encuentra registrado en nuestro sitio web, por favor verifique e intente de nuevo.'
+      // )
     },
   },
 }

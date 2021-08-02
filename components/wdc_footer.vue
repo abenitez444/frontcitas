@@ -134,6 +134,8 @@ export default {
 <style lang="scss">
 .footer-app {
   position: relative;
+  // padding-top: 250px;
+  // margin-top: 250px;
   .insta-picture {
     width: 25px;
     height: auto;

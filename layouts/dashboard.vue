@@ -152,8 +152,10 @@
         <v-row>
           <!-- Users list -->
           <v-col cols="3" v-if="!$vuetify.breakpoint.mdAndDown">
-            <v-card class="cm-round-1 cm-elevation-1">
-              <v-card-text class="pa-8"> <wdc-participants /> </v-card-text>
+            <v-card class="cm-round-1 cm-elevation-1 participants-wrapper">
+              <v-card-text class="pa-8">
+                <wdc-participants />
+              </v-card-text>
             </v-card>
           </v-col>
 
@@ -192,7 +194,9 @@
               <!-- users -->
               <v-row no-gutters class="">
                 <v-col v-if="$vuetify.breakpoint.mdAndDown">
-                  <v-card class="cm-round-1 cm-elevation-1">
+                  <v-card
+                    class="cm-round-1 cm-elevation-1 participants-wrapper"
+                  >
                     <v-card-text class="pa-4 pa-sm-8">
                       <wdc-participants />
                     </v-card-text>
@@ -283,14 +287,17 @@ export default {
     },
     async getProfile() {
       this.loadingOn()
-      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       let config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
       await this.$axios
-        .$get(`${this.$axios.defaults.baseURL}auth/profile/${sub}`, config)
+        .$get(
+          `${this.$axios.defaults.baseURL}auth/profile/${prof}`,
+          config
+        )
         .then((res) => {
           this.loadingOff()
           this.user = res.profile
@@ -306,6 +313,7 @@ export default {
 </script>
 <style lang="scss">
 //! footer top margins for pages
+
 .main-content {
   padding-top: 0 !important;
   padding-bottom: 150px !important;

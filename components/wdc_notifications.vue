@@ -1,5 +1,5 @@
 <template>
-  <v-snackbar v-model="notiSnack" top right :timeout="0" color="accent">
+  <v-snackbar v-model="notiSnack" top right :timeout="-1" color="accent">
     <v-btn to="/messages/4" class="mx-2" fab x-small color="transparent">
       <v-icon dark> mdi-message </v-icon>
     </v-btn>

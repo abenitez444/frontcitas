@@ -551,7 +551,9 @@ export default {
       this.$v.$touch()
       if (!this.$v.$invalid) {
         this.loadingOn()
-        const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+        const { token, sub, prof } = JSON.parse(
+          localStorage.getItem('wdc_token')
+        )
         const options = {
           method: 'post',
           url: `${this.$axios.defaults.baseURL}auth/report-user/${id}`,
@@ -564,7 +566,7 @@ export default {
         await this.$axios
           .request(options)
           .then((res) => {
-            console.debug(res)
+            // console.debug(res)
             this.loadingOff()
             this.reportDialog = false
             this.getAllPosts()
@@ -580,7 +582,7 @@ export default {
     },
     async reportPost(id) {
       this.loadingOn()
-      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       const options = {
         method: 'PUT',
         url: `${this.$axios.defaults.baseURL}auth/report-post/${id}`,
@@ -592,7 +594,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.getAllPosts()
           this.loadingOff()
           this.snackbarOn('El post fue reportado exitosamente.')
@@ -615,7 +617,7 @@ export default {
       await this.$axios
         .$get(`${this.$axios.defaults.baseURL}settings/3`)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.featuredSlides = res.data
         })
         .catch((e) => {
@@ -624,7 +626,7 @@ export default {
     },
     async sendComment(post) {
       const { newComment, id } = post
-      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       // console.debug('hey friendo', newComment)
       this.loadingOn()
       const new_comment = {
@@ -656,7 +658,7 @@ export default {
         })
     },
     async showPostDetail(post) {
-      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       // console.debug('hey friendo', newComment)
       this.loadingOn()
       let config = {
@@ -683,7 +685,7 @@ export default {
         })
     },
     async getAllPosts() {
-      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       let config = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -692,7 +694,7 @@ export default {
       await this.$axios
         .$get(`${this.$axios.defaults.baseURL}auth/all-posts`, config)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.posts = res.posts
         })
         .catch((e) => {
@@ -701,7 +703,7 @@ export default {
     },
     async newPost() {
       this.loadingOn()
-      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       const formData = new FormData()
       formData.append('image', this.image)
       formData.append('description', this.postDescription)
@@ -732,7 +734,7 @@ export default {
     async sendReaction(postId, reactionId) {
       console.debug(postId, reactionId)
       // this.loadingOn()
-      const { token, sub } = JSON.parse(localStorage.getItem('wdc_token'))
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
 
       let config = {
         headers: {
