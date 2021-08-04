@@ -1,5 +1,9 @@
 # wdc_front
 
+# Backend setup
+
+$ php artisan passport:install
+
 ## Build Setup
 
 ```bash

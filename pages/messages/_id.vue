@@ -81,54 +81,64 @@
                                   </v-col>
                                 </v-row>
                                 <v-row no-gutters>
-                                  <v-col cols="auto" v-if="item.image">
-                                    <v-dialog v-model="dialog" width="500">
-                                      <template
-                                        v-slot:activator="{ on, attrs }"
-                                      >
-                                        <v-btn
-                                          height="auto"
-                                          width="auto"
-                                          class="pa-0"
-                                          v-bind="attrs"
-                                          v-on="on"
+                                  <template v-if="item.images.length">
+                                    <v-col
+                                      cols="auto"
+                                      v-for="(item, index) in item.images"
+                                      :key="index"
+                                    >
+                                      <v-dialog width="500">
+                                        <template
+                                          v-slot:activator="{ on, attrs }"
                                         >
-                                          <!-- :src="`${img_baseUrl}${item.image}`" -->
-                                          <img
-                                            :src="`${img_baseUrl}${item.image}`"
-                                            class="message-img-thumb"
-                                            alt=""
-                                          />
-                                        </v-btn>
-                                      </template>
+                                          <v-btn
+                                            height="auto"
+                                            width="auto"
+                                            class="pa-0"
+                                            v-bind="attrs"
+                                            v-on="on"
+                                          >
+                                            <!-- :src="`${img_baseUrl}${item.image}`" -->
+                                            <img
+                                              :src="`${img_baseUrl}${item.path}`"
+                                              class="message-img-thumb"
+                                              alt=""
+                                            />
+                                          </v-btn>
+                                        </template>
 
-                                      <v-card class="pa-8">
-                                        <v-card-text class="pa-0">
-                                          <img
-                                            :src="`${img_baseUrl}${item.image}`"
-                                            class="img-fluid rounded-lg"
-                                            alt=""
-                                          />
-                                        </v-card-text>
-                                      </v-card>
-                                    </v-dialog>
-                                    <!-- <p>
-                                      {{ item.image }}
-                                    </p> -->
-                                  </v-col>
-                                  <v-col
-                                    cols="12"
-                                    class="mt-5"
-                                    v-if="item.video"
-                                  >
-                                    <video width="100%" height="auto" controls>
-                                      <source
-                                        :src="`${img_baseUrl}${item.video}`"
-                                        type="video/mp4"
-                                      />
-                                    </video>
-                                    <!-- <p>{{ img_baseUrl }}{{ item.video }}</p> -->
-                                  </v-col>
+                                        <v-card class="pa-8">
+                                          <v-card-text class="pa-0">
+                                            <img
+                                              :src="`${img_baseUrl}${item.path}`"
+                                              class="img-fluid rounded-lg"
+                                              alt=""
+                                            />
+                                          </v-card-text>
+                                        </v-card>
+                                      </v-dialog>
+                                    </v-col>
+                                  </template>
+
+                                  <template v-if="item.videos.length">
+                                    <v-col
+                                      cols="12"
+                                      class="mt-5"
+                                      v-for="(item, index) in item.videos"
+                                      :key="index"
+                                    >
+                                      <video
+                                        width="100%"
+                                        height="auto"
+                                        controls
+                                      >
+                                        <source
+                                          :src="`${img_baseUrl}${item.path}`"
+                                          type="video/mp4"
+                                        />
+                                      </video>
+                                    </v-col>
+                                  </template>
                                 </v-row>
                               </v-sheet>
                               <!-- <pre>
@@ -150,39 +160,57 @@
                   </pre>
                 </v-row> -->
                 <v-row>
-                  <v-col cols="auto" v-if="selectedImg">
-                    <img
-                      class="img-fluid preview-img"
-                      :src="getPreviewImage(selectedImg)"
-                      alt=""
-                    />
-                    <v-btn
-                      fab
-                      x-small
-                      color="error"
-                      class="remove-item"
-                      @click="resetSelectedImg()"
+                  <template v-if="selectedImg">
+                    <v-col
+                      cols="auto"
+                      v-for="(item, index) in selectedImg"
+                      :key="index"
+                      class="images-wrapper"
                     >
-                      <v-icon> mdi-minus </v-icon>
-                    </v-btn>
-                  </v-col>
-                  <v-col v-if="selectedVideo">
-                    <video width="250px" height="auto" controls>
-                      <source
-                        :src="getPreviewVideo(selectedVideo).url"
-                        :type="getPreviewVideo(selectedVideo).type"
+                      <img
+                        class="img-fluid preview-img rounded-b"
+                        :src="getPreviewImage(item)"
+                        alt=""
                       />
-                    </video>
-                    <v-btn
-                      fab
-                      x-small
-                      color="error"
-                      class="remove-item"
-                      @click="resetSelectedVideo()"
+                      <v-btn
+                        fab
+                        x-small
+                        color="error"
+                        class="remove-item"
+                        @click="deletePhoto(index)"
+                      >
+                        <v-icon> mdi-minus </v-icon>
+                      </v-btn>
+                    </v-col>
+                  </template>
+
+                  <template v-if="selectedVideo">
+                    <v-col
+                      class="videos-wrapper"
+                      v-for="(item, index) in selectedVideo"
+                      :key="index"
+                      cols="auto"
                     >
-                      <v-icon> mdi-minus </v-icon>
-                    </v-btn>
-                  </v-col>
+                      <video width="250px" ref="video" height="auto" controls>
+                        <source
+                          :src="getPreviewVideo(item).url"
+                          :type="getPreviewVideo(item).type"
+                        />
+                      </video>
+                      <v-btn
+                        fab
+                        x-small
+                        color="error"
+                        class="remove-item"
+                        @click="deleteVideo(item)"
+                      >
+                        <v-icon> mdi-minus </v-icon>
+                      </v-btn>
+                      <!-- <p class="text-center">
+                        {{ checkVideoDuration(index) }}
+                      </p> -->
+                    </v-col>
+                  </template>
                 </v-row>
                 <!-- send message form -->
                 <v-row class="message-box mt-5">
@@ -220,6 +248,7 @@
                                   class="d-none"
                                   type="file"
                                   accept="video/*"
+                                  multiple
                                   @change="onVideoChanged"
                                 />
                               </div>
@@ -241,6 +270,7 @@
                                   type="file"
                                   accept="image/*"
                                   @change="onImgChanged"
+                                  multiple
                                 />
                               </div>
                               <!-- <v-btn fab x-small class="">
@@ -267,6 +297,7 @@
                                 color="primary"
                                 width="115px"
                                 @click="sendMessage()"
+                                :disabled="disableSubmit"
                               >
                                 enviar
                               </v-btn>
@@ -311,14 +342,13 @@ export default {
   layout: 'dashboard',
   data() {
     return {
+      disableSubmit: false,
       defaultButtonText: 'upload',
       selectedImg: null,
       isSelectingImg: false,
       selectedVideo: null,
       isSelectingVideo: false,
-      //
       files: [],
-      //
       ops: {
         vuescroll: {},
         scrollPanel: {
@@ -338,7 +368,6 @@ export default {
         bar: {},
       },
       message: '',
-      // messages: [],
       chat: [],
     }
   },
@@ -351,8 +380,8 @@ export default {
     this.broadcastMessages(this.$route.params.id)
 
     this.$echo.channel('chat').listen('NewMessage', (e) => {
-      console.clear()
-      console.debug('Debug chat:', e)
+      // console.clear()
+      // console.debug('Debug chat:', e)
       this.chat = e.chat
     })
   },
@@ -360,11 +389,28 @@ export default {
     this.scrollToBottom()
   },
   methods: {
+    async checkVideoDuration(index) {
+      let isOk = false
+      await setTimeout(() => {
+        const videoDuration = this.$refs['video'][index].duration
+        if (videoDuration >= 10.6) {
+          // return 'este video dura mas de 10 segundos'
+          isOk = false
+          // console.debug(isOk)
+        } else {
+          // return 'Bien'
+          isOk = true
+          // console.debug(isOk)
+        }
+      }, 1000)
+      console.debug(isOk)
+      // return isOk
+    },
     getPreviewImage(image) {
       return URL.createObjectURL(image)
     },
     getPreviewVideo(video) {
-      console.debug(video)
+      // console.debug(video)
       return {
         url: URL.createObjectURL(video),
         type: video.type,
@@ -404,8 +450,19 @@ export default {
       }
       const formData = new FormData()
       formData.append('content', this.message)
-      formData.append('image', this.selectedImg)
-      formData.append('video', this.selectedVideo)
+
+      if (this.selectedImg) {
+        this.selectedImg.forEach((image, i) => {
+          formData.append(`images[${i}]`, image)
+        })
+      }
+
+      if (this.selectedVideo) {
+        this.selectedVideo.forEach((video, i) => {
+          formData.append(`videos[${i}]`, video)
+        })
+      }
+
       let config = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -514,20 +571,45 @@ export default {
       this.$refs.uploader_video.click()
     },
     onImgChanged(e) {
-      this.selectedImg = e.target.files[0]
+      this.selectedImg = e.target.files
 
       // do something
     },
     onVideoChanged(e) {
-      this.selectedVideo = e.target.files[0]
-      // const duration = await this.getVideoDuration(this.selectedVideo)
-      // console.debug(this.selectedVideo)
+      this.selectedVideo = e.target.files
 
-      // do something
+      let video = document.createElement('video')
+      video.preload = 'metadata'
+      video.onloadedmetadata = () => {
+        window.URL.revokeObjectURL(video.src)
+
+        if (video.duration >= 10.6) {
+          // console.debug('Invalid video')
+          this.snackbarOn('La duración máxima de los videos es de 10 segundos')
+          this.disableSubmit = true
+          return
+        } else {
+          this.disableSubmit = false
+        }
+      }
+
+      this.selectedVideo.forEach((item) => {
+        video.src = URL.createObjectURL(item)
+      })
+
+      // e.target.value = ''
     },
     resetSelectedImg() {
       this.selectedImg = null
       this.isSelectingImg = false
+    },
+    deletePhoto(index) {
+      this.selectedImg = Array.from(this.selectedImg)
+      this.selectedImg.splice(index, 1)
+    },
+    deleteVideo(index) {
+      this.selectedVideo = Array.from(this.selectedVideo)
+      this.selectedVideo.splice(index, 1)
     },
     resetSelectedVideo() {
       this.selectedVideo = null
@@ -670,6 +752,15 @@ export default {
   }
   .preview-img {
     width: 100px;
+  }
+  .images-wrapper,
+  .videos-wrapper {
+    position: relative;
+    .remove-item {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
   }
 }
 </style>

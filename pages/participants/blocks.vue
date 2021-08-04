@@ -10,14 +10,14 @@
     <v-sheet color="transparent">
       <!-- <v-row>
         <pre>
-          {{ participants }}
+          {{ participants.length }}
         </pre>
       </v-row> -->
       <!-- timeline -->
       <v-row no-gutters class="participants-wrapper">
         <v-col>
           <v-card class="cm-round-1 cm-elevation-1">
-            <v-card-text class="pa-8">
+            <v-card-text class="pa-8" v-if="participants.length">
               <v-sheet>
                 <v-row>
                   <v-col
@@ -32,17 +32,47 @@
                     <v-card>
                       <v-card-text class="participant-card">
                         <div
+                          v-if="item.user_block.avatar"
                           class="participant-thumbnail bg-img"
-                          :style="`background-image: url('${img_baseUrl}${item.avatar}');`"
-                        ></div>
+                          :style="`background-image: url('${img_baseUrl}${item.user_block.avatar}');`"
+                        >
+                          <!-- <pre>
+                          {{ item.user_block.avatar }}
+                        </pre
+                          > -->
+                        </div>
+                        <div
+                          class="
+                            participant-thumbnail
+                            bg-img
+                            d-flex
+                            justify-center
+                            align-center
+                            white--text
+                          "
+                          v-else
+                          :class="
+                            item.user_block.gender === 1
+                              ? 'man_color'
+                              : 'woman_color'
+                          "
+                        >
+                          <span
+                            class="font-weight-bold text-uppercase text-body-1"
+                          >
+                            {{ item.user_block.first_name[0]
+                            }}{{ item.user_block.last_name[0] }}
+                          </span>
+                        </div>
                         <div class="participant-name">
                           <p class="mb-0">
-                            {{ item.first_name }} {{ item.last_name }}
+                            {{ item.user_block.first_name }}
+                            {{ item.user_block.last_name }}
                           </p>
 
                           <p class="age-location">
-                            {{ calculateAge(item.birth_day) }} Años -
-                            {{ item.region.name }}
+                            {{ calculateAge(item.user_block.birth_day) }} Años -
+                            {{ item.user_block.region.name }}
                           </p>
                         </div>
                         <div class="interactions">
@@ -53,7 +83,7 @@
                             fab
                             icon
                             small
-                            :to="`/messages/${item.id}`"
+                            :to="`/messages/${item.user_block.id}`"
                             color="primary"
                             ><v-icon>mdi-message</v-icon></v-btn
                           >
@@ -63,6 +93,11 @@
                   </v-col>
                 </v-row>
               </v-sheet>
+            </v-card-text>
+            <v-card-text v-else>
+              <h2 class="text-center pa-8">
+                No se ha bloqueado ningún usuario aun
+              </h2>
             </v-card-text>
           </v-card>
         </v-col>
@@ -87,11 +122,11 @@ export default {
     }
   },
   mounted() {
-    this.getParticipants()
-    alert('Falta integracion con api')
+    this.getParticipantsBlocked()
+    // alert('Falta integracion con api')
   },
   methods: {
-    async getParticipants() {
+    async getParticipantsBlocked() {
       this.loadingOn()
       const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       let config = {
@@ -100,11 +135,11 @@ export default {
         },
       }
       await this.$axios
-        .$get(`${this.$axios.defaults.baseURL}auth/opposite-sex`, config)
+        .$get(`${this.$axios.defaults.baseURL}auth/my-block-users`, config)
         .then((res) => {
-          // console.debug(res)
+          console.debug(res)
           this.loadingOff()
-          this.participants = res.users
+          this.participants = res.block_users
         })
         .catch((e) => {
           this.loadingOff()

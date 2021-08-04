@@ -29,12 +29,33 @@
                     v-for="(item, i) in participants"
                     :key="i"
                   >
-                    <v-card>
+                    <v-card height="100%">
                       <v-card-text class="participant-card">
                         <div
+                          v-if="item.avatar"
                           class="participant-thumbnail bg-img"
                           :style="`background-image: url('${img_baseUrl}${item.avatar}');`"
                         ></div>
+                        <div
+                          class="
+                            participant-thumbnail
+                            bg-img
+                            d-flex
+                            justify-center
+                            align-center
+                            white--text
+                          "
+                          v-else
+                          :class="
+                            item.gender === 1 ? 'man_color' : 'woman_color'
+                          "
+                        >
+                          <span
+                            class="font-weight-bold text-uppercase text-body-1"
+                          >
+                            {{ item.first_name[0] }}{{ item.last_name[0] }}
+                          </span>
+                        </div>
                         <div class="participant-name">
                           <p class="mb-0">
                             {{ item.first_name }} {{ item.last_name }}
@@ -135,6 +156,10 @@ export default {
     position: relative;
   }
   .participant-card {
+    height: 100%;
+    // background-color: #bada55;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
     // display: grid;
     .participant-thumbnail {
       min-height: 200px;
@@ -144,11 +169,12 @@ export default {
       margin-top: 1.5rem;
       font-size: 18px;
       font-weight: bold;
-      margin: 1.5rem 0.5rem 1rem 0.5rem;
+      margin: 1.5rem 0.5rem 0rem 0.5rem;
     }
     .age-location {
       font-size: 14px;
       opacity: 0.7;
+      margin-bottom: 0;
     }
     .interactions {
       display: flex;

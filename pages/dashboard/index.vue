@@ -324,19 +324,26 @@
                                       </v-btn>
                                     </template>
                                     <v-list>
-                                      <v-list-item>
+                                      <v-list-item @click="reportPost(post.id)">
                                         <v-list-item-title
-                                          @click="reportPost(post.id)"
                                           >Reportar
                                           Publicación</v-list-item-title
                                         >
                                       </v-list-item>
-                                      <v-list-item>
+                                      <v-list-item
+                                        @click="
+                                          reportDialogOn(post.profile.user.id)
+                                        "
+                                      >
                                         <v-list-item-title
-                                          @click="
-                                            reportDialogOn(post.profile.user.id)
-                                          "
                                           >Reportar Usuario</v-list-item-title
+                                        >
+                                      </v-list-item>
+                                      <v-list-item
+                                        @click="blockUser(post.profile.user.id)"
+                                      >
+                                        <v-list-item-title
+                                          >Bloquear Usuario</v-list-item-title
                                         >
                                       </v-list-item>
                                     </v-list>
@@ -543,6 +550,31 @@ export default {
     this.getAllPosts()
   },
   methods: {
+    async blockUser(profileId) {
+      this.loadingOn()
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
+      const options = {
+        method: 'post',
+        url: `${this.$axios.defaults.baseURL}auth/block-user/${profileId}`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        data: this.report,
+      }
+      await this.$axios
+        .request(options)
+        .then((res) => {
+          this.loadingOff()
+          this.getAllPosts()
+        })
+        .catch((e) => {
+          this.loadingOff()
+          this.snackbarOn(
+            'ha ocurrido un error al reportar al Usuario, por favor ponerse en contacto con el soporte.'
+          )
+        })
+    },
     reportDialogOn(id) {
       this.reportDialog = true
       this.userToReport = id
