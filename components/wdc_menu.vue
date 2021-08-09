@@ -106,7 +106,7 @@ export default {
 
 <style lang="scss">
 .main-menu {
-  z-index: 6;
+  z-index: 4;
   position: relative;
 }
 .menu-wrapper {

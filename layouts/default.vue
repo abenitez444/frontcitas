@@ -36,7 +36,6 @@
       color="white"
       class="ma-auto custom-appbar"
       width="90%"
-      height="114px"
     >
       <router-link to="/" class="text-decoration-none">
         <img :src="logoDefault" class="brand-image" alt="" />
@@ -46,13 +45,14 @@
       <v-btn
         class="mx-2 d-flex d-md-none"
         @click.stop="drawer = !drawer"
-        small
+        x-small
         fab
         dark
         color="primary"
       >
         <v-icon dark> mdi-menu </v-icon>
       </v-btn>
+      <!-- logged -->
       <template v-if="getUserData === null">
         <v-btn
           to="/auth/sign-up"
@@ -121,30 +121,59 @@
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" fixed bottom temporary>
-      <v-list nav>
-        <v-list-item-group active-class="primary--text text--accent-4">
-          <v-list-item to="/dashboard">
-            <v-list-item-title>Inicio</v-list-item-title>
-          </v-list-item>
+      <template v-if="getUserData === null">
+        <v-list nav>
+          <v-list-item-group active-class="primary--text text--accent-4">
+            <v-list-item to="/auth/sign-up">
+              <v-list-item-title>Registro</v-list-item-title>
+            </v-list-item>
 
-          <v-list-item to="/messages">
-            <v-list-item-title>Mensajes</v-list-item-title>
-          </v-list-item>
+            <v-list-item to="/auth/sign-in">
+              <v-list-item-title>Ingresar</v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </template>
+      <template v-else>
+        <v-list nav>
+          <v-list-item-group active-class="primary--text text--accent-4">
+            <v-list-item to="/dashboard">
+              <v-list-item-title>Inicio</v-list-item-title>
+            </v-list-item>
 
-          <v-list-item to="/profile">
-            <v-list-item-title>Perfil</v-list-item-title>
-          </v-list-item>
+            <v-list-item to="/messages">
+              <v-list-item-title>Mensajes</v-list-item-title>
+            </v-list-item>
 
-          <v-list-item to="/participants">
+            <v-list-item to="/profile">
+              <v-list-item-title>Perfil</v-list-item-title>
+            </v-list-item>
+
+            <!-- <v-list-item to="/participants">
             <v-list-item-title>Participantes</v-list-item-title>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title @click="logoutAccount()"
-              >Cerrar sesión</v-list-item-title
-            >
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
+          </v-list-item> -->
+            <v-list-group :value="false" no-action>
+              <template v-slot:activator>
+                <v-list-item-content>
+                  <v-list-item-title>Participantes</v-list-item-title>
+                </v-list-item-content>
+              </template>
+
+              <v-list-item link to="/participants">
+                <v-list-item-title>Participantes</v-list-item-title>
+              </v-list-item>
+              <v-list-item link to="/participants/blocks">
+                <v-list-item-title>Miembros Bloqueados</v-list-item-title>
+              </v-list-item>
+            </v-list-group>
+            <v-list-item>
+              <v-list-item-title @click="logoutAccount()"
+                >Cerrar sesión</v-list-item-title
+              >
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </template>
     </v-navigation-drawer>
 
     <wdc-snackbar />

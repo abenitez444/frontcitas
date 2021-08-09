@@ -8,14 +8,10 @@
     >
       <v-col class="hero-section__content">
         <div class="carousel-wrapper">
-          <v-carousel
-            cycle
+          <!--             cycle
             continuous
-            interval="3000"
-            v-model="model"
-            :show-arrows="false"
-            height="auto"
-          >
+            interval="3000" -->
+          <v-carousel v-model="model" :show-arrows="false" height="auto">
             <v-carousel-item v-for="(slide, i) in slides" :key="i">
               <v-sheet height="100%" tile color="transparent">
                 <v-row class="fill-height transparent" align="center">
@@ -96,12 +92,14 @@
                       cols="12"
                       md=""
                       lg=""
-                      class="d-flex flex-column justify-center mt-10 mt-lg-0"
+                      class="d-flex flex-column justify-center mt-3 mt-lg-0"
                     >
-                      <h2 class="header-2 primary--text mb-7">
+                      <h2
+                        class="header-2 primary--text mb-3 mb-sm-7 title-text"
+                      >
                         {{ video.title }}
                       </h2>
-                      <p class="text-1">
+                      <p class="text-1 description-text">
                         {{ video.description }}
                       </p>
                     </v-col>
@@ -120,7 +118,9 @@
         <img :src="asset_wave" class="bg-wave" alt="" />
       </div>
       <v-col cols="auto">
-        <h2 class="text-center primary--text members-section__title">
+        <h2
+          class="text-center primary--text members-section__title mt-15 mt-sm-5"
+        >
           Miembros del club
         </h2>
         <carousel ref="carousel" :per-page="1">
@@ -243,8 +243,10 @@
                     <v-expansion-panels class="custom-accordion">
                       <v-expansion-panel v-for="(item, i) in 4" :key="i">
                         <v-expansion-panel-header>
-                          ¿Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit?
+                          <span class="question">
+                            ¿Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit?</span
+                          >
                           <img
                             :src="asset_figure_4"
                             class="faq-figure-4"
@@ -335,8 +337,10 @@
                     <v-expansion-panels class="custom-accordion">
                       <v-expansion-panel v-for="(item, i) in 4" :key="i">
                         <v-expansion-panel-header>
-                          ¿Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit?
+                          <span class="question">
+                            ¿Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit?</span
+                          >
                           <img
                             :src="asset_figure_4"
                             class="faq-figure-4"
@@ -658,6 +662,9 @@ export default {
     @media (max-width: 959px) {
       height: 250px;
     }
+    @media (max-width: 414px) {
+      height: 100px;
+    }
   }
   .slide-content {
     max-width: 460px;
@@ -668,6 +675,17 @@ export default {
       line-height: 28px;
       letter-spacing: 0.015em;
       color: #f5f7fa;
+    }
+    h1 {
+    }
+    @media (max-width: 414px) {
+      p {
+        font-size: 12px;
+        line-height: 1.75;
+      }
+      h1 {
+        font-size: 18px;
+      }
     }
   }
 }
@@ -753,6 +771,27 @@ export default {
       // }
     }
   }
+  @media (max-width: 414px) {
+    // display: none;
+    .wrapper-video > div iframe {
+      height: auto;
+      width: 100%;
+      position: static;
+      left: 0;
+      top: 0;
+      transform: unset;
+    }
+    .wrapper-video > div {
+      height: auto;
+    }
+    h2 {
+      font-size: 18px;
+      margin-bottom: 0;
+    }
+    p {
+      font-size: 12px;
+    }
+  }
 }
 .members-section {
   align-items: center;
@@ -789,8 +828,14 @@ export default {
       }
     }
     @media (max-width: 576px) {
-      grid-template-columns: repeat(1, 1fr);
+      // grid-template-columns: repeat(1, 1fr);
       .avatar-box {
+        height: 100px;
+        width: 100px;
+        img {
+          height: 100%;
+          width: auto;
+        }
         &:nth-last-child(2) {
           display: none;
         }
@@ -824,6 +869,10 @@ export default {
   }
   &__title {
     margin-bottom: calc(80px - 1rem);
+    @media (max-width: 414px) {
+      margin-bottom: 15px;
+      font-size: 24px !important;
+    }
   }
   &__btn {
     margin-top: calc(30px - 1rem);
@@ -931,7 +980,8 @@ export default {
           transition: opacity 0.5s ease;
           position: absolute;
           height: 100%;
-          width: 600px;
+          width: 100%;
+          // width: 600px;
           opacity: 0.5;
           top: 0;
           left: 50%;
@@ -988,20 +1038,40 @@ export default {
         }
       }
     }
+    @media (max-width: 414px) {
+      .slide__avatar {
+        transform: scale(1);
+        width: 150px;
+        height: auto;
+      }
+      .slide-wrap .avatar-wrapper {
+        min-height: 150px;
+      }
+      .slide-wrap .slide__name {
+        font-size: 18px;
+        margin-bottom: 0;
+        margin-top: 1rem;
+      }
+      .slide-wrap .slide__description {
+        font-size: 14px;
+        line-height: 1.5;
+      }
+    }
   }
   &__main-title {
     margin-bottom: 50px;
+    @media (max-width: 414px) {
+      h2 {
+        font-size: 24px;
+      }
+      margin-bottom: 25px;
+      // margin-top: 150px;
+    }
   }
 }
 .faq-section {
   max-width: calc(100% - 120px);
   margin: 0 auto;
-  @media (min-width: 1599px) {
-    max-width: 1600px;
-  }
-  @media (max-width: 576px) {
-    max-width: calc(100% - 60px);
-  }
   .subtitle {
     // background-color: #bada55;
     max-width: 950px;
@@ -1188,6 +1258,21 @@ export default {
       width: 100%;
     }
   }
+  @media (min-width: 1599px) {
+    max-width: 1600px;
+  }
+  @media (max-width: 576px) {
+    max-width: calc(100% - 60px);
+  }
+  @media (max-width: 414px) {
+    h2 {
+      font-size: 24px;
+    }
+    .subtitle {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  }
 }
 .custom-accordion {
   margin: 0px auto;
@@ -1241,6 +1326,26 @@ export default {
     &--active {
       .faq-figure-4 {
         border-radius: 0 0 0 0;
+      }
+    }
+  }
+  @media (max-width: 414px) {
+    padding: 15px;
+    .question {
+      z-index: 1;
+      line-height: 1.5;
+      font-size: 16px;
+    }
+    .v-expansion-panel {
+      margin: 10px 0;
+      .faq-figure-4 {
+        display: none;
+      }
+      .v-expansion-panel-content__wrap {
+        padding: 20px;
+        p {
+          font-size: 14px;
+        }
       }
     }
   }

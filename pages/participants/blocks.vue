@@ -167,7 +167,7 @@ export default {
 <style lang="scss">
 .participants-page {
   .participants-wrapper {
-    z-index: 6;
+    z-index: 4;
     position: relative;
   }
   .participant-card {

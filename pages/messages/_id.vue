@@ -375,20 +375,30 @@ export default {
     vuescroll,
   },
   mounted() {
-    // this.getMessagesByProfile(this.$route.params.id)
-
-    this.broadcastMessages(this.$route.params.id)
-
-    this.$echo.channel('chat').listen('NewMessage', (e) => {
-      // console.clear()
-      // console.debug('Debug chat:', e)
-      this.chat = e.chat
-    })
+    this.getChatRoom()
   },
   updated() {
     this.scrollToBottom()
   },
   methods: {
+    getChatRoom() {
+      this.broadcastMessages(this.$route.params.id)
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
+      // console.debug(prof)
+      // console.debug(this.$route.params.id)
+      let salaId
+      if (this.$route.params.id < prof) {
+        salaId = `${this.$route.params.id}${prof}`
+      } else {
+        salaId = `${prof}${this.$route.params.id}`
+      }
+      console.debug(salaId)
+
+      this.$echo.channel(`chat.${salaId}`).listen('NewMessage', (e) => {
+        console.debug(`Chat`, e)
+        this.chat = e.chat
+      })
+    },
     async checkVideoDuration(index) {
       let isOk = false
       await setTimeout(() => {
@@ -478,6 +488,7 @@ export default {
           this.loadingOff()
           // this.getMessagesByProfile(profileId)
           this.broadcastMessages(profileId)
+          this.messagesNotifications(profileId)
           this.message = ''
           this.resetSelectedImg()
           this.resetSelectedVideo()
@@ -541,6 +552,36 @@ export default {
         .catch((e) => {
           console.debug(e)
           this.loadingOff()
+          // this.scrollToBottom()
+          // console.debug(e)
+        })
+    },
+    async messagesNotifications(id) {
+      this.loadingOn()
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
+      let config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      console.debug(
+        `${this.$axios.defaults.baseURL}auth/notification-to/profile/${id}`
+      )
+      await this.$axios
+        .$get(
+          `${this.$axios.defaults.baseURL}auth/notification-to/profile/${id}`,
+          config
+        )
+        .then((res) => {
+          // console.debug(`messagesNotifications: ${res}`)
+          // this.loadingOff()
+          // this.messages = res.chat
+          // this.scrollToBottom()
+          // this.settingUserData(res.profile)
+        })
+        .catch((e) => {
+          console.debug(e)
+          // this.loadingOff()
           // this.scrollToBottom()
           // console.debug(e)
         })
@@ -630,6 +671,7 @@ export default {
     // background-color: tomato;
     height: calc(100vh - (114px + 64px + 70px + 250px));
     overflow: auto;
+    min-height: 511px;
     .child-wrapper {
       // background-color: teal;
       // height: 100vh;
@@ -744,8 +786,9 @@ export default {
     }
   }
   .messages-wrapper {
-    z-index: 6;
+    z-index: 4;
     position: relative;
+    min-height: 768px;
   }
   .__bar-is-vertical {
     background: #480b0e !important;

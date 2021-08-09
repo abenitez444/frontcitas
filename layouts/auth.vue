@@ -5,7 +5,7 @@
       fixed
       app
       color="primary"
-      class="ma-auto custom-appbar"
+      class="ma-auto custom-appbar custom-appbar--auth"
       width="90%"
       height="114px"
     >
@@ -17,7 +17,7 @@
       <v-btn
         class="mx-2 d-flex d-md-none"
         @click.stop="drawer = !drawer"
-        small
+        x-small
         fab
         light
       >

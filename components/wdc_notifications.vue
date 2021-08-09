@@ -1,17 +1,41 @@
 <template>
-  <v-snackbar v-model="notiSnack" top right :timeout="-1" color="accent">
-    <v-btn to="/messages/4" class="mx-2" fab x-small color="transparent">
-      <v-icon dark> mdi-message </v-icon>
-    </v-btn>
-    Nuevo Mensaje de
-    <router-link
-      to="/messages/4"
-      class="font-weight-bold text-decoration-none white--text"
-      >Usuario Prueba</router-link
-    >
-
+  <v-snackbar
+    v-model="gettingNewNotification"
+    top
+    right
+    :timeout="10000"
+    color="accent"
+  >
+    <v-sheet color="transparent" v-if="gettingNotification">
+      <v-row align="center">
+        <v-col cols="auto">
+          <v-btn
+            :to="`/messages/${gettingNotification.profile_id}`"
+            fab
+            x-small
+            color="transparent"
+          >
+            <v-icon dark> mdi-message </v-icon>
+          </v-btn>
+        </v-col>
+        <v-col>
+          <span>
+            Nuevo Mensaje de
+            <router-link
+              :to="`/messages/${gettingNotification.profile_id}`"
+              class="font-weight-bold text-decoration-none white--text"
+            >
+              {{ gettingNotification.first_name }}
+              {{ gettingNotification.last_name }}
+            </router-link>
+          </span>
+        </v-col>
+      </v-row>
+    </v-sheet>
+    <!--
+-->
     <template v-slot:action="{ attrs }">
-      <v-btn color="white" icon v-bind="attrs" @click="notiSnack = false">
+      <v-btn color="white" icon v-bind="attrs" @click="resetNotifications()">
         <v-icon> mdi-close </v-icon>
       </v-btn>
     </template>
@@ -19,7 +43,9 @@
 </template>
 
 <script>
+import notificationMixin from '@/mixins/notificationMixin'
 export default {
+  mixins: [notificationMixin],
   data() {
     return {
       notiSnack: true,

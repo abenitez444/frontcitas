@@ -155,6 +155,9 @@
             <v-card class="cm-round-1 cm-elevation-1 participants-wrapper">
               <v-card-text class="pa-8">
                 <wdc-participants />
+                <!-- debug -->
+                <!-- <pre> DEBUG NOTIFICATION {{ gettingNotification }}</pre>
+                <pre> NEW ? {{ gettingNewNotification }}</pre> -->
               </v-card-text>
             </v-card>
           </v-col>
@@ -232,12 +235,13 @@ import logoInsta from '@/assets/ui-logo-insta.svg'
 import authMixin from '@/mixins/authMixin'
 import resourcesMixin from '@/mixins/resources'
 import loadingMixin from '@/mixins/loadingMixin'
+import notificationMixin from '@/mixins/notificationMixin'
 import wdc_snackbar from '~/components/wdc_snackbar.vue'
 import Wdc_participants from '~/components/wdc_participants.vue'
 import Wdc_footer from '~/components/wdc_footer.vue'
 export default {
   components: { wdc_snackbar, Wdc_participants, Wdc_footer },
-  mixins: [authMixin, resourcesMixin, loadingMixin],
+  mixins: [authMixin, resourcesMixin, loadingMixin, notificationMixin],
   data() {
     return {
       drawer: false,
@@ -276,11 +280,22 @@ export default {
     this.checkInTrial()
     if (localStorage.getItem('wdc_token') !== null) {
       this.getProfile()
+      this.checkNotifications()
     }
   },
   methods: {
     checkInTrial() {
       this.dialogInTrial = this.inTrial
+    },
+    checkNotifications() {
+      const { prof } = JSON.parse(localStorage.getItem('wdc_token'))
+      // console.debug(`new-message-received.${prof}`)
+      this.$echo
+        .channel(`new-message-received.${prof}`)
+        .listen('NewMessageNotification', (e) => {
+          this.setNotification(e)
+          console.debug(e)
+        })
     },
     closeDialog() {
       this.dialogInTrial = false
@@ -294,10 +309,7 @@ export default {
         },
       }
       await this.$axios
-        .$get(
-          `${this.$axios.defaults.baseURL}auth/profile/${prof}`,
-          config
-        )
+        .$get(`${this.$axios.defaults.baseURL}auth/profile/${prof}`, config)
         .then((res) => {
           this.loadingOff()
           this.user = res.profile

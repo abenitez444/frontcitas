@@ -269,7 +269,7 @@
                       <template v-else-if="user.gender === 0">
                         <v-sheet color="transparent">
                           <!-- file -->
-                          <div class="custom-file-wrapper mx-auto mb-8">
+                          <div class="custom-file-wrapper mx-auto mb-8 mt-12">
                             <v-file-input
                               @change="Preview_image"
                               v-model="image"
@@ -844,7 +844,7 @@ export default {
     color: #f5f7fa;
   }
   .profile-tab {
-    z-index: 6;
+    z-index: 4;
     position: relative;
     // margin-bottom: 250px;
   }

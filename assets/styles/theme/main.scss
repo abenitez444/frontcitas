@@ -1,15 +1,48 @@
 // @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700&display=swap');
 
 // $primary: #f42f43;
-$primary     : #480b0e;
-$accent      : #bada55;
-$secondary   : #ff273e;
-$font_one    : #321215;
-$background  : #f5f7fa;
-$elevation-1 : drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.1));
+$primary      : #480b0e;
+$accent       : #bada55;
+$secondary    : #ff273e;
+$font_one     : #321215;
+$background   : #f5f7fa;
+$elevation-1  : drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.1));
+$appBar-height: 114px;
 
 .custom-appbar {
   border-radius: 0px 0px 10px 10px !important;
+
+  &--auth {
+    z-index: 10 !important;
+  }
+}
+
+.v-snack__wrapper {
+  @media (max-width: 414px) {
+    min-width: unset;
+  }
+}
+
+.title-text {
+  @media (max-width: 414px) {
+    font-size: 18px;
+  }
+}
+
+.description-text {
+  @media (max-width: 414px) {
+    font-size  : 12px;
+    line-height: 1.75;
+  }
+}
+
+.v-toolbar__content,
+.custom-appbar {
+  height: $appBar-height !important;
+
+  @media (max-width: 414px) {
+    height: 54px !important;
+  }
 }
 
 main {
@@ -23,7 +56,7 @@ ul {
 }
 
 .v-sheet.v-app-bar.v-toolbar {
-  z-index: 300;
+  // z-index: 300;
 }
 
 .ws-btn {
@@ -37,6 +70,16 @@ ul {
   .ws-icon {
     width : 45px;
     height: auto;
+  }
+
+  @media (max-width: 414px) {
+    bottom: 15px;
+    right : 15px;
+
+    .ws-icon {
+      width : 25px;
+      height: auto;
+    }
   }
 }
 
@@ -127,8 +170,8 @@ ul {
 }
 
 .participants-wrapper {
-  z-index            : 6;
-  position           : relative;
-  margin-bottom      : 250px;
+  z-index               : 4;
+  position              : relative;
+  // margin-bottom      : 250px;
   // background-color: #bada55 !important;
 }

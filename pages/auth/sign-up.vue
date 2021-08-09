@@ -1,6 +1,6 @@
 <template>
   <v-col order="1" order-md="2">
-    <v-row class="pa-4">
+    <v-row class="pa-4 row-wrapper-stepper">
       <v-stepper v-model="step" width="500px" class="ma-auto" editable>
         <!-- Stepper header -->
         <v-stepper-header>
@@ -141,6 +141,7 @@
                         <ul>
                           <li>Debe contener mínimo 8 caracteres</li>
                           <li>Al menos 1 Letra minúscula del alfabeto (a-z)</li>
+                          <li>Al menos 1 Letra Mayuscula del alfabeto (A-Z)</li>
                           <li>Al menos 1 Cifra entera (0-9)</li>
                           <li>
                             Al menos 1 caracter especial, tales como @#$%&*-+=/
@@ -341,7 +342,7 @@
         </v-stepper-items>
 
         <!-- Directions -->
-        <div class="text-right directions-wrapper">
+        <div class="text-center text-sm-right directions-wrapper">
           <v-btn
             color="primary"
             @click="prevStep()"
@@ -597,7 +598,7 @@ export default {
       const errors = []
       if (!this.$v.newUser.password.$dirty) return errors
       !this.$v.newUser.password.minLength &&
-        errors.push('La contraseña debe contener mínimo 8 caractere')
+        errors.push('La contraseña debe contener mínimo 8 caracteres')
       !this.$v.newUser.password.required &&
         errors.push('La contraseña es requerida')
       !this.$v.newUser.password.containsLowercase &&
@@ -838,10 +839,9 @@ export default {
         &--disabled {
         }
       }
-      // background-color: #bada55;
-      // transform: translateY(50%);
-      // position: absolute;
-      // bottom: 0;
+      @media (max-width: 600px) {
+        transform: translateY(50%) translateX(0px);
+      }
     }
     .phone-input {
       min-height: 48px;
@@ -873,11 +873,20 @@ export default {
     // margin-bottom: 4px;
   }
 }
+.row-wrapper-stepper {
+  margin-top: 100px;
+}
+
 @media (max-width: 576px) {
   .page-sigin {
     .login-wrapper {
       padding: 90px 30px 47px 30px;
     }
+  }
+}
+@media (max-width: 414px) {
+  .row-wrapper-stepper {
+    margin-top: 50px;
   }
 }
 </style>

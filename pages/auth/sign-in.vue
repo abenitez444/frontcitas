@@ -6,7 +6,7 @@
     md="auto"
     class="d-flex justify-center"
   >
-    <v-card width="500px">
+    <v-card width="500px" class="card-sign-in">
       <v-sheet max-width="500px" class="login-wrapper">
         <v-row>
           <v-col cols="12">
@@ -122,18 +122,22 @@ export default {
 .page-sigin {
   .login-wrapper {
     padding: 90px 60px 47px 60px;
+    // margin-top: 100px;
   }
   .btn-action {
     margin-top: 120px;
   }
 }
+.card-sign-in {
+  margin-top: 100px;
+}
 @media (max-width: 576px) {
   .page-sigin {
     .login-wrapper {
-      padding: 90px 30px 47px 30px;
+      padding: 30px 30px 30px 30px;
     }
     .btn-action {
-      margin-top: 60px;
+      margin-top: 30px;
     }
   }
 }

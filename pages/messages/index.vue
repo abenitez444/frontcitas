@@ -76,6 +76,7 @@ export default {
   .parent-wrapper {
     // background-color: tomato;
     height: calc(100vh - (114px + 64px + 70px + 250px));
+    min-height: 511px;
     overflow: auto;
     .child-wrapper {
       // background-color: teal;
@@ -147,8 +148,9 @@ export default {
     // transform: translate(-12px, -12px);
   }
   .messages-wrapper {
-    z-index: 6;
+    z-index: 4;
     position: relative;
+    min-height: 768px;
   }
 }
 </style>

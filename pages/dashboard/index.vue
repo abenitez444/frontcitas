@@ -884,6 +884,7 @@ export default {
   }
   .publish-wrapper {
     position: relative;
+    z-index: 4;
     .publish-btn {
       position: absolute;
       bottom: 0;
