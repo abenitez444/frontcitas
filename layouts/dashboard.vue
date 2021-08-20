@@ -151,7 +151,13 @@
       <v-container fluid fill-height class="page-layout-1 profile">
         <v-row>
           <!-- Users list -->
-          <v-col cols="3" v-if="!$vuetify.breakpoint.mdAndDown">
+          <!-- && $route.name !== 'admin-settings' -->
+          <v-col
+            cols="3"
+            v-if="
+              !$vuetify.breakpoint.mdAndDown && $route.name !== 'admin-settings'
+            "
+          >
             <v-card class="cm-round-1 cm-elevation-1 participants-wrapper">
               <v-card-text class="pa-8">
                 <wdc-participants />

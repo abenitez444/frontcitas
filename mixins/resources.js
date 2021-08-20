@@ -105,5 +105,70 @@ export default {
           console.debug(e)
         })
     },
+    async usersOnline() {
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
+      let config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      // 'http://127.0.0.1:8000/api/auth/online-user'
+      await this.$axios
+        .$get(`${this.$axios.defaults.baseURL}auth/online-user`, config)
+        .then((res) => {
+          this.checkUsers()
+          // console.debug(res)
+          // this.loadingOff()
+          // this.participants = res.users
+        })
+        .catch((e) => {
+          // console.debug(e)
+          // this.loadingOff()
+          // this.snackbarOn(
+          //   'Ha ocurrido un problema al cargar los participantes por favor pongase en contacto con el soporte.'
+          // )
+        })
+    },
+    checkUsers() {
+      console.clear()
+      console.debug('checkUsers')
+      this.$nextTick(() => {
+        this.$echo
+          .join('online')
+          .here((users) => {
+            console.debug('here')
+            users.forEach((user) => {
+              this.$refs.participants.forEach((participant) => {
+                const participantId = participant.getAttribute('data-id')
+                console.debug(participantId, user.profile_id)
+                if (participantId == user.profile_id) {
+                  participant
+                    .querySelector('.thumbnail')
+                    .classList.add('online')
+                  // console.debug()
+                }
+              })
+            })
+          })
+          .joining((user) => {
+            console.debug('joining', user)
+            this.$refs.participants.forEach((participant) => {
+              const participantId = participant.getAttribute('data-id')
+              console.debug(participantId, user.profile_id)
+              if (participantId == user.profile_id) {
+                participant.querySelector('.thumbnail').classList.add('online')
+                // console.debug()
+              }
+            })
+          })
+          .leaving((user) => {
+            console.debug('leaving', user)
+          })
+          .listen('OnlineUser', (e) => {
+            console.debug('listen', e)
+            // console.debug('OnlineUser', e)
+          })
+      })
+    },
   },
 }

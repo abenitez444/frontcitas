@@ -7,7 +7,13 @@
         </h2>
       </v-col>
     </v-row>
-    <v-row v-for="(item, i) in participants" :key="i" class="participant-card">
+    <v-row
+      v-for="(item, i) in participants"
+      :key="item.profile_id"
+      class="participant-card"
+      ref="participants"
+      :data-id="`${item.id}`"
+    >
       <v-col>
         <v-card class="card-wrapper" :to="`/messages/${item.id}`">
           <v-card-text>
@@ -34,6 +40,7 @@
                     <span class="font-weight-bold text-uppercase">
                       {{ item.first_name[0] }}{{ item.last_name[0] }}
                     </span>
+                    <span v-if="item.online === true"> online </span>
                   </div>
                 </v-col>
                 <v-col>
@@ -54,6 +61,11 @@
         </v-card>
       </v-col>
     </v-row>
+    <!-- <v-row>
+      <pre>
+        {{ participants }}
+      </pre>
+    </v-row> -->
   </v-sheet>
 </template>
 
@@ -70,8 +82,10 @@ export default {
       participants: [],
     }
   },
-  mounted() {
-    this.getParticipants()
+  async mounted() {
+    await this.getParticipants()
+    this.usersOnline()
+    this.checkUsers()
   },
   methods: {
     async getParticipants() {
@@ -88,6 +102,8 @@ export default {
           // // console.debug(res)
           this.loadingOff()
           this.participants = res.users
+          // this.usersOnline()
+          // this.checkUsers()
         })
         .catch((e) => {
           this.loadingOff()
@@ -97,6 +113,7 @@ export default {
           )
         })
     },
+
     getActiveClasses(participantId) {
       let activeClasses =
         this.$route.name === 'messages-id' &&
@@ -118,6 +135,21 @@ export default {
     width: 60px;
     height: 60px;
     border-radius: 5px;
+    position: relative;
+    &::after {
+      // background-color: #bada55;
+      position: absolute;
+      content: '';
+      height: 15px;
+      width: 15px;
+      bottom: 0;
+      right: 0;
+    }
+    &.online {
+      &::after {
+        // background-color: green;
+      }
+    }
   }
   .fullname {
     font-family: Raleway;

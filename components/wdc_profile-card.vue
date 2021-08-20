@@ -4,6 +4,7 @@
       <v-sheet>
         <!-- head -->
         <v-row align="center">
+          <!-- avatar -->
           <v-col cols="auto" class="avatar-wrapper">
             <div
               class="profile-card__avatar"
@@ -33,6 +34,7 @@
               alt=""
             />
           </v-col>
+          <!-- mode -->
           <v-col>
             <v-btn
               x-small
@@ -46,19 +48,30 @@
             <h2 class="profile-card__name font_one--text">
               {{ getUserData.first_name }}
               {{ getUserData.last_name }}
-              <span class="profile-card__icon">
+              <span
+                class="profile-card__icon"
+                v-if="getUserData && getUserData.user.id_rol !== 1"
+              >
                 <img :src="maleIcon" alt="" v-if="getUserData.gender === 1" />
 
                 <img :src="femaleIcon" alt="" v-if="getUserData.gender === 0" />
               </span>
             </h2>
-            <h3 class="profile-card__region font_one--text">
+            <h3
+              class="profile-card__region font_one--text"
+              v-if="getUserData && getUserData.user.id_rol !== 1"
+            >
               {{ getUserData.region.name }}
             </h3>
+            <h3 class="profile-card__region font_one--text" v-else>Admin</h3>
           </v-col>
         </v-row>
         <!-- Profile state -->
-        <v-row no-gutters class="mt-4">
+        <v-row
+          no-gutters
+          class="mt-4"
+          v-if="getUserData && getUserData.user.id_rol !== 1"
+        >
           <v-col class="account-progress">
             <p class="mb-0 font_one--text account-progress__label">
               Estado de cuenta
@@ -76,11 +89,6 @@
             </div>
           </v-col>
         </v-row>
-        <!-- <v-row>
-          <pre>
-            {{ getUserData }}
-          </pre>
-        </v-row> -->
       </v-sheet>
     </v-card-text>
   </v-card>
@@ -92,6 +100,9 @@ import resourcesMixin from '@/mixins/resources'
 import membershipIcon from '@/assets/ui-icon-membership.svg'
 export default {
   mixins: [authMixin, resourcesMixin],
+  mounted() {
+    this.$forceUpdate()
+  },
   data() {
     return {
       //? profile card

@@ -1,5 +1,10 @@
 <template>
-  <v-snackbar v-model="showSnackbar" color="primary" :multi-line="multiLine">
+  <v-snackbar
+    v-model="showSnackbar"
+    timeout="-1"
+    color="primary"
+    :multi-line="multiLine"
+  >
     {{ snackbarText }}
 
     <template v-slot:action="{ attrs }">

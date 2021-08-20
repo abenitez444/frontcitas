@@ -60,6 +60,9 @@
     <v-sheet color="transparent">
       <!-- info -->
       <v-row no-gutters>
+        <!-- <pre>
+          {{ featuredSlides }}
+        </pre> -->
         <v-col v-if="featuredSlides !== null">
           <v-card color="" class="cm-round-1 cm-elevation-1 light">
             <v-card-text class="pa-4 pa-sm-8">
@@ -67,7 +70,7 @@
                 <slide v-for="(slide, i) in featuredSlides" :key="i">
                   <div
                     class="slide-thumbnail"
-                    :style="`background-image: url('${slide.image}')`"
+                    :style="`background-image: url('${img_baseUrl}${slide.image}')`"
                   ></div>
                 </slide>
               </carousel>

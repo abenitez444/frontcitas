@@ -392,10 +392,10 @@ export default {
       } else {
         salaId = `${prof}${this.$route.params.id}`
       }
-      console.debug(salaId)
+      // console.debug(salaId)
 
       this.$echo.channel(`chat.${salaId}`).listen('NewMessage', (e) => {
-        console.debug(`Chat`, e)
+        // console.debug(`Chat`, e)
         this.chat = e.chat
       })
     },
@@ -413,7 +413,7 @@ export default {
           // console.debug(isOk)
         }
       }, 1000)
-      console.debug(isOk)
+      // console.debug(isOk)
       // return isOk
     },
     getPreviewImage(image) {
@@ -564,9 +564,6 @@ export default {
           Authorization: `Bearer ${token}`,
         },
       }
-      console.debug(
-        `${this.$axios.defaults.baseURL}auth/notification-to/profile/${id}`
-      )
       await this.$axios
         .$get(
           `${this.$axios.defaults.baseURL}auth/notification-to/profile/${id}`,

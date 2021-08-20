@@ -36,7 +36,8 @@ $appBar-height: 114px;
   }
 }
 
-.v-toolbar__content,
+
+.custom-appbar>.v-toolbar__content,
 .custom-appbar {
   height: $appBar-height !important;
 

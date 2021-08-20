@@ -2,16 +2,20 @@
   <v-container fluid class="landing-page">
     <!-- Hero -->
     <v-row
-      v-if="true"
       class="block-section hero-section align-center text-center bg-img"
       :style="`background-image: url('${bgHero}')`"
     >
       <v-col class="hero-section__content">
         <div class="carousel-wrapper">
-          <!--             cycle
+          <!--              -->
+          <v-carousel
+            cycle
             continuous
-            interval="3000" -->
-          <v-carousel v-model="model" :show-arrows="false" height="auto">
+            interval="3000"
+            v-model="model"
+            :show-arrows="false"
+            height="auto"
+          >
             <v-carousel-item v-for="(slide, i) in slides" :key="i">
               <v-sheet height="100%" tile color="transparent">
                 <v-row class="fill-height transparent" align="center">
@@ -52,7 +56,7 @@
                     <!-- :style="`background-image: url('${placeHolderSlide}')`" -->
                     <div
                       class="carousel-item bg-img"
-                      :style="`background-image: url('${slide.image}')`"
+                      :style="`background-image: url('${img_baseUrl}${slide.image}')`"
                     ></div>
                   </v-col>
                 </v-row>
@@ -64,7 +68,7 @@
     </v-row>
 
     <!-- Videos -->
-    <v-row v-if="true" class="video-section align-center">
+    <v-row class="video-section align-center">
       <img :src="asset_wave" class="bg-wave" alt="" />
       <v-col class="video-section__content">
         <carousel ref="carousel" :per-page="1">
@@ -113,7 +117,7 @@
     </v-row>
 
     <!-- Members PENDIENTE -->
-    <v-row v-if="true" class="block-section members-section" justify="center">
+    <v-row class="block-section members-section" justify="center">
       <div class="wave-wrapper">
         <img :src="asset_wave" class="bg-wave" alt="" />
       </div>
@@ -127,8 +131,13 @@
           <!-- one -->
           <slide v-for="(slide, index) in gallery" :key="index">
             <div class="slide-wrap">
-              <div class="avatar-box" v-for="(member, i) in slide" :key="i">
-                <img :src="member.image" alt="" />
+              <div
+                :style="`background-image: url('${img_baseUrl}${member.image}');`"
+                class="avatar-box bg-img"
+                v-for="(member, i) in slide"
+                :key="i"
+              >
+                <!-- <img :src="`${img_baseUrl}${member.image}`" alt="" /> -->
               </div>
             </div>
           </slide>
@@ -145,7 +154,7 @@
     </v-row>
 
     <!-- Testimonials -->
-    <v-row v-if="true" class="block-section testimonial-section align-center">
+    <v-row class="block-section testimonial-section align-center">
       <img :src="asset_wave" class="bg-wave" alt="" />
       <v-col>
         <div class="boxed">
@@ -159,7 +168,11 @@
             >
               <div class="slide-wrap text-center">
                 <div class="avatar-wrapper">
-                  <img :src="testimony.image" class="slide__avatar" alt="" />
+                  <img
+                    :src="`${img_baseUrl}${testimony.image}`"
+                    class="slide__avatar"
+                    alt=""
+                  />
                 </div>
                 <h3 class="slide__name">{{ testimony.name }}</h3>
                 <div class="description-wrapper">
@@ -178,10 +191,7 @@
     </v-row>
 
     <!-- FAQ -->
-    <v-row
-      v-if="true"
-      class="block-section faq-section align-center text-center"
-    >
+    <v-row class="block-section faq-section align-center text-center">
       <v-col>
         <h2 class="header-1 primary--text mb-7">Preguntas Frecuentes</h2>
         <h3 class="text-1 subtitle">
@@ -876,7 +886,7 @@ export default {
   }
   &__btn {
     margin-top: calc(30px - 1rem);
-    z-index: 150;
+    z-index: 4;
     position: relative;
     margin-top: 2rem;
     img {
@@ -946,6 +956,8 @@ export default {
       }
       .slide {
         &__avatar {
+          height: 250px;
+          width: auto;
           transition: all 2 ease;
         }
         &__name {
@@ -1110,7 +1122,7 @@ export default {
     overflow: hidden;
     // test
     position: absolute;
-    z-index: 200;
+    z-index: 4;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -1172,7 +1184,7 @@ export default {
       .woman-description {
         position: absolute;
         text-align: right;
-        z-index: 250;
+        z-index: 4;
         left: 0;
         top: 0;
         height: 100%;

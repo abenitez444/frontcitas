@@ -28,6 +28,15 @@
               hide-details=""
             ></v-text-field>
           </v-col>
+          <v-col cols="12" class="recaptcha-wrapper">
+            <vue-recaptcha
+              @verify="checkCaptcha($event)"
+              @expired="disabledSubmit = true"
+              @error="disabledSubmit = true"
+              sitekey="6Leob_AbAAAAAK7glQt9Dhtd1NhIKVCC_KkkoF2x"
+              :loadRecaptchaScript="true"
+            ></vue-recaptcha>
+          </v-col>
         </v-row>
         <v-row justify="center">
           <v-col cols="auto">
@@ -38,6 +47,7 @@
               color="primary"
               large
               @click="submit()"
+              :disabled="disabledSubmit"
               >Unirse</v-btn
             >
             <p class="text-center mt-2">
@@ -78,6 +88,7 @@ import { mapGetters, mapActions } from 'vuex'
 import authMixin from '@/mixins/authMixin'
 import snackMixin from '@/mixins/snackMixin'
 import loadingMixin from '@/mixins/loadingMixin'
+import VueRecaptcha from 'vue-recaptcha'
 export default {
   layout: 'auth',
   mixins: [authMixin, snackMixin, loadingMixin],
@@ -93,9 +104,15 @@ export default {
         password: '',
       },
       errors: null,
+      disabledSubmit: true,
     }
   },
+  components: { VueRecaptcha },
   methods: {
+    checkCaptcha(event) {
+      console.debug(event)
+      this.disabledSubmit = false
+    },
     async submit() {
       this.loadingForm = true
       await this.$axios
@@ -125,11 +142,16 @@ export default {
     // margin-top: 100px;
   }
   .btn-action {
-    margin-top: 120px;
+    margin-top: 60px;
   }
 }
 .card-sign-in {
   margin-top: 100px;
+}
+.recaptcha-wrapper {
+  & > div > div {
+    margin: 0 auto;
+  }
 }
 @media (max-width: 576px) {
   .page-sigin {
