@@ -429,6 +429,12 @@
                               ></v-select>
                             </v-col>
                           </v-row>
+                          <!-- <v-row>
+                            <pre>
+                              {{ bodyTypes.woman }}
+                              {{ user.id_physical_figure }}
+                            </pre>
+                          </v-row> -->
 
                           <!-- regiones | presupuesto -->
                           <v-row>
@@ -651,6 +657,11 @@
         </v-sheet>
       </v-col>
     </v-row>
+    <!-- <v-row>
+      <pre>
+        {{ user }}
+      </pre>
+    </v-row> -->
   </v-container>
 </template>
 <script>

@@ -18,11 +18,12 @@ echo.install = function (Vue) {
     broadcaster: 'pusher',
     key: 'ASDASD2121',
     //
-    authEndpoint: ' http://127.0.0.1:8000/api/broadcasting/auth',
+    // authEndpoint: ' http://127.0.0.1:8000/api/broadcasting/auth',
+    authEndpoint: ' http://dev.clubsugar.cl:8000/api/broadcasting/auth',
     auth: auth,
     //
-    wsHost: '127.0.0.1',
-    // wsHost: '//dev.clubsugar.cl',
+    // wsHost: '127.0.0.1',
+    wsHost: '//dev.clubsugar.cl',
     wsPort: 6001,
     forceTLS: false,
     disableStats: true,
