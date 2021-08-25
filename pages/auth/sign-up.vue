@@ -531,7 +531,7 @@ export default {
             this.$router.push('/profile')
           })
           .catch((e) => {
-            console.debug(e)
+            // console.debug(e)
             this.loadingForm = false
             this.errors = true
             this.alertStepper = true

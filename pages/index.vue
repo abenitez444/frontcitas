@@ -483,10 +483,10 @@ export default {
         .then((res) => {
           this.videosIsReady = true
           this.videos = res.data
-          // // console.debug(res)
+          // // // console.debug(res)
         })
         .catch((e) => {
-          console.debug(e)
+          // console.debug(e)
         })
     },
     async getSlides() {
@@ -495,10 +495,10 @@ export default {
         .then((res) => {
           this.slidesIsReady = true
           this.slides = res.data
-          // console.debug(res)
+          // // console.debug(res)
         })
         .catch((e) => {
-          console.debug(e)
+          // console.debug(e)
         })
     },
     async getGallery() {
@@ -507,10 +507,10 @@ export default {
         .then((res) => {
           this.galleryIsReady = true
           this.gallery = res.galeria
-          // console.debug(res)
+          // // console.debug(res)
         })
         .catch((e) => {
-          console.debug(e)
+          // console.debug(e)
         })
     },
     async getTestimonies() {
@@ -519,10 +519,10 @@ export default {
         .then((res) => {
           this.testimoniesIsReady = true
           this.testimonies = res.data
-          // console.debug(res)
+          // // console.debug(res)
         })
         .catch((e) => {
-          console.debug(e)
+          // console.debug(e)
         })
     },
   },

@@ -400,12 +400,12 @@ export default {
     },
     checkNotifications() {
       const { prof } = JSON.parse(localStorage.getItem('wdc_token'))
-      // console.debug(`new-message-received.${prof}`)
+      // // console.debug(`new-message-received.${prof}`)
       this.$echo
         .channel(`new-message-received.${prof}`)
         .listen('NewMessageNotification', (e) => {
           this.setNotification(e)
-          console.debug(e)
+          // console.debug(e)
         })
     },
     closeDialog() {
@@ -428,7 +428,7 @@ export default {
         })
         .catch((e) => {
           this.loadingOff()
-          console.debug(e)
+          // console.debug(e)
         })
     },
   },

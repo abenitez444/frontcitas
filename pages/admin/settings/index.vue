@@ -800,14 +800,14 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.sliders = res.data
           // this.logout()
           // this.$router.push('/')
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -832,14 +832,14 @@ export default {
         .request(options)
         .then((res) => {
           this.editSlideDialog = true
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.newSlide = res.data.slide
           // this.logout()
           // this.$router.push('/')
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -864,14 +864,14 @@ export default {
         .request(options)
         .then((res) => {
           this.editVideoDialog = true
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.newVideo = res.data.video
           // this.logout()
           // this.$router.push('/')
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -896,14 +896,14 @@ export default {
         .request(options)
         .then((res) => {
           this.editMemberDialog = true
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.newMember = res.data.member
           // this.logout()
           // this.$router.push('/')
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -928,14 +928,14 @@ export default {
         .request(options)
         .then((res) => {
           this.editTestimonyDialog = true
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.newTestimony = res.data.testimony
           // this.logout()
           // this.$router.push('/')
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -959,14 +959,14 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res.data.data)
+          // console.debug(res.data.data)
           this.loadingOff()
           this.members = res.data.data
           // this.logout()
           // this.$router.push('/')
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -990,14 +990,14 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res.data.data)
+          // console.debug(res.data.data)
           this.loadingOff()
           this.testimonies = res.data.data
           // this.logout()
           // this.$router.push('/')
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -1021,14 +1021,14 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res.data.data)
+          // console.debug(res.data.data)
           this.loadingOff()
           this.videos = res.data.data
           // this.logout()
           // this.$router.push('/')
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -1052,7 +1052,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.getSliders()
           // this.sliders = res.data
@@ -1060,7 +1060,7 @@ export default {
           // this.$router.push('/')
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -1084,7 +1084,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.getVideos()
           // this.sliders = res.data
@@ -1092,7 +1092,7 @@ export default {
           // this.$router.push('/')
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -1116,7 +1116,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.getMembers()
           // this.sliders = res.data
@@ -1124,7 +1124,7 @@ export default {
           // this.$router.push('/')
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -1148,7 +1148,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.getTestimonies()
           // this.sliders = res.data
@@ -1156,7 +1156,7 @@ export default {
           // this.$router.push('/')
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -1181,7 +1181,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.newVideoDialog = false
           this.newVideo = {}
@@ -1189,7 +1189,7 @@ export default {
           this.getVideos()
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -1218,7 +1218,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.newTestimonyDialog = false
           this.newTestimony = {}
@@ -1226,7 +1226,7 @@ export default {
           this.getTestimonies()
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -1256,7 +1256,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.newSlideDialog = false
           this.newSlide = {}
@@ -1264,7 +1264,7 @@ export default {
           this.getSliders()
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -1291,7 +1291,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.newMemberDialog = false
           this.newMember = {}
@@ -1299,7 +1299,7 @@ export default {
           this.getMembers()
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -1332,7 +1332,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.editSlideDialog = false
           this.newSlide = {}
@@ -1340,7 +1340,7 @@ export default {
           this.getSliders()
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -1373,7 +1373,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.editTestimonyDialog = false
           this.newTestimony = {}
@@ -1381,7 +1381,7 @@ export default {
           this.getTestimonies()
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -1411,7 +1411,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.editMemberDialog = false
           this.newMember = {}
@@ -1419,7 +1419,7 @@ export default {
           this.getMembers()
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -1444,7 +1444,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.editVideoDialog = false
           this.newVideo = {}
@@ -1452,7 +1452,7 @@ export default {
           this.getVideos()
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -1483,7 +1483,7 @@ export default {
         } else if (slideType === 3) {
           isMaxSlide = this.sliders[1].slides.length === 4
         }
-        console.debug(isMaxSlide)
+        // console.debug(isMaxSlide)
       }
       return this.$v.newSlide.$invalid || isMaxSlide
     },

@@ -110,7 +110,7 @@ export default {
   components: { VueRecaptcha },
   methods: {
     checkCaptcha(event) {
-      console.debug(event)
+      // console.debug(event)
       this.disabledSubmit = false
     },
     async submit() {
@@ -123,7 +123,7 @@ export default {
           this.$router.push('/profile')
         })
         .catch((e) => {
-          console.debug(e)
+          // console.debug(e)
           this.loadingForm = false
           // this.errors = e.response.data.error
           this.snackbarOn(

@@ -368,13 +368,13 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
 
           this.users = res.data.repoted
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -478,7 +478,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.delConfirmPhotosDialog = false
           this.getGalleryByUserId(this.userToEdit.id)
@@ -487,7 +487,7 @@ export default {
           )
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -520,7 +520,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.delConfirmPostsDialog = false
           this.getPostsByUserId(this.userToEdit.id)
@@ -529,7 +529,7 @@ export default {
           )
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -550,7 +550,7 @@ export default {
     },
     searchType(val) {
       const valLower = val
-      // console.debug(val)
+      // // console.debug(val)
       this.filteredUsers = this.users.filter(
         (user) => user.reports[0].id_report_type === val
       )

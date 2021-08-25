@@ -137,13 +137,13 @@ export default {
       await this.$axios
         .$get(`${this.$axios.defaults.baseURL}auth/my-block-users`, config)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.participants = res.block_users
         })
         .catch((e) => {
           this.loadingOff()
-          console.debug(e)
+          // console.debug(e)
           this.snackbarOn(
             'Ha ocurrido un problema al cargar los participantes por favor pongase en contacto con el soporte.'
           )

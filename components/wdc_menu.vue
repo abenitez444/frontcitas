@@ -20,6 +20,112 @@
       </v-card>
     </v-dialog>
 
+    <!-- Payment Methods -->
+    <v-dialog v-model="paymentModal" persistent max-width="768">
+      <v-card>
+        <v-card-title class="pt-10">
+          <span class="text-center ma-auto">
+            <h3 class="primary--text">OBTÉN TU MEMBRESÍA VIP</h3>
+          </span>
+        </v-card-title>
+        <!-- password verification step -->
+        <v-card-text class="pa-5 pa-sm-8">
+          <v-sheet>
+            <v-radio-group v-model="radioGroup">
+              <v-sheet>
+                <v-row>
+                  <v-col class="">
+                    <v-card class="fill-height">
+                      <v-toolbar
+                        color="#00b8d9"
+                        class="white--text text-center d-flex justify-center"
+                        height="100px"
+                        flat
+                        ><h2 class="font-weight-bold">
+                          Membresia VIP <br />
+                          1 Mes
+                        </h2></v-toolbar
+                      >
+                      <v-card-text class="pa-5 pa-sm-8 text-center">
+                        <h3>$10.000 CLP al mes</h3>
+                        <h3 class="hide">Ahorra 20%</h3>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="#00b8d9" dark>seleccionar</v-btn>
+                        <v-spacer></v-spacer>
+                      </v-card-actions>
+                    </v-card>
+                  </v-col>
+                  <v-col>
+                    <v-card>
+                      <v-toolbar
+                        color="#6554c0"
+                        class="white--text text-center d-flex justify-center"
+                        height="100px"
+                        flat
+                        ><h2 class="font-weight-bold">
+                          Membresia VIP <br />
+                          6 Meses
+                        </h2></v-toolbar
+                      >
+                      <v-card-text class="pa-5 pa-sm-8 text-center">
+                        <h3>$48.000 CLP al mes</h3>
+                        <h3 class="accent--text font-weight-bold">
+                          Ahorra 20%
+                        </h3>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="#6554c0" dark>seleccionar</v-btn>
+                        <v-spacer></v-spacer>
+                      </v-card-actions>
+                    </v-card>
+                  </v-col>
+                </v-row>
+                <!-- <v-row>
+                  <v-col class="d-flex flex-column align-center">
+                    <v-btn
+                      :color="radioGroup !== 1 ? 'grey' : '#00b8d9'"
+                      height="250"
+                      @click="radioGroup = 1"
+                      dark
+                      >Membresia VIP 1 mes
+                    </v-btn>
+                    <v-radio class="mt-3" label="1 Mes" :value="1"></v-radio>
+                  </v-col>
+                  <v-col class="d-flex flex-column align-center">
+                    <v-btn
+                      :color="radioGroup !== 2 ? 'grey' : '#6554c0'"
+                      width="150"
+                      height="250"
+                      @click="radioGroup = 2"
+                      dark
+                      >6 Meses
+                    </v-btn>
+                    <v-radio class="mt-3" label="6 Mes" :value="2"></v-radio>
+                  </v-col>
+                </v-row> -->
+              </v-sheet>
+            </v-radio-group>
+
+            <!-- <v-row justify="center">
+              <v-col cols="auto">
+
+              </v-col>
+            </v-row> -->
+          </v-sheet>
+        </v-card-text>
+        <v-card-actions class="pb-10">
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="paymentModal = false">
+            FINALIZAR COMPRA
+          </v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <!-- Update password -->
     <v-dialog v-model="updatePasswordModal" persistent max-width="500">
       <v-card>
@@ -267,6 +373,18 @@
         </v-row>
         <v-row>
           <v-col>
+            <v-btn
+              :ripple="false"
+              color="primary"
+              text
+              class="text-capitalize"
+              @click="paymentModal = true"
+              >Metodos de pago</v-btn
+            >
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
             <v-badge bordered color="error" overlap :content="5">
               <v-btn
                 :ripple="false"
@@ -400,6 +518,8 @@ export default {
         password_confirmation: '',
       },
       newCodeDisabled: true,
+      paymentModal: false,
+      radioGroup: 1,
     }
   },
   methods: {
@@ -424,7 +544,7 @@ export default {
         )
         .then((res) => {
           this.loadingOff()
-          console.debug(res)
+          // console.debug(res)
           this.snackbarOn(
             'La Contraseña es correcta. Le enviamos un código de seguridad a su correo eléctrónico registrado en nuestro sitio web. Por favor introduzcalo a continuación'
           )
@@ -432,7 +552,7 @@ export default {
         })
         .catch((e) => {
           this.loadingOff()
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.snackbarOn(e.response.data.error)
         })
     },
@@ -463,11 +583,11 @@ export default {
           this.snackbarOn(
             'Se procederá a eliminar su cuenta del CLUB SUGAR DADDY, no podrá ingresar nuevamente. En cualquier otro momento puede volver a registrarse en CLUB SUGAR DADDY'
           )
-          // console.debug(res)
+          // // console.debug(res)
         })
         .catch((e) => {
           this.loadingOff()
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.snackbarOn(e.response.data.error)
         })
     },
@@ -491,12 +611,12 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.confirmPasswordStep = true
         })
         .catch((e) => {
-          // console.debug(e.response.data.message)
+          // // console.debug(e.response.data.message)
           this.loadingOff()
           this.snackbarOn(
             'La contraseña actual no es correcta, por favor intente de nuevo.'
@@ -521,13 +641,13 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.cancelUpdatePassword()
           this.snackbarOn('Su contraseña ha sido cambiada exitosamente.')
         })
         .catch((e) => {
-          // console.debug(e.response.data.message)
+          // // console.debug(e.response.data.message)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un problema por favor pongase en contacto con el soporte.'
@@ -539,15 +659,6 @@ export default {
       this.confirmPasswordStep = false
       this.password = null
     },
-    // resetGenerateCodeStep() {
-    //   setTimeout(
-    //     function (scope) {
-    //       scope.newCodeDisabled = false
-    //     },
-    //     18000,
-    //     this
-    //   )
-    // },
   },
   computed: {
     passwordErrors() {
@@ -668,5 +779,8 @@ export default {
       padding-left: 2rem !important;
     }
   }
+}
+.hide {
+  opacity: 0;
 }
 </style>

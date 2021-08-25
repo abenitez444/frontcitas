@@ -21,12 +21,12 @@ export default {
       await this.$axios
         .$get(`${this.$axios.defaults.baseURL}auth/logout`, config)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.logout()
           this.$router.push('/')
         })
         .catch((e) => {
-          // console.debug(e)
+          // // console.debug(e)
         })
     },
   },
@@ -37,5 +37,11 @@ export default {
       getUser: 'auth/getUser',
       getUserData: 'auth/getUserData',
     }),
+  },
+  mounted() {
+    // console.debug(this.isAuthenticated)
+    // if (this.getUser) {
+    //   // console.debug(this.getUser.remains_days.remains)
+    // }
   },
 }

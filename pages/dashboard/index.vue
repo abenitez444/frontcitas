@@ -601,7 +601,7 @@ export default {
         await this.$axios
           .request(options)
           .then((res) => {
-            // console.debug(res)
+            // // console.debug(res)
             this.loadingOff()
             this.reportDialog = false
             this.getAllPosts()
@@ -629,7 +629,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          // console.debug(res)
+          // // console.debug(res)
           this.getAllPosts()
           this.loadingOff()
           this.snackbarOn('El post fue reportado exitosamente.')
@@ -652,17 +652,17 @@ export default {
       await this.$axios
         .$get(`${this.$axios.defaults.baseURL}settings/3`)
         .then((res) => {
-          // console.debug(res)
+          // // console.debug(res)
           this.featuredSlides = res.data
         })
         .catch((e) => {
-          console.debug(e)
+          // console.debug(e)
         })
     },
     async sendComment(post) {
       const { newComment, id } = post
       const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
-      // console.debug('hey friendo', newComment)
+      // // console.debug('hey friendo', newComment)
       this.loadingOn()
       const new_comment = {
         comment: newComment,
@@ -685,7 +685,7 @@ export default {
           this.snackbarOn('Comentario creado exitosamente')
         })
         .catch((e) => {
-          console.debug(e)
+          // console.debug(e)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error al crear la publicación, por favor pongase en contacto con el soporte.'
@@ -694,7 +694,7 @@ export default {
     },
     async showPostDetail(post) {
       const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
-      // console.debug('hey friendo', newComment)
+      // // console.debug('hey friendo', newComment)
       this.loadingOn()
       let config = {
         headers: {
@@ -712,7 +712,7 @@ export default {
           // this.snackbarOn('Comentario creado exitosamente')
         })
         .catch((e) => {
-          console.debug(e)
+          // console.debug(e)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error al ver la publicación, por favor pongase en contacto con el soporte.'
@@ -729,11 +729,11 @@ export default {
       await this.$axios
         .$get(`${this.$axios.defaults.baseURL}auth/all-posts`, config)
         .then((res) => {
-          // console.debug(res)
+          // // console.debug(res)
           this.posts = res.posts
         })
         .catch((e) => {
-          console.debug(e)
+          // console.debug(e)
         })
     },
     async newPost() {
@@ -759,7 +759,7 @@ export default {
           this.snackbarOn('La publicación fue creada exitosamente')
         })
         .catch((e) => {
-          console.debug(e)
+          // console.debug(e)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error al crear la publicación, por favor pongase en contacto con el soporte.'
@@ -767,7 +767,7 @@ export default {
         })
     },
     async sendReaction(postId, reactionId) {
-      console.debug(postId, reactionId)
+      // console.debug(postId, reactionId)
       // this.loadingOn()
       const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
 
@@ -788,7 +788,7 @@ export default {
           this.getAllPosts()
         })
         .catch((e) => {
-          console.debug(e)
+          // console.debug(e)
           // this.loadingOff()
         })
     },

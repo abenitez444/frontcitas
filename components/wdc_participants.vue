@@ -17,7 +17,7 @@
       <v-col>
         <v-card class="card-wrapper" :to="`/messages/${item.id}`">
           <v-card-text>
-            <v-sheet color="transparent">
+            <v-sheet color="transparent" v-if="$route.name !== 'trial_out'">
               <v-row align="center">
                 <v-col cols="auto">
                   <div
@@ -54,6 +54,13 @@
                     </span>
                   </p>
                   <p class="region ma-0">{{ item.region.name }}</p>
+                </v-col>
+              </v-row>
+            </v-sheet>
+            <v-sheet v-else>
+              <v-row>
+                <v-col>
+                  <h3>Trial Caducado</h3>
                 </v-col>
               </v-row>
             </v-sheet>
@@ -99,7 +106,7 @@ export default {
       await this.$axios
         .$get(`${this.$axios.defaults.baseURL}auth/opposite-sex`, config)
         .then((res) => {
-          // // console.debug(res)
+          // // // console.debug(res)
           this.loadingOff()
           this.participants = res.users
           // this.usersOnline()
@@ -107,7 +114,7 @@ export default {
         })
         .catch((e) => {
           this.loadingOff()
-          console.debug(e)
+          // console.debug(e)
           this.snackbarOn(
             'Ha ocurrido un problema al cargar los participantes por favor pongase en contacto con el soporte.'
           )

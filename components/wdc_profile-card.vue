@@ -29,6 +29,7 @@
             </div>
 
             <img
+              v-if="!inTrial && $route.name !== 'trial_out'"
               :src="membershipIcon"
               class="profile-card__membership"
               alt=""
@@ -67,7 +68,7 @@
           </v-col>
         </v-row>
         <!-- Profile state -->
-        <v-row
+        <!-- <v-row
           no-gutters
           class="mt-4"
           v-if="getUserData && getUserData.user.id_rol !== 1"
@@ -88,7 +89,7 @@
               {{ percent }}%
             </div>
           </v-col>
-        </v-row>
+        </v-row> -->
       </v-sheet>
     </v-card-text>
   </v-card>

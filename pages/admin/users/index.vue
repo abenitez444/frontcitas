@@ -150,7 +150,7 @@
                     <!-- options -->
                     <v-list>
                       <!-- log -->
-                      <v-list-item :to="`/admin/logs/${item.id}`">
+                      <v-list-item :to="`/admin/logs`">
                         <v-list-item-icon>
                           <v-icon>mdi-eye</v-icon>
                         </v-list-item-icon>
@@ -236,12 +236,12 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.users = res.data.users
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -279,7 +279,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingOff()
           this.snackbarOn(
             `Se procederá a eliminar la cuenta del Usuario "${this.userToDelete.username}", el mismo no podrá ingresar nuevamente.`
@@ -287,7 +287,7 @@ export default {
           this.getUsers()
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'
@@ -331,7 +331,7 @@ export default {
           )
         })
         .catch((e) => {
-          console.debug(e.response.data.error)
+          // console.debug(e.response.data.error)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un error, pongase en contacto con el soporte.'

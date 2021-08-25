@@ -712,14 +712,14 @@ export default {
           config
         )
         .then((res) => {
-          // console.debug(res)
+          // // console.debug(res)
           this.loadingOff()
           this.getProfile()
           this.galleryImages = []
           this.snackbarOn('Se guardaron las imagenes exitosamente.')
         })
         .catch((e) => {
-          console.debug(e)
+          // console.debug(e)
           this.loadingOff()
           this.snackbarOn(
             'Ha ocurrido un problema por favor pongase en contacto con el soporte.'
@@ -736,14 +736,14 @@ export default {
       await this.$axios
         .$get(`${this.$axios.defaults.baseURL}auth/profile/${prof}`, config)
         .then((res) => {
-          // console.debug(res)
+          // // console.debug(res)
           this.user = res.profile
           this.settingUserData(res.profile)
           // this.loadingForm = false
           // this.authenticating(res)
         })
         .catch((e) => {
-          console.debug(e)
+          // console.debug(e)
           // this.loadingForm = false
           // this.errors = e.response.data.error
         })
@@ -757,7 +757,7 @@ export default {
       this.image = null
     },
     async submit() {
-      console.debug(this.user)
+      // console.debug(this.user)
       this.loadingOn()
       const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       let config = {

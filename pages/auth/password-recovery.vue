@@ -95,7 +95,7 @@ export default {
       await this.$axios
         .request(options)
         .then((res) => {
-          console.debug(res)
+          // console.debug(res)
           this.loadingForm = false
           this.snackbarOn(
             'Enviamos a su correo electrónico su nueva contraseña.'

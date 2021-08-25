@@ -384,18 +384,18 @@ export default {
     getChatRoom() {
       this.broadcastMessages(this.$route.params.id)
       const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
-      // console.debug(prof)
-      // console.debug(this.$route.params.id)
+      // // console.debug(prof)
+      // // console.debug(this.$route.params.id)
       let salaId
       if (this.$route.params.id < prof) {
         salaId = `${this.$route.params.id}${prof}`
       } else {
         salaId = `${prof}${this.$route.params.id}`
       }
-      // console.debug(salaId)
+      // // console.debug(salaId)
 
       this.$echo.channel(`chat.${salaId}`).listen('NewMessage', (e) => {
-        // console.debug(`Chat`, e)
+        // // console.debug(`Chat`, e)
         this.chat = e.chat
       })
     },
@@ -406,21 +406,21 @@ export default {
         if (videoDuration >= 10.6) {
           // return 'este video dura mas de 10 segundos'
           isOk = false
-          // console.debug(isOk)
+          // // console.debug(isOk)
         } else {
           // return 'Bien'
           isOk = true
-          // console.debug(isOk)
+          // // console.debug(isOk)
         }
       }, 1000)
-      // console.debug(isOk)
+      // // console.debug(isOk)
       // return isOk
     },
     getPreviewImage(image) {
       return URL.createObjectURL(image)
     },
     getPreviewVideo(video) {
-      // console.debug(video)
+      // // console.debug(video)
       return {
         url: URL.createObjectURL(video),
         type: video.type,
@@ -448,7 +448,7 @@ export default {
         .catch((e) => {
           this.loadingOff()
           this.scrollToBottom()
-          // console.debug(e)
+          // // console.debug(e)
         })
     },
     async sendMessage() {
@@ -495,7 +495,7 @@ export default {
           // this.snackbarOn('La publicación fue creada exitosamente')
         })
         .catch((e) => {
-          // console.debug(e)
+          // // console.debug(e)
           this.loadingOff()
           // this.snackbarOn(
           //   'Ha ocurrido un error al crear la publicación, por favor pongase en contacto con el soporte.'
@@ -543,17 +543,17 @@ export default {
           config
         )
         .then((res) => {
-          // console.debug(res)
+          // // console.debug(res)
           this.loadingOff()
           this.messages = res.chat
           // this.scrollToBottom()
           // this.settingUserData(res.profile)
         })
         .catch((e) => {
-          console.debug(e)
+          // console.debug(e)
           this.loadingOff()
           // this.scrollToBottom()
-          // console.debug(e)
+          // // console.debug(e)
         })
     },
     async messagesNotifications(id) {
@@ -570,17 +570,17 @@ export default {
           config
         )
         .then((res) => {
-          // console.debug(`messagesNotifications: ${res}`)
+          // // console.debug(`messagesNotifications: ${res}`)
           // this.loadingOff()
           // this.messages = res.chat
           // this.scrollToBottom()
           // this.settingUserData(res.profile)
         })
         .catch((e) => {
-          console.debug(e)
+          // console.debug(e)
           // this.loadingOff()
           // this.scrollToBottom()
-          // console.debug(e)
+          // // console.debug(e)
         })
     },
     //custom file
@@ -622,7 +622,7 @@ export default {
         window.URL.revokeObjectURL(video.src)
 
         if (video.duration >= 10.6) {
-          // console.debug('Invalid video')
+          // // console.debug('Invalid video')
           this.snackbarOn('La duración máxima de los videos es de 10 segundos')
           this.disableSubmit = true
           return
