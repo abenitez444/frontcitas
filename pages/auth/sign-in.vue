@@ -53,7 +53,7 @@
             <p class="text-center mt-2">
               ¿Eres nuevo?, registrate
               <router-link class="text-decoration-none" to="/auth/sign-up">
-                aqui
+                aquí
               </router-link>
             </p>
             <p class="text-center">

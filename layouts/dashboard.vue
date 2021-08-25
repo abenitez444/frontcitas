@@ -9,17 +9,118 @@
       <template v-slot:default="dialogInTrial">
         <v-card>
           <v-toolbar color="primary" dark>Modo Trial Activado</v-toolbar>
-          <v-card-text>
-            <p class="trial-description mt-8">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima
-              voluptas quasi sunt modi dolorem, aliquam odit recusandae eligendi
-              voluptate corporis voluptatem odio ad error labore aspernatur
-              repellat. Obcaecati, rem placeat!
-            </p>
+          <v-card-text v-if="getUserData">
+            <!--  -->
+            <template v-if="getUser.remains_days.remains > 0">
+              <p class="trial-description mt-8 font-weight-bold">
+                {{ getUserData.gender === 1 ? 'Estimado' : 'Estimada' }}
+                {{ getUserData.first_name }} {{ getUserData.last_name }} ({{
+                  getUserData.user.username
+                }}),
+              </p>
+              <p class="trial-description mt-4 font-weight-bold">
+                Usted se encuentra disfrutando de CLUB SUGAR DADDY en Modo TRIAL
+                y cuenta con “{{ getUser.remains_days.remains }}” “días” para
+                disfrutar de todos los beneficios.
+              </p>
+              <p class="trial-description mt-4 font-weight-bold">
+                Le invitamos a unirse al CLUB SUGAR DADDY comprando su membresía
+                y así poder disfrutar sin límites de todos los beneficios, en su
+                perfil en la sección MÉTODO DE PAGO puede escoger el plan que
+                más le conviene.
+              </p>
+            </template>
+            <template v-else>
+              <p class="trial-description mt-8 font-weight-bold">
+                {{ getUserData.gender === 1 ? 'Estimado' : 'Estimada' }}
+                {{ getUserData.first_name }} {{ getUserData.last_name }} ({{
+                  getUserData.user.username
+                }}),
+              </p>
+              <p class="trial-description mt-4 font-weight-bold">
+                EL MODO TRIAL a caducado, le invitamos a unirse al CLUB SUGAR
+                DADDY comprando su membresía y así poder disfrutar sin límites
+                de todos los beneficios, en su perfil en la sección MÉTODO DE
+                PAGO puede escoger el plan que más le conviene.
+              </p>
+            </template>
+          </v-card-text>
+          <v-card-text v-else>
+            <v-sheet>
+              <v-row justify="center">
+                <v-col cols="auto" class="mt-8">
+                  <v-progress-circular
+                    indeterminate
+                    color="primary"
+                  ></v-progress-circular>
+                </v-col>
+              </v-row>
+            </v-sheet>
           </v-card-text>
           <v-card-actions class="justify-end">
             <v-btn text @click="closeDialog()">Cerrar</v-btn>
           </v-card-actions>
+        </v-card>
+      </template>
+    </v-dialog>
+
+    <v-dialog
+      transition="dialog-bottom-transition"
+      max-width="600"
+      v-model="dialogSupport"
+    >
+      <template v-slot:default="dialogSupport">
+        <v-card>
+          <v-toolbar color="primary" dark>Soporte Técnico</v-toolbar>
+          <v-card-text class="dialog-support">
+            <v-sheet>
+              <v-row>
+                <v-col cols="12">
+                  <h3 class="mt-8 mx-5 text-center">
+                    Si tiene algún inconveniente te ofrecemos los siguientes
+                    canales de comunicación:
+                  </h3>
+                </v-col>
+                <v-col cols="12" class="text-center">
+                  <h4 class="text-center">
+                    Ponemos a su disposición directa nuestro Whatsapp
+                  </h4>
+                  <v-btn
+                    href="https://wa.me/15551234567"
+                    target="_blank"
+                    color="#25D366"
+                    elevation="0"
+                    class="mt-5"
+                  >
+                    <img
+                      :src="asset_ws"
+                      style="width: auto; height: 20px"
+                      alt=""
+                    />
+                  </v-btn>
+                </v-col>
+                <v-col cols="12" class="text-center">
+                  <h4 class="text-center">
+                    También puede escribirnos a través del siguiente correo
+                    electrónico
+                  </h4>
+                  <v-btn
+                    href="mailto:soporte@clubsugardaddy.cl"
+                    target="_blank"
+                    color="blue"
+                    elevation="0"
+                    class="mt-5"
+                    text
+                  >
+                    soporte@clubsugardaddy.cl
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-sheet>
+          </v-card-text>
+          <!-- <v-card-actions class="justify-end">
+            <v-btn text @click="dialogSupport = false">Cerrar</v-btn>
+          </v-card-actions> -->
         </v-card>
       </template>
     </v-dialog>
@@ -102,6 +203,9 @@
           <v-list>
             <v-list-item to="/profile">
               <v-list-item-title>Perfil</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="dialogSupport = true">
+              <v-list-item-title>Soporte Técnico</v-list-item-title>
             </v-list-item>
             <v-list-item>
               <v-list-item-title @click="logoutAccount()"
@@ -279,6 +383,7 @@ export default {
       title: 'WDC',
       //dialog
       dialogInTrial: false,
+      dialogSupport: false,
     }
   },
   mounted() {

@@ -88,7 +88,7 @@
             <v-card-text class="pa-4 pa-sm-8">
               <v-data-table :headers="headers" :items="users" :search="search">
                 <template v-slot:item.username="{ item }">
-                  <p class="mb-0">
+                  <p class="mb-0 font-weight-bold">
                     {{ item.username }}
                   </p>
                   <p class="mb-0">

@@ -428,8 +428,8 @@
 import PhoneMaskInput from 'vue-phone-mask-input'
 import icon_female from '@/assets/auth/ui-icon-female.svg'
 import icon_male from '@/assets/auth/ui-icon-male.svg'
-import { validationMixin } from 'vuelidate'
 import authMixin from '@/mixins/authMixin'
+import { validationMixin } from 'vuelidate'
 import {
   required,
   sameAs,

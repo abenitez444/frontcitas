@@ -9,9 +9,24 @@
     <!-- new slider -->
     <v-dialog v-model="newSlideDialog" width="620">
       <v-card>
-        <v-card-title><span> Nuevo Slide </span> </v-card-title>
+        <v-card-title>
+          <v-row>
+            <v-col cols="auto">
+              <span> Nuevo Slide </span>
+            </v-col>
+            <v-spacer></v-spacer>
+            <v-col cols="auto">
+              <small class="grey--text">Max. 4</small>
+            </v-col>
+          </v-row>
+        </v-card-title>
         <v-card-text class="pa-4 pa-sm-8">
           <v-sheet>
+            <!-- <v-row v-if="sliders.length">
+              <pre>{{ sliders[0].slides.length }}</pre>
+              <pre>{{ sliders[1].slides.length }}</pre>
+              <pre>{{ newSlide.id_featured_type }}</pre>
+            </v-row> -->
             <v-row>
               <v-col cols="12" v-if="newSlide.image">
                 <v-img
@@ -39,6 +54,30 @@
                   label="Título"
                 ></v-text-field>
               </v-col>
+              <template v-if="sliders.length">
+                <v-col
+                  cols="12"
+                  v-if="
+                    newSlide.id_featured_type === 2 &&
+                    sliders[0].slides.length === 4
+                  "
+                >
+                  <v-alert border="top" color="accent" dark>
+                    Este Carousel Ya tiene 4 slides.
+                  </v-alert>
+                </v-col>
+                <v-col
+                  cols="12"
+                  v-else-if="
+                    newSlide.id_featured_type === 3 &&
+                    sliders[1].slides.length === 4
+                  "
+                >
+                  <v-alert border="top" color="accent" dark>
+                    Este Carousel Ya tiene 4 slides.
+                  </v-alert>
+                </v-col>
+              </template>
               <v-col cols="12">
                 <v-select
                   :items="items"
@@ -71,7 +110,7 @@
           </v-btn>
           <v-btn
             color="primary"
-            :disabled="$v.newSlide.$invalid"
+            :disabled="disabledNewSlide(newSlide.id_featured_type)"
             @click="submitNewSlide()"
           >
             Crear
@@ -463,7 +502,8 @@
             Cancelar
           </v-btn>
           <v-btn color="primary" @click="submitEditTestimony(newTestimony.id)">
-            <!-- :disabled="$v.newTestimony.$invalid" -->
+            :disabled="$v.newTestimony.$invalid"
+            <!-- getSlidesById -->
             Editar
           </v-btn>
         </v-card-actions>
@@ -479,7 +519,7 @@
             <v-card-title>
               <span> Configuración de sliders </span>
               <v-spacer></v-spacer>
-              <v-btn small @click.stop="newSlideDialog = true" color="primary">
+              <v-btn small @click.stop="newSlideDialogOn()" color="primary">
                 Nuevo slide
               </v-btn>
             </v-card-title>
@@ -737,7 +777,7 @@ export default {
       newTestimonyDialog: false,
       editTestimonyDialog: false,
       items: [
-        { name: 'Landing Page', id: 2 },
+        { name: `Landing Page`, id: 2 },
         { name: 'Muro Principal', id: 3 },
       ],
     }
@@ -1425,6 +1465,27 @@ export default {
         previewImage = URL.createObjectURL(image)
       }
       return previewImage
+    },
+    newSlideDialogOn() {
+      this.newSlideDialog = true
+      this.newSlide = {
+        image: null,
+        id_featured_type: null,
+        title: null,
+        description: null,
+      }
+    },
+    disabledNewSlide(slideType) {
+      let isMaxSlide = false
+      if (slideType) {
+        if (slideType === 2) {
+          isMaxSlide = this.sliders[0].slides.length === 4
+        } else if (slideType === 3) {
+          isMaxSlide = this.sliders[1].slides.length === 4
+        }
+        console.debug(isMaxSlide)
+      }
+      return this.$v.newSlide.$invalid || isMaxSlide
     },
   },
   computed: {

@@ -19,6 +19,104 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- Update password -->
+    <v-dialog v-model="updatePasswordModal" persistent max-width="500">
+      <v-card>
+        <v-toolbar color="primary" dark>Cambiar Contraseña</v-toolbar>
+        <!-- password verification step -->
+        <v-card-text class="pa-5">
+          <v-text-field
+            v-if="!confirmPasswordStep"
+            autocomplete="off"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="!showPassword ? 'text' : 'password'"
+            @click:append="showPassword = !showPassword"
+            label="Contraseña actual"
+            class="rounded-b"
+            outlined
+            v-model="password"
+          ></v-text-field>
+          <template v-else>
+            <v-alert border="top" color="accent" dark>
+              Por favor, Introduzca la nueva contraseña
+            </v-alert>
+            <v-tooltip right>
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  autocomplete="off"
+                  v-bind="attrs"
+                  v-on="on"
+                  :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="!showPassword ? 'text' : 'password'"
+                  @click:append="showPassword = !showPassword"
+                  label="Nueva Contraseña"
+                  class="rounded-b"
+                  outlined
+                  v-model="newUser.password"
+                  :error-messages="passwordErrors"
+                  @input="$v.newUser.password.$touch()"
+                  @blur="$v.newUser.password.$touch()"
+                ></v-text-field>
+              </template>
+              <ul>
+                <li>Debe contener mínimo 8 caracteres</li>
+                <li>Al menos 1 Letra minúscula del alfabeto (a-z)</li>
+                <li>Al menos 1 Letra Mayuscula del alfabeto (A-Z)</li>
+                <li>Al menos 1 Cifra entera (0-9)</li>
+                <li>Al menos 1 caracter especial, tales como @#$%&*-+=/</li>
+                <li>
+                  No se permite la letra “ñ” ni letras con tilde ni espacios
+                </li>
+              </ul>
+            </v-tooltip>
+            <v-text-field
+              autocomplete="off"
+              :append-icon="confirmPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="!confirmPasswordShow ? 'text' : 'password'"
+              @click:append="confirmPasswordShow = !confirmPasswordShow"
+              label="Confirmar Contraseña"
+              class="rounded-b"
+              outlined
+              v-model="newUser.password_confirmation"
+              :error-messages="passwordConfirmErrors"
+              @input="$v.newUser.password_confirmation.$touch()"
+              @blur="$v.newUser.password_confirmation.$touch()"
+            ></v-text-field>
+          </template>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="error" text @click="cancelUpdatePassword()">
+            Cancelar
+          </v-btn>
+          <v-btn
+            color="primary"
+            v-if="!confirmPasswordStep"
+            @click="checkPassword()"
+          >
+            Enviar
+          </v-btn>
+          <v-btn
+            color="primary"
+            :disabled="
+              !$v.newUser.password.required ||
+              !$v.newUser.password.minLength ||
+              !$v.newUser.password.containsLowercase ||
+              !$v.newUser.password.containsUppercase ||
+              !$v.newUser.password.containsNumber ||
+              !$v.newUser.password.containsSpecial ||
+              !$v.newUser.password_confirmation.sameAsPassword
+            "
+            v-else
+            @click="updatePassword()"
+          >
+            Enviar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <!-- delete account -->
     <v-dialog v-model="deleteAccModal" persistent max-width="500">
       <v-card>
@@ -39,16 +137,30 @@
         </v-card-text>
         <!-- code veritifaction steo -->
         <v-card-text class="pa-5" v-else>
-          <v-text-field
-            outlined
-            label="Código de Seguridad"
-            v-model="verificationCode"
-          ></v-text-field>
-          <!-- <pre>
-            {{ password }}
-          </pre> -->
+          <v-sheet>
+            <v-row>
+              <v-col cols="">
+                <v-text-field
+                  outlined
+                  label="Código de Seguridad"
+                  v-model="verificationCode"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-sheet>
+
+          <pre>
+            {{ newCodeDisabled }}
+          </pre>
         </v-card-text>
         <v-card-actions>
+          <v-btn
+            v-if="generateCodeStep"
+            :disabled="newCodeDisabled"
+            @click="submit()"
+            color="success"
+            >Generar Código</v-btn
+          >
           <v-spacer></v-spacer>
           <v-btn color="error" text @click="deleteAccModal = false">
             Cancelar
@@ -62,6 +174,8 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- admin -->
     <template v-if="getUserData && getUserData.user.id_rol === 1">
       <v-card-text class="pa-8">
         <v-sheet>
@@ -74,6 +188,18 @@
                 class="text-capitalize"
                 to="/dashboard"
                 >Inicio</v-btn
+              >
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-btn
+                :ripple="false"
+                color="primary"
+                text
+                class="text-capitalize"
+                to="/admin/logs"
+                >Historial</v-btn
               >
             </v-col>
           </v-row>
@@ -124,6 +250,7 @@
       {{ getUserData.user.id_rol }}
       </pre> -->
     </template>
+    <!-- Normal user -->
     <v-card-text class="pa-8" v-else>
       <v-sheet>
         <v-row>
@@ -165,6 +292,9 @@
 
                 <v-list-item link to="/profile">
                   <v-list-item-title>Perfil</v-list-item-title>
+                </v-list-item>
+                <v-list-item link @click="updatePasswordModal = true">
+                  <v-list-item-title>Cambio de contraseña</v-list-item-title>
                 </v-list-item>
                 <v-list-item link @click="deleteAccModal = true">
                   <v-list-item-title>Eliminar cuenta</v-list-item-title>
@@ -244,16 +374,32 @@ import authMixin from '@/mixins/authMixin'
 import resources from '@/mixins/resources'
 import loadingMixin from '@/mixins/loadingMixin'
 import snackMixin from '@/mixins/snackMixin'
+import { validationMixin } from 'vuelidate'
+import {
+  required,
+  sameAs,
+  minLength,
+  email,
+  alpha,
+} from 'vuelidate/lib/validators'
 export default {
-  mixins: [authMixin, resources, loadingMixin, snackMixin],
+  mixins: [authMixin, resources, loadingMixin, snackMixin, validationMixin],
   data() {
     return {
       deleteAccModal: false,
+      updatePasswordModal: false,
       confirmDeleteAccModal: false,
       showPassword: true,
+      confirmPasswordShow: true,
       password: null,
       verificationCode: null,
       generateCodeStep: false,
+      confirmPasswordStep: false,
+      newUser: {
+        password: '',
+        password_confirmation: '',
+      },
+      newCodeDisabled: true,
     }
   },
   methods: {
@@ -314,13 +460,175 @@ export default {
           this.loadingOff()
           this.logout()
           this.$router.push('/')
-          console.debug(res)
+          this.snackbarOn(
+            'Se procederá a eliminar su cuenta del CLUB SUGAR DADDY, no podrá ingresar nuevamente. En cualquier otro momento puede volver a registrarse en CLUB SUGAR DADDY'
+          )
+          // console.debug(res)
         })
         .catch((e) => {
           this.loadingOff()
           console.debug(e.response.data.error)
           this.snackbarOn(e.response.data.error)
         })
+    },
+    async checkPassword() {
+      this.loadingOn()
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
+
+      const options = {
+        method: 'POST',
+        url: `${this.$axios.defaults.baseURL}auth/current-password`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          password: this.password,
+        },
+      }
+
+      await this.$axios
+        .request(options)
+        .then((res) => {
+          console.debug(res)
+          this.loadingOff()
+          this.confirmPasswordStep = true
+        })
+        .catch((e) => {
+          // console.debug(e.response.data.message)
+          this.loadingOff()
+          this.snackbarOn(
+            'La contraseña actual no es correcta, por favor intente de nuevo.'
+          )
+        })
+    },
+    async updatePassword() {
+      this.loadingOn()
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
+
+      const options = {
+        method: 'PUT',
+        url: `${this.$axios.defaults.baseURL}auth/change-password`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: this.newUser,
+      }
+
+      await this.$axios
+        .request(options)
+        .then((res) => {
+          console.debug(res)
+          this.loadingOff()
+          this.cancelUpdatePassword()
+          this.snackbarOn('Su contraseña ha sido cambiada exitosamente.')
+        })
+        .catch((e) => {
+          // console.debug(e.response.data.message)
+          this.loadingOff()
+          this.snackbarOn(
+            'Ha ocurrido un problema por favor pongase en contacto con el soporte.'
+          )
+        })
+    },
+    cancelUpdatePassword() {
+      this.updatePasswordModal = false
+      this.confirmPasswordStep = false
+      this.password = null
+    },
+    // resetGenerateCodeStep() {
+    //   setTimeout(
+    //     function (scope) {
+    //       scope.newCodeDisabled = false
+    //     },
+    //     18000,
+    //     this
+    //   )
+    // },
+  },
+  computed: {
+    passwordErrors() {
+      const errors = []
+      if (!this.$v.newUser.password.$dirty) return errors
+      !this.$v.newUser.password.minLength &&
+        errors.push('La contraseña debe contener mínimo 8 caracteres')
+      !this.$v.newUser.password.required &&
+        errors.push('La contraseña es requerida')
+      !this.$v.newUser.password.containsLowercase &&
+        errors.push(
+          'Debe contener al menos 1 Letra minúscula del alfabeto (a-z)'
+        )
+      !this.$v.newUser.password.containsUppercase &&
+        errors.push(
+          'Debe contener al menos 1 Letra mayúscula del alfabeto (A-Z)'
+        )
+      !this.$v.newUser.password.containsNumber &&
+        errors.push('Debe contener al menos 1 Cifra entera (0-9)')
+      !this.$v.newUser.password.containsSpecial &&
+        errors.push(
+          'Debe contener al menos 1 caracter especial, tales como @#$%&*-+=/'
+        )
+      this.$v.newUser.password.containsAccent &&
+        errors.push(
+          'No se permite la letra “ñ” ni letras con tilde ni espacios'
+        )
+      return errors
+    },
+    passwordConfirmErrors() {
+      const errors = []
+      if (!this.$v.newUser.password_confirmation.$dirty) return errors
+      !this.$v.newUser.password_confirmation.sameAsPassword &&
+        errors.push(
+          'La contraseña introducida es distinta a la anterior, por favor intente de nuevo'
+        )
+      return errors
+    },
+  },
+  validations: {
+    newUser: {
+      password: {
+        required,
+        minLength: minLength(8),
+        containsLowercase: function (value) {
+          return /[a-z]/.test(value)
+        },
+        containsUppercase: function (value) {
+          return /[A-Z]/.test(value)
+        },
+        containsNumber: function (value) {
+          return /[0-9]/.test(value)
+        },
+        containsSpecial: function (value) {
+          return /[#?!@$%^&*-]/.test(value)
+        },
+        containsAccent: function (value) {
+          return /[À-ÿ\u00f1\u00d1\s]/.test(value)
+        },
+      },
+      password_confirmation: {
+        sameAsPassword: sameAs(function () {
+          return this.newUser.password
+        }),
+      },
+    },
+  },
+  watch: {
+    generateCodeStep(val) {
+      if (val) {
+        setInterval(
+          function (scope) {
+            scope.newCodeDisabled = false
+            scope.snackbarOn(
+              'El código de seguridad caducó, por favor genere un nuevo código.'
+            )
+          },
+          300000,
+          this
+        )
+      }
     },
   },
 }

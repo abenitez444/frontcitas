@@ -1,9 +1,5 @@
 <template>
   <v-container fluid fill-height class="page-layout-1 profile">
-    <!-- <pre>
-      {{ getUser }}
-      {{ getUserData }}
-    </pre> -->
     <v-row class="">
       <!-- Users list -->
       <v-col cols="3" v-if="!$vuetify.breakpoint.mdAndDown">
@@ -21,10 +17,6 @@
         lg="6"
       >
         <v-sheet color="transparent">
-          <!-- <v-row>
-            {{ $vuetify.breakpoint.name }}
-            {{ $vuetify.breakpoint.mdAndDown }}
-          </v-row> -->
           <!-- info -->
           <v-row no-gutters>
             <v-col>
@@ -368,8 +360,9 @@
                                 outlined
                               ></v-select>
                               <!-- <pre>
-                            {{ user.civil_status }}
-                          </pre> -->
+                            {{ civilStatesWoman }}
+                          </pre
+                              > -->
                             </v-col>
                           </v-row>
 
@@ -429,12 +422,6 @@
                               ></v-select>
                             </v-col>
                           </v-row>
-                          <!-- <v-row>
-                            <pre>
-                              {{ bodyTypes.woman }}
-                              {{ user.id_physical_figure }}
-                            </pre>
-                          </v-row> -->
 
                           <!-- regiones | presupuesto -->
                           <v-row>
@@ -445,7 +432,7 @@
                                 :item-value="(item) => item.id"
                                 label="Región"
                                 hide-details=""
-                                v-model="user.id_region"
+                                v-model="user.region.id"
                                 outlined
                               ></v-select>
                             </v-col>
@@ -461,6 +448,12 @@
                               ></v-select>
                             </v-col>
                           </v-row>
+                          <!-- <v-row>
+                            <pre>
+                              {{ monthlySalary }}
+                              {{ user.monthly_salary }}
+                            </pre>
+                          </v-row> -->
 
                           <!-- hijos | preferencia de contacto -->
                           <v-row>
@@ -635,15 +628,6 @@
           >
             <v-col> <wdc-menu /> </v-col>
           </v-row>
-
-          <!-- Users online -->
-          <!-- <v-row no-gutters class="mt-8">
-            <v-col>
-              <v-card class="cm-round-1 cm-elevation-1">
-                <v-card-text class="pa-8"> En desarrollo </v-card-text>
-              </v-card>
-            </v-col>
-          </v-row> -->
           <!-- users -->
           <v-row no-gutters class="mt-8">
             <v-col v-if="$vuetify.breakpoint.mdAndDown">
@@ -657,11 +641,6 @@
         </v-sheet>
       </v-col>
     </v-row>
-    <!-- <v-row>
-      <pre>
-        {{ user }}
-      </pre>
-    </v-row> -->
   </v-container>
 </template>
 <script>
@@ -813,9 +792,9 @@ export default {
         'id_contact_preferences',
         this.user.id_contact_preferences
       )
-      formData.append('id_children', this.user.id_children)
+      formData.append('id_children', this.user.children.id)
       formData.append('id_physical_figure', this.user.id_physical_figure)
-      formData.append('id_region', this.user.id_region)
+      formData.append('id_region', this.user.region.id)
       formData.append('_method', 'PUT')
       await this.$axios
         .$post(`${this.$axios.defaults.baseURL}auth/edit`, formData, config)

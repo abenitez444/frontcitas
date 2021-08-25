@@ -32,7 +32,7 @@
             <p class="text-center mt-2">
               ¿Eres nuevo?, registrate
               <router-link class="text-decoration-none" to="/auth/sign-up">
-                aqui
+                aquí
               </router-link>
             </p>
             <p class="text-center">
@@ -80,23 +80,34 @@ export default {
   methods: {
     async submit() {
       this.loadingForm = true
+      const options = {
+        method: 'POST',
+        url: `${this.$axios.defaults.baseURL}forgot`,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        data: {
+          email: this.user.email,
+        },
+      }
+
       await this.$axios
-        .$post(`${this.$axios.defaults.baseURL}forgot`, this.user.email)
+        .request(options)
         .then((res) => {
+          console.debug(res)
           this.loadingForm = false
-          this.snackbarOn('Enviado.')
+          this.snackbarOn(
+            'Enviamos a su correo electrónico su nueva contraseña.'
+          )
+          this.$router.push('/auth/sign-in')
         })
         .catch((e) => {
-          console.debug(e)
           this.loadingForm = false
           this.snackbarOn(
             'El correo electrónico que introdujo no se encuentra registrado en nuestro sitio web, por favor verifique e intente de nuevo.'
           )
         })
-      // alert('Endpoint en desarrollo')
-      // alert(
-      //   'El correo electrónico que introdujo no se encuentra registrado en nuestro sitio web, por favor verifique e intente de nuevo.'
-      // )
     },
   },
 }

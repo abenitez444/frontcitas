@@ -50,21 +50,9 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // baseURL: 'http://127.0.0.1:8000/api/',
-    baseURL: 'https://dev.clubsugar.cl/backendcitas/public/api/',
+    // baseURL: 'https://dev.clubsugar.cl/backendcitas/public/api/',
+    baseURL: `${process.env.BASE_URL}/api/`,
   },
-
-  // auth: {
-  //   strategies: {
-  //     local: {
-  //       endpoints: {
-  //         login: { url: 'login', method: 'post', propertyName: 'data.token' },
-  //         user: { url: 'auth/profile/4', method: 'get', propertyName: 'data' },
-  //         logout: false,
-  //       },
-  //     },
-  //   },
-  // },
-
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     // customVariables: ['~/assets/variables.scss'],
@@ -99,5 +87,9 @@ export default {
   layoutTransition: {
     name: 'layout',
     mode: 'out-in',
+  },
+
+  env: {
+    baseUrl: process.env.BASE_URL,
   },
 }

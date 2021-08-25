@@ -10,7 +10,7 @@ export default {
       bgHero,
       placeHolderSlide,
       // img_baseUrl: 'http://127.0.0.1:8000',
-      img_baseUrl: 'https://dev.clubsugar.cl/backendcitas/public',
+      img_baseUrl: process.env.baseUrl,
       asset_wave,
       regions: [],
       bodyTypes: [],
@@ -171,4 +171,7 @@ export default {
       })
     },
   },
+  // mounted() {
+  //   console.debug('Env', process.env.baseUrl)
+  // },
 }
