@@ -136,6 +136,9 @@
       </router-link>
       <v-spacer />
       <!-- login / register -->
+      <!-- <p>
+        {{ $route.name }}
+      </p> -->
       <v-btn
         class="mx-2 d-flex d-md-none"
         @click.stop="drawer = !drawer"
@@ -289,10 +292,15 @@
     <template v-if="$route.name === 'index'">
       <div class="ws-btn">
         <a href=" https://web.whatsapp.com/" target="_blank">
-          <v-btn fab small color="primary" elevation="0">
+          <v-btn fab color="whatsapp" elevation="0">
             <img :src="asset_ws" class="ws-icon" alt="" />
           </v-btn>
         </a>
+        <div class="text-center join-btn">
+          <router-link to="/auth/sign-up">
+            <img :src="putiBtn" alt="" />
+          </router-link>
+        </div>
       </div>
     </template>
   </v-app>
@@ -310,6 +318,7 @@ import loadingMixin from '@/mixins/loadingMixin'
 import wdc_snackbar from '~/components/wdc_snackbar.vue'
 import Wdc_footer from '~/components/wdc_footer.vue'
 import Wdc_notifications from '~/components/wdc_notifications.vue'
+import putiBtn from '@/assets/puticlub-btn.png'
 export default {
   components: {
     wdc_snackbar,
@@ -326,6 +335,7 @@ export default {
     return {
       notiSnack: true,
       //
+      putiBtn,
       asset_wave,
       asset_ws,
       logoDefault,

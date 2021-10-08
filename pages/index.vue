@@ -41,14 +41,14 @@
                       <p>
                         {{ slide.description }}
                       </p>
-                      <v-btn
+                      <!-- <v-btn
                         to="/"
                         elevation="0"
                         rounded
                         class="text-capitalize px-16 primary--text"
                       >
                         Unirse
-                      </v-btn>
+                      </v-btn> -->
                     </div>
                   </v-col>
                   <!-- image -->
@@ -142,14 +142,11 @@
             </div>
           </slide>
         </carousel>
-        <div class="text-center members-section__btn">
-          <!-- <v-btn class="primary--text" to="/auth/sign-up">
-            ¡Unirme al club!
-          </v-btn> -->
+        <!-- <div class="text-center members-section__btn">
           <router-link to="/auth/sign-up">
             <img :src="putiBtn" alt="" />
           </router-link>
-        </div>
+        </div> -->
       </v-col>
     </v-row>
 
@@ -259,6 +256,9 @@
                             class="faq-figure-4"
                             alt=""
                           />
+                          <template v-slot:actions>
+                            <v-icon color="white" large> $expand </v-icon>
+                          </template>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <p>
@@ -279,6 +279,9 @@
                             class="faq-figure-4"
                             alt=""
                           />
+                          <template v-slot:actions>
+                            <v-icon color="white" large> $expand </v-icon>
+                          </template>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <p>
@@ -299,6 +302,9 @@
                             class="faq-figure-4"
                             alt=""
                           />
+                          <template v-slot:actions>
+                            <v-icon color="white" large> $expand </v-icon>
+                          </template>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <p>
@@ -317,6 +323,9 @@
                             class="faq-figure-4"
                             alt=""
                           />
+                          <template v-slot:actions>
+                            <v-icon color="white" large> $expand </v-icon>
+                          </template>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <p>
@@ -337,6 +346,9 @@
                             class="faq-figure-4"
                             alt=""
                           />
+                          <template v-slot:actions>
+                            <v-icon color="white" large> $expand </v-icon>
+                          </template>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <p>
@@ -355,6 +367,9 @@
                             class="faq-figure-4"
                             alt=""
                           />
+                          <template v-slot:actions>
+                            <v-icon color="white" large> $expand </v-icon>
+                          </template>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <p>
@@ -374,6 +389,9 @@
                             class="faq-figure-4"
                             alt=""
                           />
+                          <template v-slot:actions>
+                            <v-icon color="white" large> $expand </v-icon>
+                          </template>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <p>
@@ -394,6 +412,9 @@
                             class="faq-figure-4"
                             alt=""
                           />
+                          <template v-slot:actions>
+                            <v-icon color="white" large> $expand </v-icon>
+                          </template>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <p>
@@ -476,6 +497,9 @@
                             class="faq-figure-4"
                             alt=""
                           />
+                          <template v-slot:actions>
+                            <v-icon color="white" large> $expand </v-icon>
+                          </template>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <p>
@@ -497,6 +521,9 @@
                             class="faq-figure-4"
                             alt=""
                           />
+                          <template v-slot:actions>
+                            <v-icon color="white" large> $expand </v-icon>
+                          </template>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <p>
@@ -517,6 +544,9 @@
                             class="faq-figure-4"
                             alt=""
                           />
+                          <template v-slot:actions>
+                            <v-icon color="white" large> $expand </v-icon>
+                          </template>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <p>
@@ -543,6 +573,9 @@
                             class="faq-figure-4"
                             alt=""
                           />
+                          <template v-slot:actions>
+                            <v-icon color="white" large> $expand </v-icon>
+                          </template>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <p>
@@ -562,6 +595,9 @@
                             class="faq-figure-4"
                             alt=""
                           />
+                          <template v-slot:actions>
+                            <v-icon color="white" large> $expand </v-icon>
+                          </template>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <p>
@@ -588,6 +624,9 @@
                             class="faq-figure-4"
                             alt=""
                           />
+                          <template v-slot:actions>
+                            <v-icon color="white" large> $expand </v-icon>
+                          </template>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <p>
@@ -606,6 +645,9 @@
                             class="faq-figure-4"
                             alt=""
                           />
+                          <template v-slot:actions>
+                            <v-icon color="white" large> $expand </v-icon>
+                          </template>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <p>
@@ -685,6 +727,8 @@ export default {
         infiniteScroll: true,
         centerMode: true,
         itemsToShow: 4.25,
+        autoPlay: true,
+        playSpeed: 2000,
         breakpoints: {
           1264: {
             itemsToShow: 4.25,
@@ -1104,6 +1148,7 @@ export default {
   }
   .wave-wrapper {
     background-color: $primary;
+    // background-color: #bada55;
     min-height: 400px;
     width: 100%;
     position: absolute;
@@ -1125,37 +1170,37 @@ export default {
       font-size: 24px !important;
     }
   }
-  &__btn {
-    margin-top: calc(30px - 1rem);
-    z-index: 4;
-    position: relative;
-    margin-top: 2rem;
-    img {
-      max-width: 350px;
-      width: 100%;
-      height: auto;
-    }
-    .v-btn {
-      background: #fefefe;
-      border: 5px solid #e9e9e9;
-      box-sizing: border-box;
-      border-radius: 50px;
-      height: 54px !important;
-      min-width: 250px !important;
-      box-shadow: 0 0 0 5px hsl(0, 0%, 80%), 0 0 0 15px $primary,
-        0 0 0 15px $primary;
-      filter: drop-shadow(0px 0px 10px rgba(#ffffff, 0.25));
-      // padding: 0 16px;
-      span {
-        // width: ;
-        text-transform: capitalize;
-        font-weight: 600;
-        font-size: 18px;
-        line-height: 30px;
-        text-align: center;
-      }
-    }
-  }
+  // &__btn {
+  //   margin-top: calc(30px - 1rem);
+  //   z-index: 4;
+  //   position: relative;
+  //   margin-top: 2rem;
+  //   img {
+  //     max-width: 350px;
+  //     width: 100%;
+  //     height: auto;
+  //   }
+  //   .v-btn {
+  //     background: #fefefe;
+  //     border: 5px solid #e9e9e9;
+  //     box-sizing: border-box;
+  //     border-radius: 50px;
+  //     height: 54px !important;
+  //     min-width: 250px !important;
+  //     box-shadow: 0 0 0 5px hsl(0, 0%, 80%), 0 0 0 15px $primary,
+  //       0 0 0 15px $primary;
+  //     filter: drop-shadow(0px 0px 10px rgba(#ffffff, 0.25));
+  //     // padding: 0 16px;
+  //     span {
+  //       // width: ;
+  //       text-transform: capitalize;
+  //       font-weight: 600;
+  //       font-size: 18px;
+  //       line-height: 30px;
+  //       text-align: center;
+  //     }
+  //   }
+  // }
 }
 .testimonial-section {
   position: relative;
@@ -1210,7 +1255,7 @@ export default {
           line-height: 30px;
           text-align: center;
           letter-spacing: -0.025em;
-          color: #321215;
+          color: $primary;
           transition: opacity 0.5s ease;
         }
         &__description {

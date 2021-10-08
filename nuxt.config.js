@@ -64,7 +64,8 @@ export default {
       themes: {
         light: {
           // primary: '#F42F43',
-          primary: '#480b0e',
+          // primary: '#480b0e',
+          primary: '#ce1f24',
           accent: '#783BF9',
           accent_2: '#F87172',
           accent_3: '#A5A6F6',
@@ -76,6 +77,7 @@ export default {
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
           success: colors.green.accent3,
+          whatsapp: '#25D366',
         },
       },
     },
