@@ -397,7 +397,10 @@ export default {
       this.$echo.channel(`chat.${salaId}`).listen('NewMessage', (e) => {
         // // console.debug(`Chat`, e)
         this.chat = e.chat
+        this.countUnreadMessages()
+        this.readMessage()
       })
+      this.readMessage()
     },
     async checkVideoDuration(index) {
       let isOk = false
@@ -529,6 +532,7 @@ export default {
     getAvatar(item) {
       return `${this.img_baseUrl}${item.from.avatar}`
     },
+    // messages
     async broadcastMessages(id) {
       this.loadingOn()
       const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
@@ -557,7 +561,6 @@ export default {
         })
     },
     async messagesNotifications(id) {
-      this.loadingOn()
       const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       let config = {
         headers: {
@@ -581,6 +584,69 @@ export default {
           // this.loadingOff()
           // this.scrollToBottom()
           // // console.debug(e)
+        })
+    },
+    async readMessage() {
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
+
+      // 'http://127.0.0.1:8000/api/auth/count-to/' +
+      //   IdUsuarioLogeado +
+      //   '/from/' +
+      //   IdUsuarioAMandarMensaje,
+      //   config
+      const options = {
+        method: 'GET',
+        url: `${this.$axios.defaults.baseURL}auth/count-to/${prof}/from/${this.$route.params.id}`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+
+      await this.$axios
+        .request(options)
+        .then((res) => {
+          // this.loadingOff()
+          // console.debug(res.data[1].men, res.data[0].women)
+          // console.debug('hey', this.chartDataGeneral.datasets[0].data)
+        })
+        .catch((e) => {
+          // console.debug(e.response.data.error)
+          // this.loadingOff()
+          // this.snackbarOn(
+          //   'Ha ocurrido un error, pongase en contacto con el soporte.'
+          // )
+        })
+    },
+    async countUnreadMessages() {
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
+
+      // 'http://127.0.0.1:8000/api/auth/count-unread/'+IdUsuarioAMandarMensaje, config
+      const options = {
+        method: 'GET',
+        url: `${this.$axios.defaults.baseURL}auth/count-unread/${this.$route.params.id}`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+
+      await this.$axios
+        .request(options)
+        .then((res) => {
+          console.debug(res)
+          // this.loadingOff()
+          // console.debug(res.data[1].men, res.data[0].women)
+          // console.debug('hey', this.chartDataGeneral.datasets[0].data)
+        })
+        .catch((e) => {
+          // console.debug(e.response.data.error)
+          // this.loadingOff()
+          // this.snackbarOn(
+          //   'Ha ocurrido un error, pongase en contacto con el soporte.'
+          // )
         })
     },
     //custom file

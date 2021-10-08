@@ -25,7 +25,7 @@
                   <v-card flat>
                     <v-card-text>
                       <wdcBar
-                        :chartdata="chartDataGeneral"
+                        :chartData="chartDataGeneral"
                         :options="chartOptionsGeneral"
                       />
                     </v-card-text>
@@ -35,7 +35,7 @@
                   <v-card flat>
                     <v-card-text>
                       <wdcBar
-                        :chartdata="chartDataRegion"
+                        :chartData="chartDataRegion"
                         :options="chartOptionsRegion"
                       />
                       <v-select
@@ -47,9 +47,6 @@
                         v-model="regionSelected"
                         solo
                       ></v-select>
-                      <!-- <pre>
-                        {{ regionSelected }}
-                      </pre> -->
                     </v-card-text>
                   </v-card>
                 </v-tab-item>
@@ -79,7 +76,7 @@
                   <v-card flat>
                     <v-card-text>
                       <wdcLine
-                        :chartdata="chartDataMonthMen"
+                        :chartData="chartDataMonthMen"
                         :options="chartOptionsMonthMen"
                       />
                     </v-card-text>
@@ -88,7 +85,7 @@
                 <v-tab-item>
                   <v-card flat>
                     <wdcLine
-                      :chartdata="chartDataMonthWoman"
+                      :chartData="chartDataMonthWoman"
                       :options="chartOptionsMonthWoman"
                     />
                   </v-card>
@@ -106,21 +103,28 @@
 import wdcBar from '~/components/charts/wdc_bar.vue'
 import wdcLine from '~/components/charts/wdc_line.vue'
 import resourcesMixin from '@/mixins/resources'
+import loadingMixin from '@/mixins/loadingMixin'
+import authMixin from '~/mixins/authMixin'
 export default {
   components: { wdcBar, wdcLine },
-  mixins: [resourcesMixin],
+  mixins: [resourcesMixin, loadingMixin, authMixin],
+  middleware: ['authenticated'],
   layout: 'dashboard',
   data() {
     return {
       usersActivesTab: null,
       monthPaymentTab: null,
       regionSelected: null,
+      menByRegion: [],
+      womenByRegion: [],
+      paymentsMen: [],
+      paymentsWoman: [],
       chartDataGeneral: {
         labels: ['Hombres', 'Mujeres'],
         datasets: [
           {
             label: 'Data One',
-            data: [50, 50],
+            data: [1, 1],
             backgroundColor: ['rgb(54, 162, 235)', 'rgb(255, 99, 132)'],
           },
         ],
@@ -201,6 +205,214 @@ export default {
   },
   mounted() {
     this.getRegions()
+    this.getUsers()
+    this.getUsersByRegions()
+    this.getMensByPayment()
+    this.getWomansByPayment()
+  },
+  methods: {
+    async getUsers() {
+      this.loadingOn()
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
+
+      const options = {
+        method: 'GET',
+        url: `${this.$axios.defaults.baseURL}auth/count-women-and-men-registred`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+
+      await this.$axios
+        .request(options)
+        .then((res) => {
+          this.loadingOff()
+          // console.debug(res.data[1].men, res.data[0].women)
+          this.chartDataGeneral = {
+            labels: ['Hombres', 'Mujeres'],
+            datasets: [
+              {
+                label: 'Data One',
+                data: [res.data[1].men, res.data[0].women],
+                backgroundColor: ['rgb(54, 162, 235)', 'rgb(255, 99, 132)'],
+              },
+            ],
+          }
+          // console.debug('hey', this.chartDataGeneral.datasets[0].data)
+        })
+        .catch((e) => {
+          // console.debug(e.response.data.error)
+          this.loadingOff()
+          this.snackbarOn(
+            'Ha ocurrido un error, pongase en contacto con el soporte.'
+          )
+        })
+    },
+    async getUsersByRegions() {
+      this.loadingOn()
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
+
+      const options = {
+        method: 'GET',
+        url: `${this.$axios.defaults.baseURL}auth/count-women-and-men-by-region`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+
+      await this.$axios
+        .request(options)
+        .then((res) => {
+          this.loadingOff()
+          this.menByRegion = res.data.men
+          this.womenByRegion = res.data.women
+        })
+        .catch((e) => {
+          // console.debug(e.response.data.error)
+          this.loadingOff()
+          this.snackbarOn(
+            'Ha ocurrido un error, pongase en contacto con el soporte.'
+          )
+        })
+    },
+    async getMensByPayment() {
+      this.loadingOn()
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
+
+      const options = {
+        method: 'GET',
+        url: `${this.$axios.defaults.baseURL}auth/payments-men`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+
+      await this.$axios
+        .request(options)
+        .then((res) => {
+          this.loadingOff()
+          this.paymentsMen = res.data.men
+          let data = []
+          this.paymentsMen.forEach((month) => {
+            data.push(month.pays)
+          })
+          this.chartDataMonthMen = {
+            labels: [
+              'Enero',
+              'Febrero',
+              'Marzo',
+              'Abril',
+              'Mayo',
+              'Junio',
+              'Julio',
+              'Agosto',
+              'Septiembre',
+              'Octubre',
+              'Noviembre',
+              'Diciembre',
+            ],
+            datasets: [
+              {
+                label: 'Membresías Pagadas',
+                data: data,
+                backgroundColor: ['rgb(54, 162, 235)'],
+              },
+            ],
+          }
+          // this.womenByRegion = res.data.women
+        })
+        .catch((e) => {
+          // console.debug(e.response.data.error)
+          this.loadingOff()
+          this.snackbarOn(
+            'Ha ocurrido un error, pongase en contacto con el soporte.'
+          )
+        })
+    },
+    async getWomansByPayment() {
+      this.loadingOn()
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
+
+      const options = {
+        method: 'GET',
+        url: `${this.$axios.defaults.baseURL}auth/payments-women`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+
+      await this.$axios
+        .request(options)
+        .then((res) => {
+          this.loadingOff()
+          this.paymentsWoman = res.data.women
+          let data = []
+          this.paymentsWoman.forEach((month) => {
+            data.push(month.pays)
+          })
+          this.chartDataMonthWoman = {
+            labels: [
+              'Enero',
+              'Febrero',
+              'Marzo',
+              'Abril',
+              'Mayo',
+              'Junio',
+              'Julio',
+              'Agosto',
+              'Septiembre',
+              'Octubre',
+              'Noviembre',
+              'Diciembre',
+            ],
+            datasets: [
+              {
+                label: 'Membresías Pagadas',
+                data: data,
+                backgroundColor: ['rgb(255, 99, 132)'],
+              },
+            ],
+          }
+          // this.womenByRegion = res.data.women
+        })
+        .catch((e) => {
+          // console.debug(e.response.data.error)
+          this.loadingOff()
+          this.snackbarOn(
+            'Ha ocurrido un error, pongase en contacto con el soporte.'
+          )
+        })
+    },
+  },
+  watch: {
+    regionSelected: function (val) {
+      let menCount = this.menByRegion.filter((item) => {
+        return item.id === val
+      })[0].users.count
+
+      let womenCount = this.womenByRegion.filter((item) => {
+        return item.id === val
+      })[0].users.count
+
+      this.chartDataRegion = {
+        labels: ['Hombres', 'Mujeres'],
+        datasets: [
+          {
+            label: 'Data One',
+            data: [menCount, womenCount],
+            backgroundColor: ['rgb(54, 162, 235)', 'rgb(255, 99, 132)'],
+          },
+        ],
+      }
+    },
   },
 }
 </script>

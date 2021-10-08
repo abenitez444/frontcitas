@@ -280,8 +280,6 @@ export default {
     }
   }
 }
-.brand-image {
-}
 @media (max-width: 991px) {
   .auth-layout {
     .featured-wrapper {

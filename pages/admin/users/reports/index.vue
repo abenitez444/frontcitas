@@ -287,6 +287,7 @@ import snackMixin from '@/mixins/snackMixin'
 export default {
   layout: 'dashboard',
   mixins: [authMixin, resources, loadingMixin, snackMixin],
+  middleware: ['authenticated'],
   data() {
     return {
       search: '',

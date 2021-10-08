@@ -154,7 +154,10 @@ ul {
   // z-index: 305 !important;
 }
 
-.brand-image {}
+.brand-image {
+  width : 260px;
+  height: auto;
+}
 
 @media (max-width: 576px) {
   .brand-image {

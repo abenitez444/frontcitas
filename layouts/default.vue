@@ -110,7 +110,8 @@
                     class="mt-5"
                     text
                   >
-                    soporte@clubsugardaddy.cl
+                    <v-icon left dark> mdi-email </v-icon>
+                    <span> soporte@clubsugardaddy.cl </span>
                   </v-btn>
                 </v-col>
               </v-row>

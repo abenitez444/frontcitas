@@ -251,11 +251,28 @@
 
                   <v-card>
                     <v-expansion-panels class="custom-accordion">
-                      <v-expansion-panel v-for="(item, i) in 4" :key="i">
+                      <v-expansion-panel>
                         <v-expansion-panel-header>
-                          <span class="question">
-                            ¿Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit?</span
+                          <span class="question">¿QUÉ ES UNA SUGAR BABY?</span>
+                          <img
+                            :src="asset_figure_4"
+                            class="faq-figure-4"
+                            alt=""
+                          />
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                          <p>
+                            Una Sugar Baby es una chica que quiere mejorar su
+                            estilo de vida y que está dispuesta a llegar a
+                            acuerdos con un Sugar Daddy a cambio de beneficios
+                            mutuos.
+                          </p>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                      <v-expansion-panel>
+                        <v-expansion-panel-header>
+                          <span class="question"
+                            >¿CÓMO FUNCIONA ESTE SITIO WEB?</span
                           >
                           <img
                             :src="asset_figure_4"
@@ -265,21 +282,127 @@
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit, sed do eiusmod incididunt ut labore et dolore
-                            magna aliqua. Lorem ipsum dolor sit amet,
-                            consectetur adipisicing elit, sed do eiusmod
-                            incididunt ut labore et dolore magna aliqua.
+                            Al igual que muchas redes sociales Clubsugardaddy es
+                            una plataforma para que sugar daddies y sugar babies
+                            entren en contacto y puedan llegar a acuerdos de
+                            manera discreta.
                           </p>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                      <v-expansion-panel>
+                        <v-expansion-panel-header>
+                          <span class="question"
+                            >¿SE PIDE ALGUN REQUISITOS PARA SER UNA BABY?</span
+                          >
+                          <img
+                            :src="asset_figure_4"
+                            class="faq-figure-4"
+                            alt=""
+                          />
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
                           <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit, sed do eiusmod incididunt ut labore et dolore
-                            magna aliqua.
+                            No, el único requisito para participar en nuestro
+                            club es ser mayor de edad.
                           </p>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                      <v-expansion-panel>
+                        <v-expansion-panel-header>
+                          <span class="question"
+                            >¿QUE PUEDO GANAR INGRESANDO AL CLUB?</span
+                          >
+                          <img
+                            :src="asset_figure_4"
+                            class="faq-figure-4"
+                            alt=""
+                          />
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
                           <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit, sed do eiusmod incididunt ut labore et dolore
-                            magna aliqua.
+                            Como Sugar Baby puedes obtener de un Daddy salidas a
+                            cenar, regalos, una mensualidad, ayuda económica a
+                            cambio de una relación virtual o ayuda económica a
+                            cambio de contacto íntimo.
+                          </p>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                      <v-expansion-panel>
+                        <v-expansion-panel-header>
+                          <span class="question"
+                            >¿MI DATOS PERSONALES ESTÁN PROTEGIDOS?</span
+                          >
+                          <img
+                            :src="asset_figure_4"
+                            class="faq-figure-4"
+                            alt=""
+                          />
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                          <p>
+                            En Clubsugardaddy nos preocupamos que tu información
+                            esté siempre protegida.
+                          </p>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                      <v-expansion-panel>
+                        <v-expansion-panel-header>
+                          <span class="question"
+                            >¿QUÉ PASA SI ALGUIEN ME ESTÁ ACOSANDO?</span
+                          >
+                          <img
+                            :src="asset_figure_4"
+                            class="faq-figure-4"
+                            alt=""
+                          />
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                          <p>
+                            Si alguien del club te acosa puedes reportar a la
+                            administración a dicha persona o también tienes la
+                            opción de bloquearla definitivamente.
+                          </p>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                      <v-expansion-panel>
+                        <v-expansion-panel-header>
+                          <span class="question"
+                            >¿EXISTEN LÍMITES DE EDAD?</span
+                          >
+                          <img
+                            :src="asset_figure_4"
+                            class="faq-figure-4"
+                            alt=""
+                          />
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                          <p>
+                            No existen límites de edad, en nuestro club puede
+                            participar cualquier persona mayor de edad, tu como
+                            baby eres quien decide con que rango de edad de
+                            Daddy quieres comunicarte
+                          </p>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                      <v-expansion-panel>
+                        <v-expansion-panel-header>
+                          <span class="question"
+                            >¿ME PUEDO CREAR UN PERFIL SIN FOTOS?</span
+                          >
+                          <img
+                            :src="asset_figure_4"
+                            class="faq-figure-4"
+                            alt=""
+                          />
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                          <p>
+                            En Clubsugardaddy recomendamos que tu perfil lleve
+                            varias fotografías para aumentar la posibilidad de
+                            ser contactada, pero también lo puedes crear sin
+                            fotografías si así lo deseas, o con fotografías
+                            parciales donde no se vea tu rostro si lo que
+                            quieres es cuidar tu privacidad.
                           </p>
                         </v-expansion-panel-content>
                       </v-expansion-panel>
@@ -345,11 +468,29 @@
 
                   <v-card>
                     <v-expansion-panels class="custom-accordion">
-                      <v-expansion-panel v-for="(item, i) in 4" :key="i">
+                      <v-expansion-panel>
                         <v-expansion-panel-header>
-                          <span class="question">
-                            ¿Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit?</span
+                          <span class="question"> ¿QUÉ ES UN SUGAR DADDY?</span>
+                          <img
+                            :src="asset_figure_4"
+                            class="faq-figure-4"
+                            alt=""
+                          />
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                          <p>
+                            Un Sugar Daddy es un hombre que ama su libertad, que
+                            disfruta su vida al máximo, con recursos económicos
+                            para ayudar financieramente a una Baby a cambio de
+                            cualquier acuerdo que puedan acordar de forma
+                            privada
+                          </p>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                      <v-expansion-panel>
+                        <v-expansion-panel-header>
+                          <span class="question"
+                            >¿DEBO SER RICO PARA SER UN SUGAR DADDY?</span
                           >
                           <img
                             :src="asset_figure_4"
@@ -359,21 +500,121 @@
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
                           <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit, sed do eiusmod incididunt ut labore et dolore
-                            magna aliqua. Lorem ipsum dolor sit amet,
-                            consectetur adipisicing elit, sed do eiusmod
-                            incididunt ut labore et dolore magna aliqua.
+                            No es necesario ser rico para ser Sugar Daddy, en
+                            este club tanto daddys como babies pueden llegar a
+                            acuerdos libremente.
                           </p>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                      <v-expansion-panel>
+                        <v-expansion-panel-header>
+                          <span class="question"
+                            >¿A QUÉ TIPO DE ACUERDO PUEDO LLEGAR CON UNA SUGAR
+                            BABY?</span
+                          >
+                          <img
+                            :src="asset_figure_4"
+                            class="faq-figure-4"
+                            alt=""
+                          />
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
                           <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit, sed do eiusmod incididunt ut labore et dolore
-                            magna aliqua.
+                            Algunos ejemplos a los que se puede llegar en el
+                            Club con una Sugar Baby son Salidas a cenar o beber
+                            un café Una relación SD/SB virtual Realizar viajes
+                            juntos Tener intimidad por una Única vez Tener
+                            intimidad de forma periódica a cambio de una
+                            mensualidad Intercambio de contenido Las opciones
+                            son varias para llegar a acuerdos, solo queda a
+                            criterio individual hasta donde está dispuesto a
+                            llegar.
                           </p>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                      <v-expansion-panel>
+                        <v-expansion-panel-header>
+                          <span class="question"
+                            >¿EXISTE LIMITE DE EDAD PARA PERTENECER AL
+                            CLUB?</span
+                          >
+                          <img
+                            :src="asset_figure_4"
+                            class="faq-figure-4"
+                            alt=""
+                          />
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
                           <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit, sed do eiusmod incididunt ut labore et dolore
-                            magna aliqua.
+                            No existe límite de edad para pertenecer al Club,
+                            solo ser mayor de edad.
+                          </p>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                      <v-expansion-panel>
+                        <v-expansion-panel-header>
+                          <span class="question"
+                            >¿CÓMO PUEDO LLEGAR A CONOCER EN PERSONA A UNA SUGAR
+                            BABY?</span
+                          >
+                          <img
+                            :src="asset_figure_4"
+                            class="faq-figure-4"
+                            alt=""
+                          />
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                          <p>
+                            En Clubsugardaddy recomendamos comenzar la
+                            comunicación de forma pausada, primero comunicándose
+                            mediante el chat del club, luego intercambiar un
+                            medio de comunicación privado, como WSP o Telegram
+                            por ejemplo para que una vez que ya haya más
+                            confianza y que ambos estén de acuerdo concretar una
+                            cita y por seguridad para ambos que sea siempre en
+                            un lugar público donde haya más gente, como una
+                            cafetería, restaurante o centro comercial por
+                            ejemplo.
+                          </p>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                      <v-expansion-panel>
+                        <v-expansion-panel-header>
+                          <span class="question"
+                            >¿LOS DATOS PERSONALES ESTÁN PROTEGIDOS?</span
+                          >
+                          <img
+                            :src="asset_figure_4"
+                            class="faq-figure-4"
+                            alt=""
+                          />
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                          <p>
+                            En Clubsugardaddy nos preocupamos que tu información
+                            este siempre protegida.
+                          </p>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                      <v-expansion-panel>
+                        <v-expansion-panel-header>
+                          <span class="question"
+                            >¿ME PUEDO CREAR UN PERFIL SIN FOTOS?</span
+                          >
+                          <img
+                            :src="asset_figure_4"
+                            class="faq-figure-4"
+                            alt=""
+                          />
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                          <p>
+                            En Clubsugardaddy recomendamos que tu perfil lleve
+                            varias fotografías para aumentar la posibilidad de
+                            que tus mensajes sean respondidos, pero también lo
+                            puedes crear sin fotografías si así lo deseas, o con
+                            fotografías parciales donde no se vea tu rostro si
+                            lo que quieres es cuidar tu privacidad.
                           </p>
                         </v-expansion-panel-content>
                       </v-expansion-panel>
@@ -389,7 +630,7 @@
             rounded
             width="250"
             class="font-weight-bold"
-            @click="faq_man = !faq_man"
+            @click="faq_woman = !faq_woman"
             color="accent"
           >
             Hombres
@@ -399,7 +640,7 @@
             width="250"
             class="font-weight-bold white--text"
             color="#f42f43"
-            @click="faq_woman = !faq_woman"
+            @click="faq_man = !faq_man"
           >
             Mujeres
           </v-btn>
@@ -1288,7 +1529,7 @@ export default {
 }
 .custom-accordion {
   margin: 0px auto;
-  padding: 75px;
+  padding: 75px !important;
   // max-height: 750px;
   .v-expansion-panel {
     margin: 25px 0;

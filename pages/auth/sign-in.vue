@@ -132,6 +132,9 @@ export default {
         })
     },
   },
+  mounted() {
+    this.loadingOff()
+  },
 }
 </script>
 

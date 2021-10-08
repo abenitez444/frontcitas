@@ -1,6 +1,6 @@
 <template>
   <v-snackbar
-    v-model="gettingNewNotification"
+    v-model="notificationState"
     top
     right
     :timeout="10000"
@@ -50,6 +50,16 @@ export default {
     return {
       notiSnack: true,
     }
+  },
+  computed: {
+    notificationState: {
+      get() {
+        return this.gettingNewNotification
+      },
+      set(value) {
+        this.resetNotifications()
+      },
+    },
   },
 }
 </script>

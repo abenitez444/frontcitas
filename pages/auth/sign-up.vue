@@ -520,13 +520,14 @@ export default {
         await this.$axios
           .$post(`${this.$axios.defaults.baseURL}signup`, this.newUser)
           .then((res) => {
-            const { token, sub, prof, status } = res
+            const { token, sub, prof, status, remains_days } = res
             this.loadingForm = false
             this.authenticating({
               token,
               sub,
               prof,
               status,
+              remains_days,
             })
             this.$router.push('/profile')
           })

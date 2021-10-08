@@ -119,7 +119,8 @@
                   </template>
                   <template v-else-if="item.profile.status_id === 4">
                     <v-chip class="ma-2 font-weight-bold" color="accent">
-                      Activo Membresía
+                      <span class="mr-1">Activo Membresía</span>
+                      <span> {{ item.membership_type.membership }} </span>
                     </v-chip>
                   </template>
                   <template v-else-if="item.profile.status_id === 5">
@@ -161,14 +162,18 @@
                         <v-list-item-icon>
                           <v-icon>mdi-delete</v-icon>
                         </v-list-item-icon>
-                        <v-list-item-title>Elimnar Membresía</v-list-item-title>
+                        <v-list-item-title
+                          >Eliminar Membresía</v-list-item-title
+                        >
                       </v-list-item>
                       <!-- Delete content -->
                       <v-list-item :to="`/admin/users/reports`">
                         <v-list-item-icon>
                           <v-icon>mdi-delete-sweep</v-icon>
                         </v-list-item-icon>
-                        <v-list-item-title>Elimnar Contenido</v-list-item-title>
+                        <v-list-item-title
+                          >Eliminar Contenido</v-list-item-title
+                        >
                       </v-list-item>
                       <!-- Edit -->
                       <v-list-item @click="getProfile(item)">
@@ -197,6 +202,7 @@ import snackMixin from '@/mixins/snackMixin'
 export default {
   layout: 'dashboard',
   mixins: [authMixin, resources, loadingMixin, snackMixin],
+  middleware: ['authenticated'],
   data() {
     return {
       search: '',

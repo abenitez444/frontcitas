@@ -502,7 +502,7 @@
             Cancelar
           </v-btn>
           <v-btn color="primary" @click="submitEditTestimony(newTestimony.id)">
-            :disabled="$v.newTestimony.$invalid"
+            <!-- :disabled="$v.newTestimony.$invalid" -->
             <!-- getSlidesById -->
             Editar
           </v-btn>
@@ -514,7 +514,7 @@
     <v-sheet color="transparent">
       <v-row class="content-wrapper">
         <!-- Sliders -->
-        <v-col cols="6">
+        <v-col cols="12" lg="6">
           <v-card class="cm-round-1 cm-elevation-1">
             <v-card-title>
               <span> Configuración de sliders </span>
@@ -576,7 +576,7 @@
         </v-col>
 
         <!-- Videos -->
-        <v-col cols="6">
+        <v-col cols="12" lg="6">
           <v-card class="cm-round-1 cm-elevation-1">
             <v-card-title>
               <span> Configuración de videos </span>
@@ -627,7 +627,7 @@
         </v-col>
 
         <!-- Galeria -->
-        <v-col cols="6">
+        <v-col cols="12" lg="6">
           <v-card class="cm-round-1 cm-elevation-1">
             <v-card-title>
               <span> Configuración de miembros del club </span>
@@ -678,7 +678,7 @@
         </v-col>
 
         <!-- Testimonios -->
-        <v-col cols="6">
+        <v-col cols="12" lg="6">
           <v-card class="cm-round-1 cm-elevation-1">
             <v-card-title>
               <span> Configuración de Testimonios </span>
@@ -737,6 +737,7 @@ import { required } from 'vuelidate/lib/validators'
 export default {
   mixins: [authMixin, resources, loadingMixin, snackMixin, validationMixin],
   layout: 'dashboard',
+  middleware: ['authenticated'],
   mounted() {
     this.getSliders()
     this.getMembers()
