@@ -8,14 +8,10 @@
       <v-col class="hero-section__content">
         <div class="carousel-wrapper">
           <!--              -->
-          <v-carousel
-            cycle
+          <!-- cycle
             continuous
-            interval="3000"
-            v-model="model"
-            :show-arrows="false"
-            height="auto"
-          >
+            interval="3000" -->
+          <v-carousel v-model="model" :show-arrows="false" height="auto">
             <v-carousel-item v-for="(slide, i) in slides" :key="i">
               <v-sheet height="100%" tile color="transparent">
                 <v-row class="fill-height transparent" align="center">
@@ -68,52 +64,28 @@
     </v-row>
 
     <!-- Videos -->
-    <v-row class="video-section align-center">
+    <v-row class="video-section">
       <img :src="asset_wave" class="bg-wave" alt="" />
-      <v-col class="video-section__content">
-        <carousel ref="carousel" :per-page="1">
-          <!-- one -->
-          <slide v-for="(video, index) in videos" :key="index">
-            <div class="slide-wrap">
-              <div class="avatar-box">
-                <v-sheet color="transparent">
-                  <v-row class="row-video-wrapper">
-                    <v-col
-                      cols="12"
-                      md="12"
-                      lg="7"
-                      class="d-flex justify-center align-center wrapper-video"
-                    >
-                      <client-only placeholder="Loading...">
-                        <!-- :player-height="439" -->
-                        <youtube
-                          :player-vars="{ autoplay: 0 }"
-                          :video-id="video.link"
-                        />
-                      </client-only>
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      md=""
-                      lg=""
-                      class="d-flex flex-column justify-center mt-3 mt-lg-0"
-                    >
-                      <h2
-                        class="header-2 primary--text mb-3 mb-sm-7 title-text"
-                      >
-                        {{ video.title }}
-                      </h2>
-                      <p class="text-1 description-text">
-                        {{ video.description }}
-                      </p>
-                    </v-col>
-                  </v-row>
-                </v-sheet>
-              </div>
-            </div>
-          </slide>
-        </carousel>
-      </v-col>
+      <template v-for="(video, index) in videos">
+        <!--
+                    cols="12"
+          xs="12"
+          sm="12"
+          lg="4"
+         -->
+        <v-col cols="12" class="video-section__col" :key="index">
+          <client-only placeholder="Loading...">
+            <!-- :player-height="439" -->
+            <youtube :player-vars="{ autoplay: 0 }" :video-id="video.link" />
+          </client-only>
+          <h2 class="header-2 primary--text mb-3 mb-sm-7 title-text">
+            {{ video.title }}
+          </h2>
+          <p class="text-1 description-text">
+            {{ video.description }}
+          </p>
+        </v-col>
+      </template>
     </v-row>
 
     <!-- Members PENDIENTE -->
@@ -889,6 +861,11 @@ export default {
 .hero-section {
   position: relative;
 
+  @media (max-width: 959px) {
+    height: auto;
+    min-height: 650px;
+  }
+
   &::after {
     content: '';
     background-color: $primary;
@@ -958,7 +935,7 @@ export default {
       height: 250px;
     }
     @media (max-width: 414px) {
-      height: 100px;
+      height: 200px;
     }
   }
   .slide-content {
@@ -992,13 +969,54 @@ export default {
 
 .video-section {
   position: relative;
-  &__content {
-    max-width: calc(100% - 120px);
-    margin: 0 auto;
-    @media (max-width: 576px) {
-      max-width: calc(100% - 60px);
+  &__col {
+    margin-top: 60px;
+    z-index: 4;
+    @media (max-width: 1263px) {
+      margin-top: 75px;
     }
   }
+  &__col > div {
+    // background-color: #bada55;
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    // overflow: hidden;
+    // padding-bottom: 56.25%;
+    // padding-top: 30px;
+    max-width: 640px;
+    height: 360px;
+    iframe {
+      max-height: 360px;
+      // display: none;
+      // max-width: calc(100vw - 160px);
+      // height: auto;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  .header-2 {
+    text-align: center;
+    margin-top: 40px;
+  }
+  .description-text {
+    font-size: 18px;
+    max-width: 550px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  // &__content {
+  //   max-width: calc(100% - 120px);
+  //   margin: 0 auto;
+  //   @media (max-width: 576px) {
+  //     max-width: calc(100% - 60px);
+  //   }
+  // }
   .bg-wave {
     position: absolute;
     top: 0;
@@ -1007,86 +1025,86 @@ export default {
     height: auto;
     transform: translateY(-5px) rotate(180deg);
   }
-  .slide-wrap {
-    max-width: 1440px;
-    margin: 0 auto;
-  }
-  .VueCarousel-dot.VueCarousel-dot {
-    background-color: $primary !important;
-  }
-  .wrapper-video {
-    // max-height: 360px;
-    border-radius: 10px;
-    // overflow: hidden;
-    & > div {
-      display: flex;
-      align-items: center;
-      border-radius: 10px;
-      // max-width: 640px;
-      iframe {
-        border-radius: 10px;
-      }
-    }
-    @media (max-width: 1263px) {
-      & > div {
-        height: 100%;
-        width: 100%;
-        position: relative;
-        // overflow: hidden;
-        // padding-bottom: 56.25%;
-        // padding-top: 30px;
-        max-width: 640px;
-        height: 360px;
-        iframe {
-          max-height: 360px;
-          // display: none;
-          // max-width: calc(100vw - 160px);
-          // height: auto;
-          position: absolute;
-          height: 100%;
-          width: 100%;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-        }
-      }
+  // .slide-wrap {
+  //   max-width: 1440px;
+  //   margin: 0 auto;
+  // }
+  // .VueCarousel-dot.VueCarousel-dot {
+  //   background-color: $primary !important;
+  // }
+  // .wrapper-video {
+  //   // max-height: 360px;
+  //   border-radius: 10px;
+  //   // overflow: hidden;
+  //   & > div {
+  //     display: flex;
+  //     align-items: center;
+  //     border-radius: 10px;
+  //     // max-width: 640px;
+  //     iframe {
+  //       border-radius: 10px;
+  //     }
+  //   }
+  //   @media (max-width: 1263px) {
+  //     & > div {
+  //       height: 100%;
+  //       width: 100%;
+  //       position: relative;
+  //       // overflow: hidden;
+  //       // padding-bottom: 56.25%;
+  //       // padding-top: 30px;
+  //       max-width: 640px;
+  //       height: 360px;
+  //       iframe {
+  //         max-height: 360px;
+  //         // display: none;
+  //         // max-width: calc(100vw - 160px);
+  //         // height: auto;
+  //         position: absolute;
+  //         height: 100%;
+  //         width: 100%;
+  //         left: 50%;
+  //         top: 50%;
+  //         transform: translate(-50%, -50%);
+  //       }
+  //     }
 
-      // .div_contenedor {
-      // 	position: relative;
-      // 	padding-bottom: 56.25%; /*panorámico*/
-      // 	padding-top: 25px;
-      // 	height: 0;
-      // }
-      // .div_contenedor iframe {
-      // 	position: absolute;
-      // 	top: 0;
-      // 	left: 0;
-      // 	width: 100%;
-      // 	height: 100%;
-      // }
-    }
-  }
-  @media (max-width: 414px) {
-    // display: none;
-    .wrapper-video > div iframe {
-      height: auto;
-      width: 100%;
-      position: static;
-      left: 0;
-      top: 0;
-      transform: unset;
-    }
-    .wrapper-video > div {
-      height: auto;
-    }
-    h2 {
-      font-size: 18px;
-      margin-bottom: 0;
-    }
-    p {
-      font-size: 12px;
-    }
-  }
+  //     // .div_contenedor {
+  //     // 	position: relative;
+  //     // 	padding-bottom: 56.25%; /*panorámico*/
+  //     // 	padding-top: 25px;
+  //     // 	height: 0;
+  //     // }
+  //     // .div_contenedor iframe {
+  //     // 	position: absolute;
+  //     // 	top: 0;
+  //     // 	left: 0;
+  //     // 	width: 100%;
+  //     // 	height: 100%;
+  //     // }
+  //   }
+  // }
+  // @media (max-width: 414px) {
+  //   // display: none;
+  //   .wrapper-video > div iframe {
+  //     height: auto;
+  //     width: 100%;
+  //     position: static;
+  //     left: 0;
+  //     top: 0;
+  //     transform: unset;
+  //   }
+  //   .wrapper-video > div {
+  //     height: auto;
+  //   }
+  //   h2 {
+  //     font-size: 18px;
+  //     margin-bottom: 0;
+  //   }
+  //   p {
+  //     font-size: 12px;
+  //   }
+  // }
 }
 .members-section {
   align-items: center;
