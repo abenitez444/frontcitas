@@ -139,8 +139,10 @@
       <!-- <p>
         {{ $route.name }}
       </p> -->
+      <!-- :class="$route.name === 'index' ? '' : 'd-none d-md-flex'" -->
       <v-btn
-        class="mx-2 d-flex d-md-none"
+        class="mx-2"
+        :class="getUserData === null ? 'd-none' : 'd-flex d-md-none'"
         @click.stop="drawer = !drawer"
         x-small
         fab
@@ -151,24 +153,29 @@
       </v-btn>
       <!-- logged -->
       <template v-if="getUserData === null">
-        <v-btn
-          to="/auth/sign-up"
-          elevation="0"
-          rounded
-          class="text-capitalize px-7 d-none d-md-flex"
-          color="primary"
-        >
-          Registro
-        </v-btn>
-        <v-btn
-          to="/auth/sign-in"
-          elevation="0"
-          rounded
-          class="ml-5 text-capitalize px-7 d-none d-md-flex"
-          color="primary"
-        >
-          Ingresar
-        </v-btn>
+        <v-spacer></v-spacer>
+        <div class="d-flex flex-wrap justify-end">
+          <v-btn
+            to="/auth/sign-up"
+            elevation="0"
+            rounded
+            class="mx-0 mx-sm-2 my-1 my-sm-0 text-capitalize px-7"
+            :class="$route.name === 'index' ? '' : 'd-none d-md-flex'"
+            color="accent"
+          >
+            Registro
+          </v-btn>
+          <v-btn
+            to="/auth/sign-in"
+            elevation="0"
+            rounded
+            class="mx-0 mx-sm-2 my-1 my-sm-0 text-capitalize px-7"
+            :class="$route.name === 'index' ? '' : 'd-none d-md-flex'"
+            color="primary"
+          >
+            Ingresar
+          </v-btn>
+        </div>
       </template>
 
       <!-- profile template -->

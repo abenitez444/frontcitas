@@ -881,7 +881,13 @@ export default {
     position: relative;
     z-index: 2;
     max-width: calc(100% - 120px);
-    margin: 0 auto;
+    margin: 150px auto 0 auto;
+    @media (min-width: 960px) {
+      margin: 0 auto 0 auto;
+    }
+    @media (max-width: 414px) {
+      margin: 0 auto 0 auto;
+    }
     @media (max-width: 576px) {
       max-width: calc(100% - 60px);
     }
@@ -1577,7 +1583,13 @@ export default {
   @media (min-width: 1599px) {
     max-width: 1600px;
   }
+  @media (max-width: 1366px) {
+    min-height: auto;
+    margin-top: 75px;
+    margin-bottom: 75px;
+  }
   @media (max-width: 576px) {
+    min-height: auto;
     max-width: calc(100% - 60px);
   }
   @media (max-width: 414px) {

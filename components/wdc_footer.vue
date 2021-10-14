@@ -99,15 +99,15 @@
           offset-md="4"
           class="text-center copyright"
         >
-          <p>Lorem Corporation © 2021</p>
+          <p> <span class="font-weight-bold">Club Sugar Daddy © {{year()}}</span> </p>
         </v-col>
         <v-col
           cols="12"
           md="4"
           class="text-center text-md-right methods-payment"
         >
-          <a href="#" class="white--text footer-anchor"> Paypal </a> |
-          <a href="#" class="white--text footer-anchor">Binance</a>
+          <!-- <a href="#" class="white--text footer-anchor"> Paypal </a> |
+          <a href="#" class="white--text footer-anchor">Binance</a> -->
         </v-col>
       </v-row>
     </v-container>
@@ -126,6 +126,13 @@ export default {
       logoDefault,
       logoDark,
       logoInsta,
+    }
+  },
+  methods: {
+    year(){
+      let Xmas = new Date();
+      let year = Xmas.getFullYear();
+      return year
     }
   },
 }
