@@ -1194,6 +1194,9 @@ export default {
       font-size: 24px !important;
     }
   }
+  @media (max-width: 576px) {
+min-height: auto;
+  }
   // &__btn {
   //   margin-top: calc(30px - 1rem);
   //   z-index: 4;
@@ -1382,6 +1385,7 @@ export default {
   }
   &__main-title {
     margin-bottom: 50px;
+    margin-top: 40px;
     @media (max-width: 414px) {
       h2 {
         font-size: 24px;

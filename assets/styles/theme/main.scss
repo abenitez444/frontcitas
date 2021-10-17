@@ -42,7 +42,8 @@ $appBar-height: 114px;
   height: $appBar-height !important;
 
   @media (max-width: 414px) {
-    height: 54px !important;
+    // height: 54px !important;
+    height: 94px !important;
   }
 }
 
