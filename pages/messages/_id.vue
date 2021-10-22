@@ -228,6 +228,7 @@
                                 class="message-input"
                                 hide-details=""
                                 v-model="message"
+                                @keyup.enter="sendMessage()"
                               ></v-textarea>
                             </v-col>
                             <div class="wrapper-toolbar">
@@ -297,6 +298,7 @@
                                 color="primary"
                                 width="115px"
                                 @click="sendMessage()"
+
                                 :disabled="disableSubmit"
                               >
                                 enviar
