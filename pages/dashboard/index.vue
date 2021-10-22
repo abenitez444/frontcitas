@@ -114,12 +114,18 @@
                     </div>
                   </v-col>
                   <v-col class="mb-5 mb-sm-0" cols="12" sm="">
-                    <v-text-field
+                    <v-textarea
                       label="¿Qué tienes en mente?"
                       solo
+                      auto-grow
+                      rows="1"
+                      row-height="15"
+                      counter
+                      :value="postDescription"
                       hide-details=""
                       v-model="postDescription"
-                    ></v-text-field>
+                    ></v-textarea>
+                    <!-- :rules="rules" -->
                   </v-col>
 
                   <v-btn color="primary" class="publish-btn" @click="newPost()"
@@ -532,6 +538,7 @@ export default {
   },
   data() {
     return {
+      // rules: [(v) => v.length <= 1000 || 'Max 1000 caracteres'],
       iconPlaceholder,
       featuredSlides: null,
       postDetail: false,
@@ -910,7 +917,8 @@ export default {
       .post-options {
         top: 0;
         right: 0;
-        transform: translate(-1rem, -150%);
+        // transform: translate(-1rem, -150%);
+        transform: translate(-1rem, 1rem);
         position: absolute;
         transition: 0.5s ease;
       }
@@ -924,7 +932,7 @@ export default {
         bottom: 10px;
         right: 5px;
         min-height: 50;
-        transform: translateY(150%);
+        // transform: translateY(150%);
         transition: 0.5s ease;
         .interaction {
         }
@@ -938,16 +946,16 @@ export default {
       .btn-report {
         transform: translate(1rem, 1.5rem);
       }
-      &:hover {
-        .post-options {
-          opacity: 1;
-          transform: translate(-1rem, 1rem);
-        }
-        .post-interactions {
-          opacity: 1;
-          transform: translateY(0%);
-        }
-      }
+      // &:hover {
+      //   .post-options {
+      //     opacity: 1;
+      //     transform: translate(-1rem, 1rem);
+      //   }
+      //   .post-interactions {
+      //     opacity: 1;
+      //     transform: translateY(0%);
+      //   }
+      // }
     }
     .author-avatar {
       height: 70px;
