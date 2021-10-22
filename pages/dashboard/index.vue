@@ -317,7 +317,7 @@
                                   Usuario Bloqueado
                                 </v-btn>
                                 <!-- options -->
-                                <div class="post-options">
+                                <div class="post-options" v-if="getUserData.id !== post.profile.user.id">
                                   <v-menu offset-y>
                                     <template v-slot:activator="{ on, attrs }">
                                       <v-btn
