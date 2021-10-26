@@ -4,6 +4,7 @@ import asset_wave from '@/assets/asset_wave.svg'
 import maleIcon from '@/assets/ui-icon-male.svg'
 import femaleIcon from '@/assets/ui-icon-female.svg'
 import kissIcon from '@/assets/ui-icon-kiss.svg'
+import kissIconEnabled from '@/assets/ui-icon-kiss_enabled.svg'
 export default {
   data() {
     return {
@@ -22,6 +23,7 @@ export default {
       maleIcon,
       femaleIcon,
       kissIcon,
+      kissIconEnabled,
     }
   },
   methods: {

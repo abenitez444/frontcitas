@@ -47,7 +47,7 @@
                         </h2></v-toolbar
                       >
                       <v-card-text class="pa-5 pa-sm-8 text-center">
-                        <h3>$10.000 CLP al mes</h3>
+                        <h3>$14 USD al mes</h3>
                         <h3 class="hide">Ahorra 20%</h3>
                       </v-card-text>
                       <v-card-actions>
@@ -72,7 +72,7 @@
                         </h2></v-toolbar
                       >
                       <v-card-text class="pa-5 pa-sm-8 text-center">
-                        <h3>$48.000 CLP al mes</h3>
+                        <h3>$64 USD al mes</h3>
                         <h3 class="accent--text font-weight-bold">
                           Ahorra 20%
                         </h3>
@@ -138,8 +138,8 @@
               <v-spacer></v-spacer>
               <v-col cols="auto">
                 <span class="font-weight-bold">Total:</span>
-                <span v-if="planSelected === 1">$10.000 CLP</span>
-                <span v-else-if="planSelected === 2">$48.000 CLP</span></v-col
+                <span v-if="planSelected === 1">$14 USD</span>
+                <span v-else-if="planSelected === 2">$64 USD</span></v-col
               >
             </v-row>
             <!-- <v-row>

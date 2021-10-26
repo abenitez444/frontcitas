@@ -182,13 +182,27 @@
                                     color="primary"
                                     elevation="0"
                                     @click.stop="
-                                      sendReaction(postSelected.id, 1)
+                                      sendReaction(postSelected.id, 1, i)
                                     "
                                   >
-                                    <v-icon> mdi-heart-outline </v-icon>
-                                    <span class="interaction-number ml-1">{{
-                                      postSelected.count_reactions.love_it
-                                    }}</span>
+                                    <template
+                                      v-if="
+                                        postSelected.count_reactions.i_love_it
+                                      "
+                                    >
+                                      <v-icon> mdi-heart </v-icon>
+                                    </template>
+                                    <v-icon v-else> mdi-heart-outline </v-icon>
+
+                                    <span
+                                      class="interaction-number ml-1"
+                                      v-if="
+                                        postSelected.count_reactions.love_it
+                                      "
+                                      >{{
+                                        postSelected.count_reactions.love_it
+                                      }}
+                                    </span>
                                   </v-btn>
                                 </div>
                                 <div class="loves interaction">
@@ -197,18 +211,35 @@
                                     color="primary"
                                     elevation="0"
                                     @click.stop="
-                                      sendReaction(postSelected.id, 2)
+                                      sendReaction(postSelected.id, 2, i)
                                     "
                                   >
+                                    <template
+                                      v-if="
+                                        postSelected.count_reactions.i_kiss_it
+                                      "
+                                    >
+                                      <img
+                                        :src="kissIconEnabled"
+                                        style="width: 24px; height: auto"
+                                        alt=""
+                                      />
+                                    </template>
                                     <img
+                                      v-else
                                       :src="kissIcon"
                                       style="width: 24px; height: auto"
                                       alt=""
                                     />
-                                    <!-- <v-icon> mdi-heart-outline </v-icon> -->
-                                    <span class="interaction-number ml-1">{{
-                                      postSelected.count_reactions.kiss_it
-                                    }}</span>
+                                    <span
+                                      class="interaction-number ml-1"
+                                      v-if="
+                                        postSelected.count_reactions.kiss_it
+                                      "
+                                      >{{
+                                        postSelected.count_reactions.kiss_it
+                                      }}
+                                    </span>
                                   </v-btn>
                                 </div>
                               </div>
@@ -317,7 +348,10 @@
                                   Usuario Bloqueado
                                 </v-btn>
                                 <!-- options -->
-                                <div class="post-options" v-if="getUserData.id !== post.profile.user.id">
+                                <div
+                                  class="post-options"
+                                  v-if="getUserData.id !== post.profile.user.id"
+                                >
                                   <v-menu offset-y>
                                     <template v-slot:activator="{ on, attrs }">
                                       <v-btn
@@ -382,12 +416,22 @@
                                       small
                                       color="primary"
                                       elevation="0"
-                                      @click.stop="sendReaction(post.id, 1)"
+                                      @click.stop="sendReaction(post.id, 1, i)"
                                     >
-                                      <v-icon> mdi-heart-outline </v-icon>
-                                      <span class="interaction-number ml-1">{{
-                                        post.count_reactions.love_it
-                                      }}</span>
+                                      <template
+                                        v-if="post.count_reactions.i_love_it"
+                                      >
+                                        <v-icon> mdi-heart </v-icon>
+                                      </template>
+                                      <v-icon v-else>
+                                        mdi-heart-outline
+                                      </v-icon>
+
+                                      <span
+                                        class="interaction-number ml-1"
+                                        v-if="post.count_reactions.love_it"
+                                        >{{ post.count_reactions.love_it }}
+                                      </span>
                                     </v-btn>
                                   </div>
                                   <div class="loves interaction">
@@ -395,32 +439,38 @@
                                       small
                                       color="primary"
                                       elevation="0"
-                                      @click.stop="sendReaction(post.id, 2)"
+                                      @click.stop="sendReaction(post.id, 2, i)"
                                     >
+                                      <template
+                                        v-if="post.count_reactions.i_kiss_it"
+                                      >
+                                        <img
+                                          :src="kissIconEnabled"
+                                          style="width: 24px; height: auto"
+                                          alt=""
+                                        />
+                                      </template>
                                       <img
+                                        v-else
                                         :src="kissIcon"
                                         style="width: 24px; height: auto"
                                         alt=""
                                       />
-                                      <!-- <v-icon> mdi-heart-outline </v-icon> -->
-                                      <span class="interaction-number ml-1">{{
-                                        post.count_reactions.kiss_it
-                                      }}</span>
+                                      <span
+                                        class="interaction-number ml-1"
+                                        v-if="post.count_reactions.kiss_it"
+                                        >{{ post.count_reactions.kiss_it }}
+                                      </span>
                                     </v-btn>
                                   </div>
                                 </div>
                               </div>
+                              <!-- <pre>
+                                {{ post }}
+                              </pre> -->
                             </v-col>
                           </v-row>
 
-                          <!-- description -->
-                          <!-- <v-row>
-                            <pre>
-                              {{post.count_reactions}}
-                              Profile: {{ post.profile.id }}
-                              User: {{ post.profile.user.id }}
-                            </pre>
-                          </v-row> -->
                           <v-row
                             align="center"
                             class="cursor-pointer"
@@ -494,11 +544,6 @@
                               </div>
                             </v-col>
                           </v-row>
-                          <!-- <v-row>
-                            <pre>
-                              {{ post.profile.status }}
-                            </pre>
-                          </v-row> -->
                         </v-sheet>
                       </v-card-text>
                     </v-card>
@@ -507,6 +552,13 @@
               </v-sheet>
             </v-card-text>
           </v-card>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <pre>
+            {{ posts }}
+          </pre>
         </v-col>
       </v-row>
     </v-sheet>
@@ -773,9 +825,17 @@ export default {
           )
         })
     },
-    async sendReaction(postId, reactionId) {
-      // console.debug(postId, reactionId)
-      // this.loadingOn()
+    async sendReaction(postId, reactionId, index) {
+      // const postCopy = { ...this.posts[index] }
+      // if (reactionId === 1) {
+      //   postCopy.myLike = true
+      // } else {
+      //   postCopy.myKiss = true
+      // }
+      // console.debug(postCopy)
+      // console.debug(this.posts[index])
+      // this.posts[index] = postCopy
+      // this.posts.splice(index, 1, postCopy)
       const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
 
       let config = {
