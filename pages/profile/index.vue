@@ -243,13 +243,13 @@
                           <!-- region -->
                           <v-row>
                             <v-col>
-                              <v-select
+                                      <v-select
                                 :items="regions"
                                 :item-text="(item) => item.name"
                                 :item-value="(item) => item.id"
                                 label="Región"
                                 hide-details=""
-                                v-model="user.id_region"
+                                v-model="user.region.id"
                                 outlined
                               ></v-select>
                             </v-col>

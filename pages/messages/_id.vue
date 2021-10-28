@@ -219,8 +219,9 @@
                       <v-card-text>
                         <v-sheet>
                           <v-row>
-                            <v-col>
+                            <v-col class="mb-15">
                               <v-textarea
+                                color="bada55"
                                 name="input-7-4"
                                 label=""
                                 placeholder="Deja tu mensaje"
@@ -301,7 +302,7 @@
 
                                 :disabled="disableSubmit"
                               >
-                                enviar
+                                enviar1
                               </v-btn>
                               <!-- <v-btn
                                 class="send-message-btn text-capitalize"

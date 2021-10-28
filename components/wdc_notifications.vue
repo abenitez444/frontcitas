@@ -3,7 +3,7 @@
     v-model="notificationState"
     top
     right
-    :timeout="10000"
+    :timeout="5000"
     color="accent"
   >
     <v-sheet color="transparent" v-if="gettingNotification">
