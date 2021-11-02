@@ -90,6 +90,45 @@
                             </pre> -->
                           </div>
 
+                          <div
+                            class="
+                              custom-file-wrapper
+                              banner
+                              mx-auto
+                              mb-8
+                              mt-12
+                            "
+                          >
+                            <v-file-input
+                              @change="preview_image_banner"
+                              v-model="imageBanner"
+                              height="100px"
+                              class="custom-file-input"
+                              accept="image/*"
+                              label=""
+                              hide-details=""
+                              prepend-icon=""
+                              @click:clear="resetThumbnail()"
+                            >
+                            </v-file-input>
+                            <!-- <div v-if="url"></div> -->
+                            <div
+                              v-if="urlBanner === null"
+                              class="preview-image"
+                              :style="`background-image: url('${img_baseUrl}${user.featured_image}')`"
+                            ></div>
+
+                            <div
+                              v-else
+                              class="preview-image"
+                              :style="`background-image: url('${urlBanner}')`"
+                            ></div>
+                            <!-- <pre >
+                              {{ img_baseUrl }}
+                              {{ imageBanner }}
+                            </pre> -->
+                          </div>
+
                           <!-- Name -->
                           <v-row>
                             <v-col cols="12" sm="12" lg="6">
@@ -243,7 +282,7 @@
                           <!-- region -->
                           <v-row>
                             <v-col>
-                                      <v-select
+                              <v-select
                                 :items="regions"
                                 :item-text="(item) => item.name"
                                 :item-value="(item) => item.id"
@@ -512,7 +551,7 @@
                               color="primary lighten-2"
                               dark
                             >
-                              Debe Introducir almenos 3 imagenes.
+                              Debe introducir al menos 3 imágenes.
                             </v-alert>
                           </v-col>
                         </v-row>
@@ -673,6 +712,8 @@ export default {
       //? test
       url: null,
       image: null,
+      urlBanner: null,
+      imageBanner: null,
     }
   },
   mounted() {
@@ -753,6 +794,11 @@ export default {
         this.url = URL.createObjectURL(this.image)
       }
     },
+    preview_image_banner() {
+      if (this.imageBanner !== null) {
+        this.urlBanner = URL.createObjectURL(this.imageBanner)
+      }
+    },
     resetThumbnail() {
       this.image = null
     },
@@ -768,6 +814,9 @@ export default {
       const formData = new FormData()
       if (this.image !== null) {
         formData.append('image', this.image)
+      }
+      if (this.imageBanner !== null) {
+        formData.append('featured_image', this.imageBanner)
       }
       formData.append('gender', this.user.gender)
       formData.append('username', this.user.user.username)
@@ -886,6 +935,21 @@ export default {
       background-size: cover;
       background-repeat: no-repeat;
       border-radius: 100%;
+    }
+    &.banner {
+      width: 100%;
+      border-radius: 5px !important;
+      max-width: 250px;
+      .preview-image {
+        height: 100%;
+        width: 100%;
+        border-radius: 5px;
+      }
+      .custom-file-input {
+        // background-color: #bada55 !important;
+        width: 100%;
+        border-radius: 0 !important;
+      }
     }
   }
   .gallery-image {

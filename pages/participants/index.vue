@@ -67,7 +67,13 @@
                           </p>
                         </div>
                         <div class="interactions">
-                          <v-btn fab icon small color="primary" class="ml-4"
+                          <v-btn
+                            fab
+                            icon
+                            small
+                            :to="`/participant/${item.id}`"
+                            color="primary"
+                            class="ml-4"
                             ><v-icon>mdi-account</v-icon></v-btn
                           >
                           <v-btn
@@ -79,6 +85,9 @@
                             ><v-icon>mdi-message</v-icon></v-btn
                           >
                         </div>
+                        <!-- <pre>
+                          {{ item }}
+                        </pre> -->
                       </v-card-text>
                     </v-card>
                   </v-col>

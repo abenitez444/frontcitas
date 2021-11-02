@@ -554,13 +554,6 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col>
-          <pre>
-            {{ posts }}
-          </pre>
-        </v-col>
-      </v-row>
     </v-sheet>
   </v-col>
 </template>
@@ -820,9 +813,10 @@ export default {
         .catch((e) => {
           // console.debug(e)
           this.loadingOff()
-          this.snackbarOn(
-            'Ha ocurrido un error al crear la publicación, por favor pongase en contacto con el soporte.'
-          )
+          // this.snackbarOn(
+          //   'Ha ocurrido un error al crear la publicación, por favor pongase en contacto con el soporte.'
+          // )
+          this.snackbarOn(e.response.data.error)
         })
     },
     async sendReaction(postId, reactionId, index) {

@@ -101,7 +101,7 @@
     <template v-if="$route.name === 'auth-sign-up'">
       <div class="ws-btn">
         <a href=" https://web.whatsapp.com/" target="_blank">
-          <v-btn fab small color="primary" elevation="0">
+          <v-btn fab color="whatsapp" elevation="0">
             <img :src="asset_ws" class="ws-icon" alt="" />
           </v-btn>
         </a>

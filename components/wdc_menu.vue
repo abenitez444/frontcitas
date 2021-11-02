@@ -159,7 +159,7 @@
           <template v-else-if="paymentStep === 2">
             <v-btn color="error" text @click="paymentStep = 1"> volver </v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="error" text @click="paymentDialogOff()">
+            <v-btn color="error" text @click="cancelPaymentDialogOff()">
               Cancelar
             </v-btn>
             <v-btn
@@ -575,6 +575,10 @@ export default {
     }
   },
   methods: {
+    cancelPaymentDialogOff() {
+      this.paymentStep = 1
+      this.paymentDialogOff()
+    },
     async submit() {
       this.loadingOn()
       const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))

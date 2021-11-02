@@ -33,9 +33,9 @@
                           <div
                             v-if="item.from.avatar"
                             class="user-avatar bg-img"
-                            :style="`background-image: url('${getAvatar(
-                              item
-                            )}')`"
+                            :style="`
+                              background-image: url('${getAvatar(item)}')
+                            `"
                             :class="
                               item.from.gender === 1
                                 ? 'man_color'
@@ -63,9 +63,22 @@
                               }}{{ item.from.last_name[0] }}
                             </span>
                           </div>
-                          <v-card class="message-card">
+                          <v-card
+                            class="message-card"
+                            :color="
+                              item.from_id === getUserData.id
+                                ? '#deccce'
+                                : '#9c464f'
+                            "
+                          >
                             <v-card-text>
-                              <v-sheet>
+                              <v-sheet
+                                :color="
+                                  item.from_id === getUserData.id
+                                    ? '#deccce'
+                                    : '#9c464f'
+                                "
+                              >
                                 <v-row justify="end" no-gutters>
                                   <v-col cols="auto">
                                     <span class="message-time">
@@ -299,10 +312,9 @@
                                 color="primary"
                                 width="115px"
                                 @click="sendMessage()"
-
                                 :disabled="disableSubmit"
                               >
-                                enviar1
+                                enviar
                               </v-btn>
                               <!-- <v-btn
                                 class="send-message-btn text-capitalize"
@@ -750,6 +762,12 @@ export default {
       position: relative;
       &.from-me {
         grid-template-columns: 1fr auto;
+      }
+      &.to-me {
+        .message-content,
+        .message-time {
+          color: white !important;
+        }
       }
       .user-avatar {
         width: 90px;

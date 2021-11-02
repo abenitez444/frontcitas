@@ -260,7 +260,9 @@
           <v-col
             cols="3"
             v-if="
-              !$vuetify.breakpoint.mdAndDown && $route.name !== 'admin-settings'
+              !$vuetify.breakpoint.mdAndDown &&
+              $route.name !== 'admin-settings' &&
+              $route.name !== 'participant-id'
             "
           >
             <v-card class="cm-round-1 cm-elevation-1 participants-wrapper">
@@ -280,8 +282,13 @@
           <v-col class="order-1 order-md-2" cols="12" sm="12" md="4" lg="3">
             <v-sheet color="transparent">
               <!-- profile -->
-              <template v-if="!$vuetify.breakpoint.mdAndDown">
-                <v-row no-gutters v-if="getUserData !== null">
+              <template
+                v-if="
+                  !$vuetify.breakpoint.mdAndDown &&
+                  $route.name !== 'participant-id'
+                "
+              >
+                <v-row no-gutters class="mb-8" v-if="getUserData !== null">
                   <v-col>
                     <wdc-profile-card />
                   </v-col>
@@ -291,11 +298,115 @@
               <!-- Menu -->
               <v-row
                 no-gutters
-                class="mt-8 menu-wrapper"
+                class="menu-wrapper"
                 v-if="!$vuetify.breakpoint.mdAndDown"
               >
                 <v-col> <wdc-menu /> </v-col>
               </v-row>
+
+              <!-- About me -->
+              <template
+                v-if="
+                  $route.name === 'participant-id' && getProfileData !== false
+                "
+              >
+                <v-row no-gutters class="mt-8" v-if="getUserData !== null">
+                  <v-col>
+                    <v-card class="cm-round-1 cm-elevation-1 about-me">
+                      <v-card-text class="pa-8">
+                        <h2 class="primary--text mb-3 about-me__title">
+                          Sobre mi
+                        </h2>
+                        <span
+                          class="about-me__description"
+                          v-if="getProfileData.gender === 0"
+                        >
+                          Hola, mi nombre es {{ getProfileData.first_name }} soy
+                          de {{ getProfileData.region.name }} y naci en
+                          {{ getProfileData.birth_day.split('-')[0] }}. Trabajo
+                          como {{ getProfileData.profession }}, actualmente
+                          estoy {{ getProfileData.civil_status }} y gano
+                          {{ getProfileData.monthly_salary.name }} al mes.
+                        </span>
+                        <span class="about-me__description" v-else>
+                          Hola, mi nombre es {{ getProfileData.first_name }} soy
+                          de {{ getProfileData.region.name }} y naci en
+                          {{ getProfileData.birth_day.split('-')[0] }}. Trabajo
+                          como {{ getProfileData.profession }}, actualmente mi
+                          nivel economico es
+                          {{ getProfileData.economic_level.name }}
+                          <!-- estoy {{ getProfileData.civil_status }} y gano
+                          {{ getProfileData.monthly_salary.name }} al mes. -->
+                        </span>
+
+                        <h3
+                          class="primary--text mt-4 mb-1"
+                          v-if="getProfileData.gender === 0"
+                        >
+                          ¿Qué buscas en un Sugar Daddy?
+                        </h3>
+                        <h3 class="primary--text mt-4 mb-1" v-else>
+                          ¿Qué buscas en una Sugar Baby?
+                        </h3>
+                        <span class="about-me__description">
+                          {{ getProfileData.what_i_want }}
+                        </span>
+                        <h3 class="primary--text mt-4 mb-1">
+                          ¿Cuál es tu cita ideal?
+                        </h3>
+                        <span class="about-me__description">
+                          {{ getProfileData.ideal_date }}
+                        </span>
+                        <h3 class="primary--text mt-4 mb-1">
+                          Intereses o hobbies
+                        </h3>
+                        <span class="about-me__description">
+                          {{ getProfileData.hobbies }}
+                        </span>
+                        <h3 class="primary--text mt-4 mb-1">Estado Físico</h3>
+                        <span class="about-me__description">
+                          {{ getProfileData.physical_figure.name }}
+                        </span>
+                        <template v-if="getProfileData.gender === 0">
+                          <h3 class="primary--text mt-4 mb-1">Hijos</h3>
+                          <span class="about-me__description">
+                            {{ getProfileData.children.name }}
+                          </span>
+                          <h3 class="primary--text mt-4 mb-1">
+                            Preferencia de contacto
+                          </h3>
+                          <span class="about-me__description">
+                            {{ getProfileData.contact_preference.name }}
+                          </span>
+                        </template>
+                      </v-card-text>
+                    </v-card>
+                  </v-col>
+                </v-row>
+                <v-row no-gutters class="mt-8" v-if="getUserData !== null">
+                  <v-col>
+                    <v-card class="cm-round-1 cm-elevation-1 gallery">
+                      <v-card-text class="pa-8">
+                        <h2 class="primary--text mb-5 gallery__title">
+                          Mis Fotos
+                        </h2>
+                        <div class="gallery__photos" :class="`images-${getProfileData.images.length}`">
+                          <template v-for="(image, i) in getProfileData.images">
+                            <!-- ${img_baseUrl} -->
+                            <!-- <img :key="`image-${i}`" :src="`${image.path}`" /> -->
+                            <div
+                              :key="`image-${i}`"
+                              class="photo bg-img"
+                              :style="`background-image: url(${image.path})`"
+                            ></div>
+                          </template>
+                        </div>
+                      </v-card-text>
+                    </v-card>
+                    <!-- <wdc-profile-card /> -->
+                  </v-col>
+                </v-row>
+              </template>
 
               <!-- Users online -->
               <!-- <v-row no-gutters class="mt-8">
@@ -350,6 +461,7 @@ import notificationMixin from '@/mixins/notificationMixin'
 import wdc_snackbar from '~/components/wdc_snackbar.vue'
 import Wdc_participants from '~/components/wdc_participants.vue'
 import Wdc_footer from '~/components/wdc_footer.vue'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   components: { wdc_snackbar, Wdc_participants, Wdc_footer },
   mixins: [authMixin, resourcesMixin, loadingMixin, notificationMixin],
@@ -433,6 +545,11 @@ export default {
         })
     },
   },
+  computed: {
+    ...mapGetters({
+      getProfileData: 'profile/getProfileData',
+    }),
+  },
 }
 </script>
 <style lang="scss">
@@ -445,6 +562,75 @@ export default {
   &.terms-main,
   &.policies-main {
     padding-bottom: 350px !important;
+  }
+  .about-me {
+    &__title {
+      font-family: Raleway;
+      font-style: normal;
+      font-weight: 800;
+      font-size: 20px;
+      line-height: 30px;
+      letter-spacing: -0.025em;
+    }
+    &__description {
+      // text-transform: capitalize;
+      &:first-letter {
+        // text-transform: uppercase;
+      }
+      font-family: Raleway;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 15px;
+      letter-spacing: 0.015em;
+      color: #321215;
+      opacity: 0.5;
+    }
+  }
+  .gallery {
+    &__title {
+      font-family: Raleway;
+      font-style: normal;
+      font-weight: 800;
+      font-size: 20px;
+      line-height: 30px;
+      letter-spacing: -0.025em;
+    }
+    &__photos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 130px 90px 90px;
+      gap: 15px;
+      .photo {
+        border-radius: 5px;
+      }
+      .photo:nth-child(1) {
+        grid-row: 1 / 2;
+        grid-column: 1 / -1;
+      }
+      .photo:nth-child(2) {
+      }
+      .photo:nth-child(3) {
+      }
+      .photo:nth-child(4) {
+        grid-row: 2 / 4;
+        grid-column: 2 / 3;
+      }
+      &.images-1{
+         grid-template-rows: 130px;
+      }
+      &.images-2{
+        grid-template-rows: 130px 130px;
+        grid-template-columns: 1fr;
+
+      }
+      &.images-3{
+      grid-template-rows: 130px 110px;
+      }
+      &.images-4{
+
+      }
+    }
   }
 }
 .footer-app {

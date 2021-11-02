@@ -523,11 +523,11 @@
                         <v-expansion-panel-content>
                           <p>
                             Algunos ejemplos a los que se puede llegar en el
-                            Club con una Sugar Baby son Salidas a cenar o beber
-                            un café Una relación SD/SB virtual Realizar viajes
-                            juntos Tener intimidad por una Única vez Tener
+                            Club con una Sugar Baby son salidas a cenar o beber
+                            un café, una relación SD/SB virtual, realizar viajes
+                            juntos, tener intimidad por una Única vez, tener
                             intimidad de forma periódica a cambio de una
-                            mensualidad Intercambio de contenido Las opciones
+                            mensualidad, intercambio de contenido. Las opciones
                             son varias para llegar a acuerdos, solo queda a
                             criterio individual hasta donde está dispuesto a
                             llegar.
@@ -1195,7 +1195,7 @@ export default {
     }
   }
   @media (max-width: 576px) {
-min-height: auto;
+    min-height: auto;
   }
   // &__btn {
   //   margin-top: calc(30px - 1rem);
