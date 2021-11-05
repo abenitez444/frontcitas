@@ -80,7 +80,7 @@
       </v-row>
 
       <!-- Errors -->
-      <v-row class="mt-8" no-gutters v-if="hasErrors">
+      <v-row class="mt-8" no-gutters v-if="this.errors.length">
         <v-col>
           <v-card color="accent" class="cm-round-1 cm-elevation-1 light">
             <v-card-text class="pa-8">
@@ -391,7 +391,10 @@
                                 <!-- options -->
                                 <div
                                   class="post-options"
-                                  v-if="getUserData.id !== post.profile.user.id"
+                                  v-if="
+                                    getUserData !== null &&
+                                    getUserData.id !== post.profile.user.id
+                                  "
                                 >
                                   <v-menu offset-y>
                                     <template v-slot:activator="{ on, attrs }">
@@ -611,6 +614,7 @@ import snackMixin from '@/mixins/snackMixin'
 import iconPlaceholder from '@/assets/ui-icon-image.svg'
 import { validationMixin } from 'vuelidate'
 import { required, maxLength, email } from 'vuelidate/lib/validators'
+import accountIcon from '@/assets/ui-icon-account.svg'
 export default {
   mixins: [authMixin, resources, loadingMixin, snackMixin, validationMixin],
   middleware: ['authenticated'],
@@ -627,6 +631,7 @@ export default {
   },
   data() {
     return {
+      accountIcon,
       // rules: [(v) => v.length <= 1000 || 'Max 1000 caracteres'],
       iconPlaceholder,
       featuredSlides: null,
@@ -741,6 +746,7 @@ export default {
         })
     },
     preview_image() {
+      this.errors = []
       if (this.image != null) {
         this.postImagePreview = URL.createObjectURL(this.image)
         // checksize
@@ -754,16 +760,12 @@ export default {
             this.postProps.width = img.width
             this.postProps.height = img.height
             if (this.postProps.height <= 500 && this.postProps.width <= 500) {
-              console.debug('estoy entrando aqui 1')
               isAvailableImages = true
             } else {
-              console.debug('estoy entrando aqui 2')
-              this.hasErrors = true
-              this.errors = []
               this.errors.push(
                 'La imagen del post supera las dimensiones recomendadas (500x500)'
               )
-              isAvailableImages = false
+              this.hasErrors = this.errors.length ? true : false
             }
             return isAvailableImages
           }

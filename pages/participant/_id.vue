@@ -81,7 +81,12 @@
                         </p> -->
                   <ul>
                     <li
-                      class="info-description text-center text-sm-left mb-2"
+                      class="
+                        info-description
+                        text-center text-sm-left
+                        white--text
+                        mb-2
+                      "
                       v-for="(error, i) in errors"
                       :key="`error-${i}`"
                     >
@@ -550,12 +555,14 @@ import loadingMixin from '@/mixins/loadingMixin'
 import snackMixin from '@/mixins/snackMixin'
 import iconPlaceholder from '@/assets/ui-icon-image.svg'
 import { mapActions, mapGetters } from 'vuex'
+import accountIcon from '@/assets/ui-icon-account.svg'
 export default {
   mixins: [authMixin, resources, loadingMixin, snackMixin],
   middleware: ['authenticated'],
   layout: 'dashboard',
   data() {
     return {
+      accountIcon,
       iconPlaceholder,
       profile: false,
       posts: [],
@@ -565,6 +572,9 @@ export default {
       postImagePreview: null,
       image: null,
       postDescription: null,
+      postProps: { size: '', height: '', width: '' },
+      hasErrors: false,
+      errors: [],
     }
   },
   created() {
@@ -714,7 +724,7 @@ export default {
       this.loadingOn()
       const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
       const formData = new FormData()
-      formData.append('image', this.image)
+      formData.append('post', this.image)
       formData.append('description', this.postDescription)
 
       let config = {
@@ -744,6 +754,35 @@ export default {
     preview_image() {
       if (this.image != null) {
         this.postImagePreview = URL.createObjectURL(this.image)
+        let file = this.image
+        this.postProps.size = file.size
+        let reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = (evt) => {
+          let img = new Image()
+          img.onload = () => {
+            this.postProps.width = img.width
+            this.postProps.height = img.height
+            if (this.postProps.height <= 500 && this.postProps.width <= 500) {
+              isAvailableImages = true
+            } else {
+              this.errors.push(
+                'La imagen del post supera las dimensiones recomendadas (500x500)'
+              )
+              this.hasErrors = this.errors.length ? true : false
+            }
+            return isAvailableImages
+          }
+          img.src = evt.target.result
+        }
+        reader.onerror = (evt) => {
+          console.error(evt)
+        }
+        if (this.hasErrors) {
+          this.snackbarOn(
+            'Ha ocurrido un problema con las imagenes, por favor siga las recomendaciones'
+          )
+        }
       } else {
         this.postImagePreview = null
       }
