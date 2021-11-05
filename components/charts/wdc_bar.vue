@@ -20,7 +20,6 @@ export default {
   },
   watch: {
     'chartData.datasets[0].data'() {
-      console.debug('change')
       this.renderChart(this.chartData, this.options)
     },
   },

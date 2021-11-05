@@ -154,9 +154,6 @@
                                   </template>
                                 </v-row>
                               </v-sheet>
-                              <!-- <pre>
-                                {{ item }}
-                              </pre> -->
                             </v-card-text>
                           </v-card>
                         </div>

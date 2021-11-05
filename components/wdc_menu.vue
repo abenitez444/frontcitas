@@ -794,7 +794,6 @@ export default {
     this.$echo
       .channel('unread-messages.' + prof)
       .listen('CountUnreadMessage', (e) => {
-        console.debug('CountUnreadMessage', e.unread_messages)
         this.messagesCount = e.unread_messages
       })
     this.countUnreadMessages()

@@ -390,15 +390,32 @@
                         <h2 class="primary--text mb-5 gallery__title">
                           Mis Fotos
                         </h2>
-                        <div class="gallery__photos" :class="`images-${getProfileData.images.length}`">
+                        <div
+                          class="gallery__photos"
+                          :class="`images-${getProfileData.images.length}`"
+                        >
                           <template v-for="(image, i) in getProfileData.images">
-                            <!-- ${img_baseUrl} -->
-                            <!-- <img :key="`image-${i}`" :src="`${image.path}`" /> -->
-                            <div
-                              :key="`image-${i}`"
-                              class="photo bg-img"
-                              :style="`background-image: url(${image.path})`"
-                            ></div>
+                            <v-dialog width="500" :key="`image-${i}`">
+                              <template v-slot:activator="{ on, attrs }">
+                                <img
+                                  v-bind="attrs"
+                                  v-on="on"
+                                  :src="`${img_baseUrl}${image.path}`"
+                                  class="message-img-thumb img-fluid"
+                                  alt=""
+                                />
+                              </template>
+
+                              <v-card class="pa-8">
+                                <v-card-text class="pa-0">
+                                  <img
+                                    :src="`${img_baseUrl}${image.path}`"
+                                    class="img-fluid rounded-lg"
+                                    alt=""
+                                  />
+                                </v-card-text>
+                              </v-card>
+                            </v-dialog>
                           </template>
                         </div>
                       </v-card-text>
@@ -408,14 +425,6 @@
                 </v-row>
               </template>
 
-              <!-- Users online -->
-              <!-- <v-row no-gutters class="mt-8">
-                <v-col>
-                  <v-card class="cm-round-1 cm-elevation-1">
-                    <v-card-text class="pa-8"> En desarrollo </v-card-text>
-                  </v-card>
-                </v-col>
-              </v-row> -->
               <!-- users -->
               <v-row no-gutters class="">
                 <v-col v-if="$vuetify.breakpoint.mdAndDown">
@@ -462,6 +471,7 @@ import wdc_snackbar from '~/components/wdc_snackbar.vue'
 import Wdc_participants from '~/components/wdc_participants.vue'
 import Wdc_footer from '~/components/wdc_footer.vue'
 import { mapActions, mapGetters } from 'vuex'
+import accountIcon from '@/assets/ui-icon-account.svg'
 export default {
   components: { wdc_snackbar, Wdc_participants, Wdc_footer },
   mixins: [authMixin, resourcesMixin, loadingMixin, notificationMixin],
@@ -469,6 +479,7 @@ export default {
     return {
       drawer: false,
       //
+      accountIcon,
       asset_wave,
       asset_ws,
       logoDefault,
@@ -588,6 +599,12 @@ export default {
     }
   }
   .gallery {
+    @media (min-width: 1264px) {
+      margin-bottom: 150px;
+    }
+    @media (max-width: 1263px) {
+      margin-bottom: 40px;
+    }
     &__title {
       font-family: Raleway;
       font-style: normal;
@@ -599,37 +616,42 @@ export default {
     &__photos {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: 130px 90px 90px;
+      grid-template-rows: auto;
       gap: 15px;
+      img {
+        border-radius: 10px;
+      }
       .photo {
-        border-radius: 5px;
+        overflow: hidden;
       }
-      .photo:nth-child(1) {
-        grid-row: 1 / 2;
-        grid-column: 1 / -1;
-      }
-      .photo:nth-child(2) {
-      }
-      .photo:nth-child(3) {
-      }
-      .photo:nth-child(4) {
-        grid-row: 2 / 4;
-        grid-column: 2 / 3;
-      }
-      &.images-1{
-         grid-template-rows: 130px;
-      }
-      &.images-2{
-        grid-template-rows: 130px 130px;
-        grid-template-columns: 1fr;
-
-      }
-      &.images-3{
-      grid-template-rows: 130px 110px;
-      }
-      &.images-4{
-
-      }
+      // .photo:nth-child(1) {
+      //   grid-row: 1 / 2;
+      //   grid-column: 1 / -1;
+      // }
+      // .photo:nth-child(2) {
+      // }
+      // .photo:nth-child(3) {
+      // }
+      // .photo:nth-child(4) {
+      //   grid-row: 2 / 4;
+      //   grid-column: 2 / 3;
+      // }
+      // &.images-0 {
+      //   grid-template-columns: 0;
+      //   grid-template-rows: 0;
+      // }
+      // &.images-1 {
+      //   grid-template-rows: 130px;
+      // }
+      // &.images-2 {
+      //   grid-template-rows: 130px 130px;
+      //   grid-template-columns: 1fr;
+      // }
+      // &.images-3 {
+      //   grid-template-rows: 130px 110px;
+      // }
+      // &.images-4 {
+      // }
     }
   }
 }

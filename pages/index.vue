@@ -885,11 +885,11 @@ export default {
     @media (min-width: 960px) {
       margin: 0 auto 0 auto;
     }
-    @media (max-width: 414px) {
-      margin: 0 auto 0 auto;
-    }
     @media (max-width: 576px) {
       max-width: calc(100% - 60px);
+    }
+    @media (max-width: 414px) {
+      margin: 100px auto 0 auto;
     }
   }
   .v-carousel {
@@ -923,20 +923,20 @@ export default {
     height: 350px;
     position: relative;
     overflow: hidden;
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      background: linear-gradient(
-        74.29deg,
-        #fe297c 0%,
-        rgba(244, 47, 67, 0) 30.13%,
-        rgba(244, 47, 67, 0) 100%
-      );
-      height: 100%;
-      width: 100%;
-    }
+    // &::before {
+    //   content: '';
+    //   position: absolute;
+    //   top: 0;
+    //   left: 0;
+    //   background: linear-gradient(
+    //     74.29deg,
+    //     #fe297c 0%,
+    //     rgba(244, 47, 67, 0) 30.13%,
+    //     rgba(244, 47, 67, 0) 100%
+    //   );
+    //   height: 100%;
+    //   width: 100%;
+    // }
     @media (max-width: 959px) {
       height: 250px;
     }

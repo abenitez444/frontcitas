@@ -79,6 +79,44 @@
         </v-col>
       </v-row>
 
+      <!-- Errors -->
+      <v-row class="mt-8" no-gutters v-if="hasErrors">
+        <v-col>
+          <v-card color="accent" class="cm-round-1 cm-elevation-1 light">
+            <v-card-text class="pa-8">
+              <v-sheet color="transparent">
+                <v-row align="center">
+                  <v-col cols="auto" class="d-none d-sm-flex align-center">
+                    <img :src="accountIcon" alt="" />
+                  </v-col>
+                  <v-col>
+                    <!-- <p
+                          class="mb-0 info-description text-center text-sm-left"
+                        >
+                          Errores
+                        </p> -->
+                    <ul>
+                      <li
+                        class="
+                          info-description
+                          white--text
+                          text-center text-sm-left
+                          mb-2
+                        "
+                        v-for="(error, i) in errors"
+                        :key="`error-${i}`"
+                      >
+                        {{ error }}
+                      </li>
+                    </ul>
+                  </v-col>
+                </v-row>
+              </v-sheet>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+
       <!-- New Post -->
       <v-row no-gutters class="mt-8 publish-wrapper">
         <v-col>
@@ -156,11 +194,14 @@
                           <v-row align="center" class="post-header">
                             <!-- Post Thumbnail -->
                             <v-col cols="auto" class="post-detail__thumbnail">
-                              <img
-                                :src="`${img_baseUrl}${postSelected.image}`"
-                                class="img-fluid"
-                                alt=""
-                              />
+                              <template v-if="postSelected.image">
+                                <img
+                                  :src="`${img_baseUrl}${postSelected.image}`"
+                                  class="img-fluid"
+                                  alt=""
+                                />
+                              </template>
+                              <div v-else style="width: 300px"></div>
                               <!-- interaction bar -->
                               <div class="post-interactions">
                                 <div
@@ -554,6 +595,9 @@
           </v-card>
         </v-col>
       </v-row>
+      <pre>
+        {{ image }}
+      </pre>
     </v-sheet>
   </v-col>
 </template>
@@ -597,6 +641,9 @@ export default {
       reportDialog: false,
       userToReport: null,
       report: {},
+      postProps: { size: '', height: '', width: '' },
+      hasErrors: false,
+      errors: [],
     }
   },
   mounted() {
@@ -696,6 +743,40 @@ export default {
     preview_image() {
       if (this.image != null) {
         this.postImagePreview = URL.createObjectURL(this.image)
+        // checksize
+        let file = this.image
+        this.postProps.size = file.size
+        let reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = (evt) => {
+          let img = new Image()
+          img.onload = () => {
+            this.postProps.width = img.width
+            this.postProps.height = img.height
+            if (this.postProps.height <= 500 && this.postProps.width <= 500) {
+              console.debug('estoy entrando aqui 1')
+              isAvailableImages = true
+            } else {
+              console.debug('estoy entrando aqui 2')
+              this.hasErrors = true
+              this.errors = []
+              this.errors.push(
+                'La imagen del post supera las dimensiones recomendadas (500x500)'
+              )
+              isAvailableImages = false
+            }
+            return isAvailableImages
+          }
+          img.src = evt.target.result
+        }
+        reader.onerror = (evt) => {
+          console.error(evt)
+        }
+        if (this.hasErrors) {
+          this.snackbarOn(
+            'Ha ocurrido un problema con las imagenes, por favor siga las recomendaciones'
+          )
+        }
       } else {
         this.postImagePreview = null
       }
@@ -789,35 +870,43 @@ export default {
         })
     },
     async newPost() {
-      this.loadingOn()
-      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
-      const formData = new FormData()
-      formData.append('image', this.image)
-      formData.append('description', this.postDescription)
+      if (!this.hasErrors) {
+        this.loadingOn()
+        const { token, sub, prof } = JSON.parse(
+          localStorage.getItem('wdc_token')
+        )
+        const formData = new FormData()
+        formData.append('post', this.image)
+        formData.append('description', this.postDescription)
 
-      let config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        let config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+        await this.$axios
+          .$post(
+            `${this.$axios.defaults.baseURL}auth/new-post`,
+            formData,
+            config
+          )
+          .then((res) => {
+            this.postImagePreview = null
+            this.image = null
+            this.postDescription = null
+            this.loadingOff()
+            this.getAllPosts()
+            this.snackbarOn('La publicación fue creada exitosamente')
+          })
+          .catch((e) => {
+            // console.debug(e)
+            this.loadingOff()
+            // this.snackbarOn(
+            //   'Ha ocurrido un error al crear la publicación, por favor pongase en contacto con el soporte.'
+            // )
+            this.snackbarOn(e.response.data.error)
+          })
       }
-      await this.$axios
-        .$post(`${this.$axios.defaults.baseURL}auth/new-post`, formData, config)
-        .then((res) => {
-          this.postImagePreview = null
-          this.image = null
-          this.postDescription = null
-          this.loadingOff()
-          this.getAllPosts()
-          this.snackbarOn('La publicación fue creada exitosamente')
-        })
-        .catch((e) => {
-          // console.debug(e)
-          this.loadingOff()
-          // this.snackbarOn(
-          //   'Ha ocurrido un error al crear la publicación, por favor pongase en contacto con el soporte.'
-          // )
-          this.snackbarOn(e.response.data.error)
-        })
     },
     async sendReaction(postId, reactionId, index) {
       // const postCopy = { ...this.posts[index] }

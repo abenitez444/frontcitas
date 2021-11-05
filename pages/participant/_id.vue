@@ -63,6 +63,39 @@
       </v-row>
     </v-sheet>
 
+    <!-- Errors -->
+    <v-row class="mt-8" no-gutters v-if="hasErrors">
+      <v-col>
+        <v-card color="accent" class="cm-round-1 cm-elevation-1 light">
+          <v-card-text class="pa-8">
+            <v-sheet color="transparent">
+              <v-row align="center">
+                <v-col cols="auto" class="d-none d-sm-flex align-center">
+                  <img :src="accountIcon" alt="" />
+                </v-col>
+                <v-col>
+                  <!-- <p
+                          class="mb-0 info-description text-center text-sm-left"
+                        >
+                          Errores
+                        </p> -->
+                  <ul>
+                    <li
+                      class="info-description text-center text-sm-left mb-2"
+                      v-for="(error, i) in errors"
+                      :key="`error-${i}`"
+                    >
+                      {{ error }}
+                    </li>
+                  </ul>
+                </v-col>
+              </v-row>
+            </v-sheet>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
     <!-- New Post -->
     <v-sheet
       color="transparent"
@@ -127,7 +160,7 @@
 
     <!-- Posts -->
     <v-sheet color="transparent">
-      <v-row class="content-wrapper mt-8">
+      <v-row class="content-wrapper posts mt-8">
         <!-- Profile Banner -->
         <template v-for="(post, index) in posts">
           <v-col
@@ -372,11 +405,14 @@
             <v-row align="center" class="post-header">
               <!-- Post Thumbnail -->
               <v-col cols="auto" class="post-detail__thumbnail">
-                <img
-                  :src="`${img_baseUrl}${postSelected.image}`"
-                  class="img-fluid"
-                  alt=""
-                />
+                <template v-if="postSelected.image">
+                  <img
+                    :src="`${img_baseUrl}${postSelected.image}`"
+                    class="img-fluid"
+                    alt=""
+                  />
+                </template>
+                <div v-else style="width: 300px"></div>
                 <!-- interaction bar -->
                 <div class="post-interactions">
                   <div
@@ -883,13 +919,36 @@ export default {
       }
     }
     &__btns {
-      button {
-        margin: 0 10px !important;
-      }
       justify-self: end;
       grid-column: 2 / 3;
       grid-row: 1 / 2;
+      button {
+        margin: 0 10px !important;
+      }
     }
+    @media (max-width: 576px) {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto 1fr auto;
+      &__avatar {
+        height: 100px;
+        width: 100px;
+        grid-row: 2 / 3;
+        grid-column: 2 / 3;
+        align-self: center;
+        justify-self: center;
+      }
+      &__fullname {
+        grid-column: 1 / -1;
+        margin-bottom: 0;
+        text-align: center;
+      }
+      &__btns {
+        grid-column: 3 / 4;
+      }
+    }
+  }
+  .content-wrapper.posts {
+    margin-bottom: 150px;
   }
 }
 .post-detail {
