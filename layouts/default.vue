@@ -1,13 +1,15 @@
 <template>
   <v-app dark>
+    <!-- Dialog Trial mode -->
     <v-dialog
       transition="dialog-bottom-transition"
       max-width="600"
       v-model="dialogInTrial"
+      v-if="getUserData === null"
     >
       <template v-slot:default="dialogInTrial">
         <v-card>
-          <v-toolbar color="primary" dark>Modo Trial Activado</v-toolbar>
+          <v-toolbar color="success" dark>Modo Trial Activado</v-toolbar>
           <v-card-text v-if="getUserData">
             <!--  -->
             <template v-if="getUser.remains_days.remains > 0">
@@ -62,6 +64,7 @@
         </v-card>
       </template>
     </v-dialog>
+    <!-- Support dialog -->
     <v-dialog
       transition="dialog-bottom-transition"
       max-width="600"
@@ -123,6 +126,8 @@
         </v-card>
       </template>
     </v-dialog>
+
+    <!-- Main menu -->
     <v-app-bar
       :clipped-left="true"
       fixed
@@ -227,6 +232,7 @@
       </template>
     </v-app-bar>
 
+    <!-- Mobile drawer -->
     <v-navigation-drawer v-model="drawer" fixed bottom temporary>
       <template v-if="getUserData === null">
         <v-list nav>

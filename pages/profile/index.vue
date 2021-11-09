@@ -18,7 +18,7 @@
       >
         <v-sheet color="transparent">
           <!-- info -->
-          <v-row no-gutters>
+          <v-row no-gutters v-if="!isProfileComplete">
             <v-col>
               <v-card color="accent_3" class="cm-round-1 cm-elevation-1 light">
                 <v-card-text class="pa-8">
@@ -31,9 +31,9 @@
                         <p
                           class="mb-0 info-description text-center text-sm-left"
                         >
-                          Por favor, complete la información de su perfil para
-                          disfrutar de todas las caracteristicas de la
-                          aplicación
+                          Por favor, complete a continuación la información de
+                          su perfil para disfrutar de todas las características
+                          de la aplicación.
                         </p>
                       </v-col>
                     </v-row>
@@ -44,7 +44,7 @@
           </v-row>
 
           <!-- Errors -->
-          <v-row class="mt-8" no-gutters v-if="hasErrors">
+          <v-row no-gutters v-if="hasErrors">
             <v-col>
               <v-card color="accent" class="cm-round-1 cm-elevation-1 light">
                 <v-card-text class="pa-8">
@@ -81,7 +81,7 @@
           </v-row>
 
           <!-- formulario -->
-          <v-row no-gutters class="mt-8">
+          <v-row no-gutters :class="!isProfileComplete ? 'mt-8' : ''">
             <v-col>
               <v-card class="cm-round-1 cm-elevation-1" v-if="user !== null">
                 <v-card-text class="pa-4 pa-sm-8">
@@ -130,10 +130,6 @@
                               class="preview-image"
                               :style="`background-image: url('${urlBanner}')`"
                             ></div>
-                            <!-- <pre >
-                              {{ img_baseUrl }}
-                              {{ imageBanner }}
-                            </pre> -->
                           </div>
                           <v-row>
                             <v-col class="text-center">
@@ -334,7 +330,7 @@
                                 :item-value="(item) => item.id"
                                 label="Región"
                                 hide-details=""
-                                v-model="user.region.id"
+                                v-model="user.id_region"
                                 outlined
                               ></v-select>
                             </v-col>
@@ -567,7 +563,7 @@
                                 :item-value="(item) => item.id"
                                 label="Región"
                                 hide-details=""
-                                v-model="user.region.id"
+                                v-model="user.id_region"
                                 outlined
                               ></v-select>
                             </v-col>
@@ -751,14 +747,6 @@
               </v-card>
             </v-col>
           </v-row>
-          <!-- <pre>
-            {{ !!imageBanner }}
-            {{ !!image }}
-            {{ bannerProps }}
-            {{ avatarProps }}
-            {{ hasErrors }}
-            {{ errors }}
-          </pre> -->
         </v-sheet>
       </v-col>
 
@@ -816,7 +804,7 @@ export default {
       //?form
       profileTab: null,
       modalBirthday: false,
-      user: null,
+      user: {},
       civilStatesWoman: ['Soltera', 'Casada'],
       civilStatesMan: ['Soltero', 'Casado'],
       //? gallery
@@ -1045,7 +1033,7 @@ export default {
         .then((res) => {
           // // console.debug(res)
           this.user = res.profile
-          this.settingUserData(res.profile)
+          // this.settingUserData(res.profile)
           // this.loadingForm = false
           // this.authenticating(res)
         })
@@ -1098,9 +1086,9 @@ export default {
           'id_contact_preferences',
           this.user.id_contact_preferences
         )
-        formData.append('id_children', this.user.children.id)
+        formData.append('id_children', this.user.id_children)
         formData.append('id_physical_figure', this.user.id_physical_figure)
-        formData.append('id_region', this.user.region.id)
+        formData.append('id_region', this.user.id_region)
         formData.append('_method', 'PUT')
         await this.$axios
           .$post(`${this.$axios.defaults.baseURL}auth/edit`, formData, config)
@@ -1230,8 +1218,30 @@ export default {
     },
   },
   computed: {
-    getAvatarProps() {
-      return this.avatarProps
+    isProfileComplete() {
+      let isComplete = false
+      if (this.user.gender === 1) {
+        isComplete =
+          !!this.user.id_economic_level &&
+          !!this.user.what_i_want &&
+          !!this.user.ideal_date &&
+          !!this.user.hobbies &&
+          !!this.user.id_physical_figure &&
+          !!this.user.id_region
+      } else {
+        isComplete =
+          !!this.user.ideal_date &&
+          !!this.user.civil_status &&
+          !!this.user.what_i_want &&
+          !!this.user.hobbies &&
+          !!this.user.id_physical_figure &&
+          !!this.user.id_region &&
+          !!this.user.monthly_salary_id &&
+          !!this.user.id_children &&
+          !!this.user.id_contact_preferences
+      }
+
+      return isComplete
     },
   },
 }

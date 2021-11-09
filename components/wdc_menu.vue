@@ -126,6 +126,7 @@
                   Usted seleccionó:
                   <v-btn
                     dark
+                    text
                     :color="planSelected === 1 ? '#00b8d9' : '#6554c0'"
                   >
                     <span v-if="planSelected === 1">Membresía VIP 1 mes</span>

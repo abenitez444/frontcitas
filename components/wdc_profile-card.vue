@@ -60,7 +60,11 @@
             </h2>
             <h3
               class="profile-card__region font_one--text"
-              v-if="getUserData && getUserData.user.id_rol !== 1"
+              v-if="
+                getUserData &&
+                getUserData.user.id_rol !== 1 &&
+                getUserData.region
+              "
             >
               {{ getUserData.region.name }}
             </h3>

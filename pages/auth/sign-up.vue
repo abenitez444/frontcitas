@@ -102,7 +102,7 @@
                       <v-text-field
                         autocomplete="off"
                         label="Teléfono"
-                        v-mask="'(+##) # ##-### ###'"
+                        v-mask="'(+## #) #### ####'"
                         class="rounded-b"
                         outlined
                         required
@@ -678,7 +678,7 @@ export default {
       !this.$v.newUser.phone.required && errors.push('El Teléfono es requerido')
       !this.$v.newUser.phone.minLength &&
         errors.push(
-          'El número de teléfono debe poseer el siguiente formato: +56 9 XX-XXX XXX'
+          'El número de teléfono debe poseer el siguiente formato: +XX X XXXX - XXXX'
         )
       return errors
     },
@@ -687,7 +687,7 @@ export default {
     newUser: {
       phone: {
         required,
-        minLength: minLength(18),
+        minLength: minLength(17),
       },
       gender: {
         required,
