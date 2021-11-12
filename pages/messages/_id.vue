@@ -161,14 +161,7 @@
                     </vuescroll>
                   </div>
                 </div>
-                <!-- <v-row>
-                  <pre>
-                    {{ selectedImg }}
-                    {{ selectedVideo }}
-                    {{ !!isSelectingImg }}
-                    {{ !!isSelectingVideo }}
-                  </pre>
-                </v-row> -->
+
                 <v-row>
                   <template v-if="selectedImg">
                     <v-col
@@ -333,11 +326,6 @@
           </v-card>
         </v-col>
       </v-row>
-      <!-- <v-row>
-        <pre>
-          {{ chat[0] }}
-        </pre>
-      </v-row> -->
     </v-sheet>
   </v-col>
 </template>

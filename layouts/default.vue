@@ -9,7 +9,15 @@
     >
       <template v-slot:default="dialogInTrial">
         <v-card>
-          <v-toolbar color="success" dark>Modo Trial Activado</v-toolbar>
+          <v-toolbar color="success" dark
+            ><span class="mr-3">Modo Trial Activado</span>
+            <img
+              :src="successIcon"
+              style="width: 30px"
+              class="img-fluid"
+              alt=""
+            />
+          </v-toolbar>
           <v-card-text v-if="getUserData">
             <!--  -->
             <template v-if="getUser.remains_days.remains > 0">

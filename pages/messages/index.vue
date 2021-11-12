@@ -8,11 +8,6 @@
     class="messages-page order-2 order-md-1"
   >
     <v-sheet color="transparent">
-      <!-- <v-row>
-        <pre>
-          {{ participants }}
-        </pre>
-      </v-row> -->
       <!-- chatbox -->
       <v-row no-gutters class="messages-wrapper">
         <v-col>

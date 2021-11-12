@@ -60,9 +60,6 @@
     <v-sheet color="transparent">
       <!-- info -->
       <v-row no-gutters>
-        <!-- <pre>
-          {{ featuredSlides }}
-        </pre> -->
         <v-col v-if="featuredSlides !== null">
           <v-card color="" class="cm-round-1 cm-elevation-1 light">
             <v-card-text class="pa-4 pa-sm-8">
@@ -329,19 +326,9 @@
                                 {{ comment.comment }}
                               </p>
                             </v-col>
-                            <!-- <v-col cols="12">
-                              <pre>
-                              {{ comment.comment }}
-                            </pre
-                              >
-                            </v-col> -->
+
                           </v-row>
 
-                          <!-- <v-row>
-                            <pre>
-                              {{ postSelected }}
-                            </pre>
-                          </v-row> -->
                         </v-sheet>
                       </v-card-text>
 
@@ -509,9 +496,6 @@
                                   </div>
                                 </div>
                               </div>
-                              <!-- <pre>
-                                {{ post }}
-                              </pre> -->
                             </v-col>
                           </v-row>
 
@@ -598,9 +582,6 @@
           </v-card>
         </v-col>
       </v-row>
-      <pre>
-        {{ image }}
-      </pre>
     </v-sheet>
   </v-col>
 </template>
@@ -750,35 +731,35 @@ export default {
       if (this.image != null) {
         this.postImagePreview = URL.createObjectURL(this.image)
         // checksize
-        let file = this.image
-        this.postProps.size = file.size
-        let reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onload = (evt) => {
-          let img = new Image()
-          img.onload = () => {
-            this.postProps.width = img.width
-            this.postProps.height = img.height
-            if (this.postProps.height <= 500 && this.postProps.width <= 500) {
-              isAvailableImages = true
-            } else {
-              this.errors.push(
-                'La imagen del post supera las dimensiones recomendadas (500x500)'
-              )
-              this.hasErrors = this.errors.length ? true : false
-            }
-            return isAvailableImages
-          }
-          img.src = evt.target.result
-        }
-        reader.onerror = (evt) => {
-          console.error(evt)
-        }
-        if (this.hasErrors) {
-          this.snackbarOn(
-            'Ha ocurrido un problema con las imagenes, por favor siga las recomendaciones'
-          )
-        }
+        // let file = this.image
+        // this.postProps.size = file.size
+        // let reader = new FileReader()
+        // reader.readAsDataURL(file)
+        // reader.onload = (evt) => {
+        //   let img = new Image()
+        //   img.onload = () => {
+        //     this.postProps.width = img.width
+        //     this.postProps.height = img.height
+        //     if (this.postProps.height <= 500 && this.postProps.width <= 500) {
+        //       isAvailableImages = true
+        //     } else {
+        //       this.errors.push(
+        //         'La imagen del post supera las dimensiones recomendadas (500x500)'
+        //       )
+        //       this.hasErrors = this.errors.length ? true : false
+        //     }
+        //     return isAvailableImages
+        //   }
+        //   img.src = evt.target.result
+        // }
+        // reader.onerror = (evt) => {
+        //   console.error(evt)
+        // }
+        // if (this.hasErrors) {
+        //   this.snackbarOn(
+        //     'Ha ocurrido un problema con las imagenes, por favor siga las recomendaciones'
+        //   )
+        // }
       } else {
         this.postImagePreview = null
       }
@@ -1017,6 +998,7 @@ export default {
     box-shadow: 0px 1px 5px rgba(50, 18, 21, 0.29);
     overflow: hidden;
     position: relative;
+    max-width: 100px;
     .custom-file-input {
       margin-top: 0 !important;
       padding: 0 !important;
@@ -1083,6 +1065,12 @@ export default {
         }
         .likes {
           // margin: 0 20px;
+        }
+        @media (max-width: 468px) {
+          padding: 5px 20px;
+          .v-btn {
+            padding: 0 7.5px !important;
+          }
         }
       }
       .timeline-thumbnail {

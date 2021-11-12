@@ -22,11 +22,6 @@
         </v-card-title>
         <v-card-text class="pa-4 pa-sm-8">
           <v-sheet>
-            <!-- <v-row v-if="sliders.length">
-              <pre>{{ sliders[0].slides.length }}</pre>
-              <pre>{{ sliders[1].slides.length }}</pre>
-              <pre>{{ newSlide.id_featured_type }}</pre>
-            </v-row> -->
             <v-row>
               <v-col cols="12" v-if="newSlide.image">
                 <v-img
@@ -174,11 +169,6 @@
                 ></v-textarea>
               </v-col>
             </v-row>
-            <!-- <v-row>
-              <pre>
-                {{ typeof newSlide.image }}
-              </pre>
-            </v-row> -->
           </v-sheet>
         </v-card-text>
 
@@ -488,11 +478,6 @@
                 ></v-textarea>
               </v-col>
             </v-row>
-            <!-- <v-row>
-              <pre>
-                {{ typeof newTestimony.image }}
-              </pre>
-            </v-row> -->
           </v-sheet>
         </v-card-text>
 

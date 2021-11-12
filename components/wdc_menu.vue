@@ -286,9 +286,6 @@
             outlined
             hide-details=""
           ></v-text-field>
-          <!-- <pre>
-            {{ password }}
-          </pre> -->
         </v-card-text>
         <!-- code veritifaction steo -->
         <v-card-text class="pa-5" v-else>
@@ -303,10 +300,6 @@
               </v-col>
             </v-row>
           </v-sheet>
-
-          <!-- <pre>
-            {{ newCodeDisabled }}
-          </pre> -->
         </v-card-text>
         <v-card-actions>
           <v-btn
@@ -401,9 +394,6 @@
           </v-row>
         </v-sheet>
       </v-card-text>
-      <!-- <pre>
-      {{ getUserData.user.id_rol }}
-      </pre> -->
     </template>
     <!-- Normal user -->
     <v-card-text class="pa-8" v-else>

@@ -93,17 +93,8 @@
                     </span>
                   </template>
                 </v-data-table>
-                <!-- <pre>{{ userGallery }}</pre> -->
-                <!-- <pre>{{ userPosts }}</pre> -->
-                <!-- <pre>{{ selectedPhotos }}</pre>
-                <pre>{{ selectedPosts }}</pre> -->
               </v-col>
             </v-row>
-            <!-- <v-row>
-              <pre>
-              {{userToEdit}}
-              </pre>
-            </v-row> -->
           </v-sheet>
         </v-card-text>
 
@@ -269,12 +260,6 @@
           </v-card>
         </v-col>
       </v-row>
-      <!-- <v-row>
-        <pre>
-        {{ searchType }}
-        {{ users }}
-        </pre>
-      </v-row> -->
     </v-sheet>
   </v-col>
 </template>

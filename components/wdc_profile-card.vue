@@ -15,10 +15,6 @@
               "
               :style="`background-image: url('${img_baseUrl}${getUserData.avatar}')`"
             >
-              <!-- <pre>
-              {{ img_baseUrl }}{{ getUserData.avatar }}
-            </pre
-              > -->
               <span
                 v-if="getUserData.avatar === ''"
                 class="white--text text-h5 text-uppercase"
@@ -61,14 +57,19 @@
             <h3
               class="profile-card__region font_one--text"
               v-if="
-                getUserData &&
-                getUserData.user.id_rol !== 1 &&
-                getUserData.region
+                getUserData !== null &&
+                getUserData.region !== null &&
+                getUserData.user.id_rol === 2
               "
             >
               {{ getUserData.region.name }}
             </h3>
-            <h3 class="profile-card__region font_one--text" v-else>Admin</h3>
+            <h3
+              class="profile-card__region font_one--text"
+              v-else-if="getUserData.user.id_rol === 1"
+            >
+              Admin
+            </h3>
           </v-col>
         </v-row>
         <!-- Profile state -->

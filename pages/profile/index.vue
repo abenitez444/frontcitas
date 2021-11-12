@@ -44,7 +44,7 @@
           </v-row>
 
           <!-- Errors -->
-          <v-row no-gutters v-if="hasErrors">
+          <!-- <v-row no-gutters v-if="hasErrors">
             <v-col>
               <v-card color="accent" class="cm-round-1 cm-elevation-1 light">
                 <v-card-text class="pa-8">
@@ -54,11 +54,6 @@
                         <img :src="accountIcon" alt="" />
                       </v-col>
                       <v-col>
-                        <!-- <p
-                          class="mb-0 info-description text-center text-sm-left"
-                        >
-                          Errores
-                        </p> -->
                         <ul>
                           <li
                             class="
@@ -78,7 +73,7 @@
                 </v-card-text>
               </v-card>
             </v-col>
-          </v-row>
+          </v-row> -->
 
           <!-- formulario -->
           <v-row no-gutters :class="!isProfileComplete ? 'mt-8' : ''">
@@ -579,13 +574,6 @@
                               ></v-select>
                             </v-col>
                           </v-row>
-                          <!-- <v-row>
-                            <pre>
-                              {{ monthlySalary }}
-                              {{ user.monthly_salary }}
-                            </pre>
-                          </v-row> -->
-
                           <!-- hijos | preferencia de contacto -->
                           <v-row>
                             <v-col>
@@ -831,7 +819,7 @@ export default {
         width: '',
       },
       errors: [],
-      hasErrors: false,
+      // hasErrors: false,
     }
   },
   mounted() {
@@ -846,48 +834,8 @@ export default {
   },
   methods: {
     addImageToGallery() {
-      this.errors = []
-      let file = this.galleryImage
-      this.toGalleryProps.size = file.size
-      let reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onload = (evt) => {
-        let img = new Image()
-        img.onload = () => {
-          this.toGalleryProps.width = Number(img.width)
-          this.toGalleryProps.height = Number(img.height)
-          if (Number(img.width) > 500) {
-            this.errors.push(
-              'La imagen supera las dimensiones recomendadas (500x500)'
-            )
-          } else if (Number(img.height) > 500) {
-            this.errors.push(
-              'La imagen supera las dimensiones recomendadas (500x500)'
-            )
-          } else {
-            this.galleryImages.push(this.galleryImage)
-            this.galleryImage = null
-          }
-          this.hasErrors = this.errors.length ? true : false
-          // if (
-          //   this.toGalleryProps.height <= 500 &&
-          //   this.toGalleryProps.width <= 500
-          // ) {
-          //   this.hasErrors = false
-          //   this.galleryImages.push(this.galleryImage)
-          //   this.galleryImage = null
-          // } else {
-          //   this.hasErrors = true
-          //   this.errors.push(
-          //     'La imagen supera las dimensiones recomendadas (1170x250)'
-          //   )
-          // }
-        }
-        img.src = evt.target.result
-      }
-      reader.onerror = (evt) => {
-        console.error(evt)
-      }
+      this.galleryImages.push(this.galleryImage)
+      this.galleryImage = null
     },
     getPreviewImage(image) {
       return URL.createObjectURL(image)
@@ -1093,20 +1041,6 @@ export default {
         await this.$axios
           .$post(`${this.$axios.defaults.baseURL}auth/edit`, formData, config)
           .then((res) => {
-            this.image = null
-            this.imageBanner = null
-            this.bannerProps = {
-              size: '',
-              height: '',
-              width: '',
-            }
-            this.avatarProps = {
-              size: '',
-              height: '',
-              width: '',
-            }
-            this.hasErrors = false
-            this.errors = []
             this.getProfile()
             this.loadingOff()
             this.snackbarOn('El perfil fue actualizado exitosamente.')
@@ -1115,16 +1049,8 @@ export default {
             // this.$router.push('/profile')
           })
           .catch((e) => {
-            this.hasErrors = true
-            this.errors = []
             this.loadingOff()
             this.getProfile()
-            if (e.response.data.error.avatar) {
-              this.errors.push(e.response.data.error.avatar[0])
-            }
-            if (e.response.data.error.banner) {
-              this.errors.push(e.response.data.error.banner[0])
-            }
             this.snackbarOn(
               'Ha ocurrido un error al actualizar, por favor verifique la información'
             )

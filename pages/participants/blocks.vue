@@ -8,11 +8,6 @@
     class="participants-page order-2 order-md-1"
   >
     <v-sheet color="transparent">
-      <!-- <v-row>
-        <pre>
-          {{ participants.length }}
-        </pre>
-      </v-row> -->
       <!-- timeline -->
       <v-row no-gutters class="participants-wrapper">
         <v-col>
@@ -35,12 +30,7 @@
                           v-if="item.user_block.avatar"
                           class="participant-thumbnail bg-img"
                           :style="`background-image: url('${img_baseUrl}${item.user_block.avatar}');`"
-                        >
-                          <!-- <pre>
-                          {{ item.user_block.avatar }}
-                        </pre
-                          > -->
-                        </div>
+                        ></div>
                         <div
                           class="
                             participant-thumbnail

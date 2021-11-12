@@ -315,9 +315,6 @@
                           </div>
                         </div>
                       </div>
-                      <!-- <pre>
-                                {{ post }}
-                              </pre> -->
                     </v-col>
                   </v-row>
 

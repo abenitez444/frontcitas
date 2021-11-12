@@ -8,7 +8,15 @@
     >
       <template v-slot:default="dialogInTrial">
         <v-card>
-          <v-toolbar color="success" dark>Modo Trial Activado</v-toolbar>
+          <v-toolbar color="success" dark
+            ><span class="mr-3">Modo Trial Activado</span>
+            <img
+              :src="successIcon"
+              style="width: 30px"
+              class="img-fluid"
+              alt=""
+            />
+          </v-toolbar>
           <v-card-text v-if="getUserData">
             <!--  -->
             <template v-if="getUser.remains_days.remains > 0">
@@ -268,9 +276,6 @@
             <v-card class="cm-round-1 cm-elevation-1 participants-wrapper">
               <v-card-text class="pa-8">
                 <wdc-participants />
-                <!-- debug -->
-                <!-- <pre> DEBUG NOTIFICATION {{ gettingNotification }}</pre>
-                <pre> NEW ? {{ gettingNewNotification }}</pre> -->
               </v-card-text>
             </v-card>
           </v-col>
@@ -463,6 +468,7 @@ import asset_ws from '@/assets/ui-icon-whats_app.svg'
 import logoDefault from '@/assets/ui-logo-default.svg'
 import logoDark from '@/assets/ui-logo-dark.svg'
 import logoInsta from '@/assets/ui-logo-insta.svg'
+import successIcon from '@/assets/ui-success-icon.png'
 import authMixin from '@/mixins/authMixin'
 import resourcesMixin from '@/mixins/resources'
 import loadingMixin from '@/mixins/loadingMixin'
@@ -485,6 +491,7 @@ export default {
       logoDefault,
       logoDark,
       logoInsta,
+      successIcon,
       //
       clipped: false,
       drawer: false,

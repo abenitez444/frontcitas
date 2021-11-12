@@ -53,7 +53,7 @@
                       <img :src="femaleIcon" alt="" v-if="item.gender === 0" />
                     </span>
                   </p>
-                  <p class="region ma-0">{{ item.region.name }}</p>
+                  <p v-if="item.region" class="region ma-0">{{ item.region.name }}</p>
                 </v-col>
               </v-row>
             </v-sheet>
@@ -68,11 +68,6 @@
         </v-card>
       </v-col>
     </v-row>
-    <!-- <v-row>
-      <pre>
-        {{ participants }}
-      </pre>
-    </v-row> -->
   </v-sheet>
 </template>
 

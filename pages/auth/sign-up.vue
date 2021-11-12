@@ -112,9 +112,6 @@
                         @input="$v.newUser.phone.$touch()"
                         @blur="$v.newUser.phone.$touch()"
                       ></v-text-field>
-                      <!-- <pre>
-                        {{ newUser.phone.length }}
-                      </pre> -->
                     </v-col>
                     <!-- Contraseña -->
                     <v-col cols="12">
@@ -153,11 +150,6 @@
                         </ul>
                       </v-tooltip>
                     </v-col>
-                    <!-- <v-col>
-                      <pre>
-                        {{ $v.newUser.password }}
-                      </pre>
-                    </v-col> -->
                     <!-- Confirmar contraseña -->
                     <v-col cols="12">
                       <v-text-field
@@ -636,8 +628,8 @@ export default {
       if (!this.$v.newUser.first_name.$dirty) return errors
       !this.$v.newUser.first_name.required &&
         errors.push('El nombre es requerido')
-      !this.$v.newUser.first_name.alpha &&
-        errors.push('Solo se aceptan caracteres alfabéticos')
+      // !this.$v.newUser.first_name.alpha &&
+      //   errors.push('Solo se aceptan caracteres alfabéticos')
       return errors
     },
     lastNameErrors() {
@@ -645,8 +637,8 @@ export default {
       if (!this.$v.newUser.last_name.$dirty) return errors
       !this.$v.newUser.last_name.required &&
         errors.push('El apellido es requerido')
-      !this.$v.newUser.last_name.alpha &&
-        errors.push('Solo se aceptan caracteres alfabéticos')
+      // !this.$v.newUser.last_name.alpha &&
+      //   errors.push('Solo se aceptan caracteres alfabéticos')
       return errors
     },
     birthDayErrors() {
@@ -737,11 +729,9 @@ export default {
       },
       first_name: {
         required,
-        alpha,
       },
       last_name: {
         required,
-        alpha,
       },
       birth_day: {
         required,

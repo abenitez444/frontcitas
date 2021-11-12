@@ -8,11 +8,6 @@
     class="participants-page order-2 order-md-1"
   >
     <v-sheet color="transparent">
-      <!-- <v-row>
-        <pre>
-          {{ participants }}
-        </pre>
-      </v-row> -->
       <!-- timeline -->
       <v-row no-gutters class="participants-wrapper">
         <v-col>
@@ -85,9 +80,6 @@
                             ><v-icon>mdi-message</v-icon></v-btn
                           >
                         </div>
-                        <!-- <pre>
-                          {{ item }}
-                        </pre> -->
                       </v-card-text>
                     </v-card>
                   </v-col>
