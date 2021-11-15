@@ -34,7 +34,7 @@ const mutations = {
   },
   SNACKBAR_OFF(state) {
     state.snackbar = false
-    state.text = 'default'
+    state.text = ''
   },
   SNACKBAR_ENABLED(state) {
     state.snackbar = true

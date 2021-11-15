@@ -736,6 +736,9 @@
             </v-col>
           </v-row>
         </v-sheet>
+        <pre>
+          {{ user }}
+        </pre>
       </v-col>
 
       <!-- profile | menu | users on -->
@@ -756,6 +759,7 @@
           >
             <v-col> <wdc-menu /> </v-col>
           </v-row>
+
           <!-- users -->
           <v-row no-gutters class="mt-8">
             <v-col v-if="$vuetify.breakpoint.mdAndDown">
@@ -780,9 +784,17 @@ import loadingMixin from '@/mixins/loadingMixin'
 import wdc_menu from '~/components/wdc_menu.vue'
 import Wdc_profileCard from '~/components/wdc_profile-card.vue'
 import Wdc_participants from '~/components/wdc_participants.vue'
+import { validationMixin } from 'vuelidate'
+import { required, requiredIf } from 'vuelidate/lib/validators'
 export default {
   components: { wdc_menu, Wdc_profileCard, Wdc_participants },
-  mixins: [authMixin, resourcesMixin, snackMixin, loadingMixin],
+  mixins: [
+    authMixin,
+    resourcesMixin,
+    snackMixin,
+    loadingMixin,
+    validationMixin,
+  ],
   middleware: ['authenticated'],
   data() {
     return {
@@ -843,31 +855,31 @@ export default {
     Preview_image() {
       this.errors = []
       if (this.image !== null) {
-        let file = this.image
-        this.avatarProps.size = file.size
-        let reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onload = (evt) => {
-          let img = new Image()
-          img.onload = () => {
-            this.avatarProps.width = img.width
-            this.avatarProps.height = img.height
-            if (Number(img.width) > 250) {
-              this.errors.push(
-                'La imagen de la portada supera el ancho recomendado (250)'
-              )
-            } else if (Number(img.height) > 250) {
-              this.errors.push(
-                'La imagen de la portada supera el alto recomendado (250)'
-              )
-            }
-            this.hasErrors = this.errors.length ? true : false
-          }
-          img.src = evt.target.result
-        }
-        reader.onerror = (evt) => {
-          console.error(evt)
-        }
+        // let file = this.image
+        // this.avatarProps.size = file.size
+        // let reader = new FileReader()
+        // reader.readAsDataURL(file)
+        // reader.onload = (evt) => {
+        //   let img = new Image()
+        //   img.onload = () => {
+        //     this.avatarProps.width = img.width
+        //     this.avatarProps.height = img.height
+        //     if (Number(img.width) > 250) {
+        //       this.errors.push(
+        //         'La imagen de la portada supera el ancho recomendado (250)'
+        //       )
+        //     } else if (Number(img.height) > 250) {
+        //       this.errors.push(
+        //         'La imagen de la portada supera el alto recomendado (250)'
+        //       )
+        //     }
+        //     this.hasErrors = this.errors.length ? true : false
+        //   }
+        //   img.src = evt.target.result
+        // }
+        // reader.onerror = (evt) => {
+        //   console.error(evt)
+        // }
         this.url = URL.createObjectURL(this.image)
       }
     },
@@ -1025,16 +1037,18 @@ export default {
         if (this.user.gender === 0) {
           formData.append('id_economic_level', '')
           formData.append('monthly_salary_id', this.user.monthly_salary_id)
+          formData.append(
+            'id_contact_preferences',
+            this.user.id_contact_preferences
+          )
+          formData.append('id_children', this.user.id_children)
         } else {
+          formData.append('id_children', 1)
+          formData.append('id_contact_preferences', 1)
           formData.append('monthly_salary_id', '')
           formData.append('id_economic_level', this.user.id_economic_level)
         }
         formData.append('ideal_date', this.user.ideal_date)
-        formData.append(
-          'id_contact_preferences',
-          this.user.id_contact_preferences
-        )
-        formData.append('id_children', this.user.id_children)
         formData.append('id_physical_figure', this.user.id_physical_figure)
         formData.append('id_region', this.user.id_region)
         formData.append('_method', 'PUT')
@@ -1169,6 +1183,31 @@ export default {
 
       return isComplete
     },
+  },
+  validations: {
+    newUser: {
+      ideal_date: {
+        required,
+      },
+      what_i_want: {
+        required,
+      },
+      hobbies: {
+        required,
+      },
+      id_physical_figure: {
+        required,
+      },
+      id_region: {
+        required,
+      },
+    },
+    // Hombre
+    // id_economic_level
+    // Mujer
+    // monthly_salary_id
+    // id_children
+    // id_contact_preferences
   },
 }
 </script>

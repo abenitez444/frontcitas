@@ -553,16 +553,16 @@ export default {
       verificationCode: null,
       generateCodeStep: false,
       confirmPasswordStep: false,
-      newUser: {
-        password: '',
-        password_confirmation: '',
-      },
       newCodeDisabled: true,
       paymentModal: false,
       radioGroup: 1,
       paymentStep: 1,
       planSelected: null,
       messagesCount: 0,
+      newUser: {
+        password: '',
+        password_confirmation: '',
+      },
     }
   },
   methods: {

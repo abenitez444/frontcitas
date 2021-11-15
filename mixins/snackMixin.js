@@ -3,6 +3,9 @@ export default {
   data() {
     return {}
   },
+  created() {
+    this.snackbarOff()
+  },
   methods: {
     ...mapActions({
       snackbarOn: 'snackbar/snackbarOn',

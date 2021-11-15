@@ -326,9 +326,7 @@
                                 {{ comment.comment }}
                               </p>
                             </v-col>
-
                           </v-row>
-
                         </v-sheet>
                       </v-card-text>
 

@@ -5,12 +5,12 @@
       transition="dialog-bottom-transition"
       max-width="600"
       v-model="dialogInTrial"
-      v-if="getUserData === null"
+      v-if="$route.name === 'profile'"
     >
       <template v-slot:default="dialogInTrial">
         <v-card>
           <v-toolbar color="success" dark
-            ><span class="mr-3">Modo Trial Activado</span>
+            ><span class="mr-3">Modo Trial Activado </span>
             <img
               :src="successIcon"
               style="width: 30px"
@@ -72,6 +72,159 @@
         </v-card>
       </template>
     </v-dialog>
+
+    <!-- Update password -->
+    <v-dialog v-model="updatePasswordModal" persistent max-width="500">
+      <v-card>
+        <v-toolbar color="primary" dark>Cambiar Contraseña</v-toolbar>
+        <!-- password verification step -->
+        <v-card-text class="pa-5">
+          <v-text-field
+            v-if="!confirmPasswordStep"
+            autocomplete="off"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="!showPassword ? 'text' : 'password'"
+            @click:append="showPassword = !showPassword"
+            label="Contraseña actual"
+            class="rounded-b"
+            outlined
+            v-model="password"
+          ></v-text-field>
+          <template v-else>
+            <v-alert border="top" color="accent" dark>
+              Por favor, Introduzca la nueva contraseña
+            </v-alert>
+            <v-tooltip right>
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  autocomplete="off"
+                  v-bind="attrs"
+                  v-on="on"
+                  :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="!showPassword ? 'text' : 'password'"
+                  @click:append="showPassword = !showPassword"
+                  label="Nueva Contraseña"
+                  class="rounded-b"
+                  outlined
+                  v-model="newUser.password"
+                  :error-messages="passwordErrors"
+                  @input="$v.newUser.password.$touch()"
+                  @blur="$v.newUser.password.$touch()"
+                ></v-text-field>
+              </template>
+              <ul>
+                <li>Debe contener mínimo 8 caracteres</li>
+                <li>Al menos 1 Letra minúscula del alfabeto (a-z)</li>
+                <li>Al menos 1 Letra Mayuscula del alfabeto (A-Z)</li>
+                <li>Al menos 1 Cifra entera (0-9)</li>
+                <li>Al menos 1 caracter especial, tales como @#$%&*-+=/</li>
+                <li>
+                  No se permite la letra “ñ” ni letras con tilde ni espacios
+                </li>
+              </ul>
+            </v-tooltip>
+            <v-text-field
+              autocomplete="off"
+              :append-icon="confirmPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="!confirmPasswordShow ? 'text' : 'password'"
+              @click:append="confirmPasswordShow = !confirmPasswordShow"
+              label="Confirmar Contraseña"
+              class="rounded-b"
+              outlined
+              v-model="newUser.password_confirmation"
+              :error-messages="passwordConfirmErrors"
+              @input="$v.newUser.password_confirmation.$touch()"
+              @blur="$v.newUser.password_confirmation.$touch()"
+            ></v-text-field>
+          </template>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="error" text @click="cancelUpdatePassword()">
+            Cancelar
+          </v-btn>
+          <v-btn
+            color="primary"
+            v-if="!confirmPasswordStep"
+            @click="checkPassword()"
+          >
+            Enviar
+          </v-btn>
+          <v-btn
+            color="primary"
+            :disabled="
+              !$v.newUser.password.required ||
+              !$v.newUser.password.minLength ||
+              !$v.newUser.password.containsLowercase ||
+              !$v.newUser.password.containsUppercase ||
+              !$v.newUser.password.containsNumber ||
+              !$v.newUser.password.containsSpecial ||
+              !$v.newUser.password_confirmation.sameAsPassword
+            "
+            v-else
+            @click="updatePassword()"
+          >
+            Enviar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- delete account -->
+    <v-dialog v-model="deleteAccModal" persistent max-width="500">
+      <v-card>
+        <!-- password verification step -->
+        <v-card-text class="pa-5" v-if="!generateCodeStep">
+          <v-text-field
+            label="Contraseña"
+            v-model="password"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="!showPassword ? 'text' : 'password'"
+            @click:append="showPassword = !showPassword"
+            outlined
+            hide-details=""
+          ></v-text-field>
+        </v-card-text>
+        <!-- code veritifaction steo -->
+        <v-card-text class="pa-5" v-else>
+          <v-sheet>
+            <v-row>
+              <v-col cols="">
+                <v-text-field
+                  outlined
+                  label="Código de Seguridad"
+                  v-model="verificationCode"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-sheet>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn
+            v-if="generateCodeStep"
+            :disabled="newCodeDisabled"
+            @click="deleteAccount()"
+            color="success"
+            >Generar Código</v-btn
+          >
+          <v-spacer></v-spacer>
+          <v-btn color="error" text @click="deleteAccModal = false">
+            Cancelar
+          </v-btn>
+          <v-btn
+            color="primary"
+            v-if="!generateCodeStep"
+            @click="deleteAccount()"
+          >
+            Enviar
+          </v-btn>
+          <v-btn color="primary" v-else @click="confirmDeleteAcc()">
+            Enviar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <!-- Support dialog -->
     <v-dialog
       transition="dialog-bottom-transition"
@@ -266,9 +419,35 @@
               <v-list-item-title>Mensajes</v-list-item-title>
             </v-list-item>
 
-            <v-list-item to="/profile">
-              <v-list-item-title>Perfil</v-list-item-title>
-            </v-list-item>
+            <template v-if="$route.name === 'profile'">
+              <v-list-group :value="false" no-action>
+                <template v-slot:activator>
+                  <v-list-item-content>
+                    <v-list-item-title>Perfil</v-list-item-title>
+                  </v-list-item-content>
+                </template>
+
+                <v-list-item link to="/profile">
+                  <v-list-item-title>Perfil</v-list-item-title>
+                </v-list-item>
+                <v-list-item link @click="updatePasswordModal = true">
+                  <v-list-item-title>Cambio de contraseña</v-list-item-title>
+                </v-list-item>
+                <v-list-item link @click="deleteAccModal = true">
+                  <v-list-item-title>Eliminar cuenta</v-list-item-title>
+                </v-list-item>
+              </v-list-group>
+            </template>
+            <template v-else>
+              <v-btn
+                :ripple="false"
+                color="primary"
+                text
+                class="text-capitalize"
+                to="/profile"
+                >Perfil</v-btn
+              >
+            </template>
 
             <!-- <v-list-item to="/participants">
             <v-list-item-title>Participantes</v-list-item-title>
@@ -340,13 +519,29 @@ import wdc_snackbar from '~/components/wdc_snackbar.vue'
 import Wdc_footer from '~/components/wdc_footer.vue'
 import Wdc_notifications from '~/components/wdc_notifications.vue'
 import putiBtn from '@/assets/puticlub-btn.png'
+import successIcon from '@/assets/ui-success-icon.png'
+import snackMixin from '@/mixins/snackMixin'
+import { validationMixin } from 'vuelidate'
+import {
+  required,
+  sameAs,
+  minLength,
+  email,
+  alpha,
+} from 'vuelidate/lib/validators'
 export default {
   components: {
     wdc_snackbar,
     Wdc_footer,
     Wdc_notifications,
   },
-  mixins: [authMixin, resourcesMixin, loadingMixin],
+  mixins: [
+    authMixin,
+    resourcesMixin,
+    loadingMixin,
+    validationMixin,
+    snackMixin,
+  ],
   // head() {
   //   return {
   //     title: 'Club Sugar',
@@ -354,9 +549,25 @@ export default {
   // },
   data() {
     return {
+      deleteAccModal: false,
+      updatePasswordModal: false,
+      confirmDeleteAccModal: false,
+      showPassword: true,
+      confirmPasswordShow: true,
+      password: null,
+      verificationCode: null,
+      generateCodeStep: false,
+      confirmPasswordStep: false,
+      newCodeDisabled: true,
+      newUser: {
+        password: '',
+        password_confirmation: '',
+      },
+      //
       notiSnack: true,
       //
       putiBtn,
+      successIcon,
       asset_wave,
       asset_ws,
       logoDefault,
@@ -420,6 +631,173 @@ export default {
           this.loadingOff()
           // console.debug(e)
         })
+    },
+    async checkPassword() {
+      this.loadingOn()
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
+
+      const options = {
+        method: 'POST',
+        url: `${this.$axios.defaults.baseURL}auth/current-password`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          password: this.password,
+        },
+      }
+
+      await this.$axios
+        .request(options)
+        .then((res) => {
+          // console.debug(res)
+          this.loadingOff()
+          this.confirmPasswordStep = true
+        })
+        .catch((e) => {
+          // // console.debug(e.response.data.message)
+          this.loadingOff()
+          this.snackbarOn(
+            'La contraseña actual no es correcta, por favor intente de nuevo.'
+          )
+        })
+    },
+    async updatePassword() {
+      this.loadingOn()
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
+
+      const options = {
+        method: 'PUT',
+        url: `${this.$axios.defaults.baseURL}auth/change-password`,
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: this.newUser,
+      }
+
+      await this.$axios
+        .request(options)
+        .then((res) => {
+          // console.debug(res)
+          this.loadingOff()
+          this.cancelUpdatePassword()
+          this.snackbarOn('Su contraseña ha sido cambiada exitosamente.')
+        })
+        .catch((e) => {
+          // // console.debug(e.response.data.message)
+          this.loadingOff()
+          this.snackbarOn(
+            'Ha ocurrido un problema por favor pongase en contacto con el soporte.'
+          )
+        })
+    },
+    cancelUpdatePassword() {
+      this.updatePasswordModal = false
+      this.confirmPasswordStep = false
+      this.password = null
+    },
+    async deleteAccount() {
+      this.loadingOn()
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
+      const profileId = this.$route.params.id
+
+      let config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      let data = {
+        password: this.password,
+      }
+      await this.$axios
+        .$put(
+          `${this.$axios.defaults.baseURL}auth/generate-delete-acount-code`,
+          data,
+          config
+        )
+        .then((res) => {
+          this.loadingOff()
+          // console.debug(res)
+          this.snackbarOn(
+            'La Contraseña es correcta. Le enviamos un código de seguridad a su correo eléctrónico registrado en nuestro sitio web. Por favor introduzcalo a continuación'
+          )
+          this.generateCodeStep = true
+        })
+        .catch((e) => {
+          this.loadingOff()
+          // console.debug(e.response.data.error)
+          this.snackbarOn(e.response.data.error)
+        })
+    },
+  },
+  validations: {
+    newUser: {
+      password: {
+        required,
+        minLength: minLength(8),
+        containsLowercase: function (value) {
+          return /[a-z]/.test(value)
+        },
+        containsUppercase: function (value) {
+          return /[A-Z]/.test(value)
+        },
+        containsNumber: function (value) {
+          return /[0-9]/.test(value)
+        },
+        containsSpecial: function (value) {
+          return /[#?!@$%^&*-]/.test(value)
+        },
+        containsAccent: function (value) {
+          return /[À-ÿ\u00f1\u00d1\s]/.test(value)
+        },
+      },
+      password_confirmation: {
+        sameAsPassword: sameAs(function () {
+          return this.newUser.password
+        }),
+      },
+    },
+  },
+  computed: {
+    passwordErrors() {
+      const errors = []
+      if (!this.$v.newUser.password.$dirty) return errors
+      !this.$v.newUser.password.minLength &&
+        errors.push('La contraseña debe contener mínimo 8 caracteres')
+      !this.$v.newUser.password.required &&
+        errors.push('La contraseña es requerida')
+      !this.$v.newUser.password.containsLowercase &&
+        errors.push(
+          'Debe contener al menos 1 Letra minúscula del alfabeto (a-z)'
+        )
+      !this.$v.newUser.password.containsUppercase &&
+        errors.push(
+          'Debe contener al menos 1 Letra mayúscula del alfabeto (A-Z)'
+        )
+      !this.$v.newUser.password.containsNumber &&
+        errors.push('Debe contener al menos 1 Cifra entera (0-9)')
+      !this.$v.newUser.password.containsSpecial &&
+        errors.push(
+          'Debe contener al menos 1 caracter especial, tales como @#$%&*-+=/'
+        )
+      this.$v.newUser.password.containsAccent &&
+        errors.push(
+          'No se permite la letra “ñ” ni letras con tilde ni espacios'
+        )
+      return errors
+    },
+    passwordConfirmErrors() {
+      const errors = []
+      if (!this.$v.newUser.password_confirmation.$dirty) return errors
+      !this.$v.newUser.password_confirmation.sameAsPassword &&
+        errors.push(
+          'La contraseña introducida es distinta a la anterior, por favor intente de nuevo'
+        )
+      return errors
     },
   },
 }

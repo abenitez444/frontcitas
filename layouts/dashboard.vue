@@ -1,77 +1,5 @@
 <template>
   <v-app dark>
-    <!-- trial dialog -->
-    <v-dialog
-      transition="dialog-bottom-transition"
-      max-width="600"
-      v-model="dialogInTrial"
-    >
-      <template v-slot:default="dialogInTrial">
-        <v-card>
-          <v-toolbar color="success" dark
-            ><span class="mr-3">Modo Trial Activado</span>
-            <img
-              :src="successIcon"
-              style="width: 30px"
-              class="img-fluid"
-              alt=""
-            />
-          </v-toolbar>
-          <v-card-text v-if="getUserData">
-            <!--  -->
-            <template v-if="getUser.remains_days.remains > 0">
-              <p class="trial-description mt-8 font-weight-bold">
-                {{ getUserData.gender === 1 ? 'Estimado' : 'Estimada' }}
-                {{ getUserData.first_name }} {{ getUserData.last_name }} ({{
-                  getUserData.user.username
-                }}),
-              </p>
-              <p class="trial-description mt-4 font-weight-bold">
-                Usted se encuentra disfrutando de CLUB SUGAR DADDY en Modo TRIAL
-                y cuenta con “{{ getUser.remains_days.remains }}” “días” para
-                disfrutar de todos los beneficios.
-              </p>
-              <p class="trial-description mt-4 font-weight-bold">
-                Le invitamos a unirse al CLUB SUGAR DADDY comprando su membresía
-                y así poder disfrutar sin límites de todos los beneficios, en su
-                perfil en la sección MÉTODO DE PAGO puede escoger el plan que
-                más le conviene.
-              </p>
-            </template>
-            <template v-else>
-              <p class="trial-description mt-8 font-weight-bold">
-                {{ getUserData.gender === 1 ? 'Estimado' : 'Estimada' }}
-                {{ getUserData.first_name }} {{ getUserData.last_name }} ({{
-                  getUserData.user.username
-                }}),
-              </p>
-              <p class="trial-description mt-4 font-weight-bold">
-                EL MODO TRIAL a caducado, le invitamos a unirse al CLUB SUGAR
-                DADDY comprando su membresía y así poder disfrutar sin límites
-                de todos los beneficios, en su perfil en la sección MÉTODO DE
-                PAGO puede escoger el plan que más le conviene.
-              </p>
-            </template>
-          </v-card-text>
-          <v-card-text v-else>
-            <v-sheet>
-              <v-row justify="center">
-                <v-col cols="auto" class="mt-8">
-                  <v-progress-circular
-                    indeterminate
-                    color="primary"
-                  ></v-progress-circular>
-                </v-col>
-              </v-row>
-            </v-sheet>
-          </v-card-text>
-          <v-card-actions class="justify-end">
-            <v-btn text @click="closeDialog()">Cerrar</v-btn>
-          </v-card-actions>
-        </v-card>
-      </template>
-    </v-dialog>
-
     <v-dialog
       transition="dialog-bottom-transition"
       max-width="600"
@@ -326,20 +254,28 @@
                           class="about-me__description"
                           v-if="getProfileData.gender === 0"
                         >
-                          Hola, mi nombre es {{ getProfileData.first_name }} soy
-                          de {{ getProfileData.region.name }} y naci en
+                          Hola, mi nombre es {{ getProfileData.first_name }}
+                          <span v-if="getProfileData.region"
+                            >soy de {{ getProfileData.region.name }}</span
+                          >
+                          y naci en
                           {{ getProfileData.birth_day.split('-')[0] }}. Trabajo
                           como {{ getProfileData.profession }}, actualmente
                           estoy {{ getProfileData.civil_status }} y gano
                           {{ getProfileData.monthly_salary.name }} al mes.
                         </span>
                         <span class="about-me__description" v-else>
-                          Hola, mi nombre es {{ getProfileData.first_name }} soy
-                          de {{ getProfileData.region.name }} y naci en
+                          Hola, mi nombre es {{ getProfileData.first_name }}
+                          <span v-if="getProfileData.region"
+                            >soy de {{ getProfileData.region.name }}</span
+                          >
+                          y naci en
                           {{ getProfileData.birth_day.split('-')[0] }}. Trabajo
-                          como {{ getProfileData.profession }}, actualmente mi
-                          nivel economico es
-                          {{ getProfileData.economic_level.name }}
+                          como {{ getProfileData.profession }}
+                          <span v-if="getProfileData.economic_level">
+                            , actualmente mi nivel economico es
+                            {{ getProfileData.economic_level.name }}
+                          </span>
                           <!-- estoy {{ getProfileData.civil_status }} y gano
                           {{ getProfileData.monthly_salary.name }} al mes. -->
                         </span>
@@ -368,8 +304,17 @@
                         <span class="about-me__description">
                           {{ getProfileData.hobbies }}
                         </span>
-                        <h3 class="primary--text mt-4 mb-1">Estado Físico</h3>
-                        <span class="about-me__description">
+                        <h3
+                          v-if="getProfileData.physical_figure"
+                          class="primary--text mt-4 mb-1"
+                        >
+                          Estado Físico
+                        </h3>
+
+                        <span
+                          v-if="getProfileData.physical_figure"
+                          class="about-me__description"
+                        >
                           {{ getProfileData.physical_figure.name }}
                         </span>
                         <template v-if="getProfileData.gender === 0">
