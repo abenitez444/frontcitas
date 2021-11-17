@@ -8,7 +8,7 @@
       </v-col>
     </v-row>
     <v-row
-      v-for="(item, i) in participants"
+      v-for="(item, i) in getParticipantsByIndex"
       :key="item.profile_id"
       class="participant-card"
       ref="participants"
@@ -45,7 +45,7 @@
                 </v-col>
                 <v-col>
                   <!-- <p>{{ getActiveClasses(item.id) }}</p> -->
-                  <p class="fullname font_one--text ma-0">
+                  <p class="fullname font_one--text ma-0 text-capitalize">
                     {{ item.first_name }} {{ item.last_name }}
                     <span class="gender">
                       <img :src="maleIcon" alt="" v-if="item.gender === 1" />
@@ -53,7 +53,9 @@
                       <img :src="femaleIcon" alt="" v-if="item.gender === 0" />
                     </span>
                   </p>
-                  <p v-if="item.region" class="region ma-0">{{ item.region.name }}</p>
+                  <p v-if="item.region" class="region ma-0">
+                    {{ item.region.name }}
+                  </p>
                 </v-col>
               </v-row>
             </v-sheet>
@@ -66,6 +68,17 @@
             </v-sheet>
           </v-card-text>
         </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" justify-center>
+        <div class="text-center">
+          <v-pagination
+            color="primary"
+            v-model="page"
+            :length="participants.length"
+          ></v-pagination>
+        </div>
       </v-col>
     </v-row>
   </v-sheet>
@@ -81,6 +94,7 @@ export default {
   middleware: ['authenticated'],
   data() {
     return {
+      page: 1,
       participants: [],
     }
   },
@@ -104,6 +118,7 @@ export default {
           // // // console.debug(res)
           this.loadingOff()
           this.participants = res.users
+          console.debug(res.users[0])
           // this.usersOnline()
           // this.checkUsers()
         })
@@ -126,7 +141,12 @@ export default {
       return activeClasses
     },
   },
-  computed: {},
+  computed: {
+    getParticipantsByIndex() {
+      let position = this.page - 1
+      return this.participants[position]
+    },
+  },
 }
 </script>
 

@@ -489,20 +489,15 @@ export default {
         )
         .then((res) => {
           this.loadingOff()
-          // this.getMessagesByProfile(profileId)
           this.broadcastMessages(profileId)
           this.messagesNotifications(profileId)
+          this.countUnreadByUser(profileId)
           this.message = ''
           this.resetSelectedImg()
           this.resetSelectedVideo()
-          // this.snackbarOn('La publicación fue creada exitosamente')
         })
         .catch((e) => {
-          // // console.debug(e)
           this.loadingOff()
-          // this.snackbarOn(
-          //   'Ha ocurrido un error al crear la publicación, por favor pongase en contacto con el soporte.'
-          // )
         })
     },
     dateToHuman(date) {
@@ -622,10 +617,9 @@ export default {
     async countUnreadMessages() {
       const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
 
-      // 'http://127.0.0.1:8000/api/auth/count-unread/'+IdUsuarioAMandarMensaje, config
       const options = {
         method: 'GET',
-        url: `${this.$axios.defaults.baseURL}auth/count-unread/${this.$route.params.id}`,
+        url: `${this.$axios.defaults.baseURL}auth/count-unread/${prof}`,
         headers: {
           Accept: 'application/json',
           Authorization: `Bearer ${token}`,
@@ -687,7 +681,7 @@ export default {
       video.onloadedmetadata = () => {
         window.URL.revokeObjectURL(video.src)
 
-        if (video.duration >= 10.6) {
+        if (video.duration > 10.6) {
           // // console.debug('Invalid video')
           this.snackbarOn('La duración máxima de los videos es de 10 segundos')
           this.disableSubmit = true
@@ -718,6 +712,28 @@ export default {
     resetSelectedVideo() {
       this.selectedVideo = null
       this.isSelectingVideo = false
+    },
+    async countUnreadByUser(toProfId) {
+      const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
+
+      let config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      await this.$axios
+        .$get(
+          `${this.$axios.defaults.baseURL}auth/count-unread-by-user/${toProfId}`,
+          config
+        )
+        .then((res) => {
+          console.debug('enviando mensaje', res)
+        })
+        .catch((e) => {
+          // this.loadingOff()
+          // this.snackbarOn(e.response.data.error)
+          console.debug(e.response.data)
+        })
     },
   },
   computed: {

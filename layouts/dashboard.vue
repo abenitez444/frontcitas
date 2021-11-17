@@ -155,7 +155,8 @@
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" fixed bottom temporary>
-      <v-list nav>
+      <!-- Normal Users mobile menu -->
+      <v-list nav v-if="getUserData && getUserData.user.id_rol !== 1">
         <v-list-item-group active-class="primary--text text--accent-4">
           <v-list-item to="/dashboard">
             <v-list-item-title>Inicio</v-list-item-title>
@@ -171,6 +172,31 @@
 
           <v-list-item to="/participants">
             <v-list-item-title>Participantes</v-list-item-title>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title @click="logoutAccount()"
+              >Cerrar sesión</v-list-item-title
+            >
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+      <!-- Admin Users mobile menu -->
+      <v-list nav v-else>
+        <v-list-item-group active-class="primary--text text--accent-4">
+          <v-list-item to="/dashboard">
+            <v-list-item-title>Inicio</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item to="/admin/logs">
+            <v-list-item-title>Historial</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item to="/admin/users">
+            <v-list-item-title>Usuarios</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item to="/admin/settings">
+            <v-list-item-title>Configuración</v-list-item-title>
           </v-list-item>
           <v-list-item>
             <v-list-item-title @click="logoutAccount()"
@@ -395,15 +421,6 @@
 
     <!-- footer -->
     <wdc-footer />
-
-    <!-- whatss app btn -->
-    <!-- <div class="ws-btn">
-      <a href=" https://web.whatsapp.com/" target="_blank">
-        <v-btn fab large color="primary" elevation="0">
-          <img :src="asset_ws" class="ws-icon" alt="" />
-        </v-btn>
-      </a>
-    </div> -->
   </v-app>
 </template>
 

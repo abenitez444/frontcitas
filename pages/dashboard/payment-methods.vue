@@ -238,7 +238,6 @@ export default {
       this.loadingOn()
       const { token, sub, prof } = JSON.parse(localStorage.getItem('wdc_token'))
 
-      // 'http://127.0.0.1:8000/api/auth/count-unread/'+IdUsuarioAMandarMensaje, config
       const options = {
         method: 'POST',
         url: `${this.$axios.defaults.baseURL}auth/start-buy`,

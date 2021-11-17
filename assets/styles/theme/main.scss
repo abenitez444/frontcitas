@@ -148,8 +148,8 @@ ul {
 }
 
 .block-section {
-  min-height         : calc(100vh - 114px);
-  min-height         : 100vh;
+  // min-height         : calc(100vh - 114px);
+  // min-height         : 100vh;
   position           : relative;
   // height: 100vh;
   // min-height      : 768px;
@@ -157,8 +157,27 @@ ul {
   // z-index   : 100;
 
   &--content {
-    min-height: 768px;
+    // min-height: 768px;
   }
+
+  &.hero-section {
+    min-height: 100vh;
+
+    @media (max-width: 991px) {
+      padding-top: 114px;
+      min-height : unset;
+    }
+  }
+
+  &.video-section {}
+
+
+
+  &.members-section {}
+
+  &.testimonials-section {}
+
+  &.faq-section {}
 }
 
 .row-video-wrapper {

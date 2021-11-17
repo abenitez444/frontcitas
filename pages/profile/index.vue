@@ -114,16 +114,23 @@
                             >
                             </v-file-input>
                             <!-- <div v-if="url"></div> -->
-                            <div
-                              v-if="urlBanner === null"
-                              class="preview-image"
-                              :style="`background-image: url('${img_baseUrl}${user.featured_image}')`"
-                            ></div>
+                            <template v-if="!!imageBanner && !!urlBanner">
+                              <div
+                                v-if="urlBanner === null"
+                                class="preview-image"
+                                :style="`background-image: url('${img_baseUrl}${user.featured_image}')`"
+                              ></div>
 
+                              <div
+                                v-else
+                                class="preview-image"
+                                :style="`background-image: url('${urlBanner}')`"
+                              ></div>
+                            </template>
                             <div
                               v-else
-                              class="preview-image"
-                              :style="`background-image: url('${urlBanner}')`"
+                              class="preview-image bg-img placeholder"
+                              :style="`background-image: url('${iconPlaceholder}')`"
                             ></div>
                           </div>
                           <v-row>
@@ -144,21 +151,23 @@
                               @click:clear="resetThumbnail()"
                             >
                             </v-file-input>
-                            <!-- <div v-if="url"></div> -->
-                            <div
-                              v-if="url === null"
-                              class="preview-image"
-                              :style="`background-image: url('${img_baseUrl}${user.avatar}')`"
-                            ></div>
-
+                            <template v-if="!!image && !!url">
+                              <div
+                                v-if="url === null"
+                                class="preview-image"
+                                :style="`background-image: url('${img_baseUrl}${user.avatar}')`"
+                              ></div>
+                              <div
+                                v-else
+                                class="preview-image"
+                                :style="`background-image: url('${url}')`"
+                              ></div>
+                            </template>
                             <div
                               v-else
-                              class="preview-image"
-                              :style="`background-image: url('${url}')`"
+                              class="preview-image bg-img placeholder"
+                              :style="`background-image: url('${iconPlaceholder}')`"
                             ></div>
-                            <!-- <pre v-if="url === null">
-                              {{ img_baseUrl }}{{ user.avatar }}
-                            </pre> -->
                           </div>
                           <v-row>
                             <v-col class="text-center">
@@ -264,8 +273,8 @@
                                 :item-text="(item) => item.name"
                                 :item-value="(item) => item.id"
                                 label="Nivel Economico"
+                                :error-messages="id_economic_levelErrors"
                                 v-model="user.id_economic_level"
-                                hide-details=""
                                 outlined
                               ></v-select>
                             </v-col>
@@ -273,7 +282,7 @@
                               <v-text-field
                                 label="¿Qué buscas en una Sugar Baby?"
                                 outlined
-                                hide-details=""
+                                :error-messages="what_i_wantErrors"
                                 v-model="user.what_i_want"
                               ></v-text-field>
                             </v-col>
@@ -287,7 +296,7 @@
                                 rows="3"
                                 row-height="20"
                                 label="¿Cual es tu cita ideal?"
-                                hide-details=""
+                                :error-messages="ideal_dateErrors"
                                 v-model="user.ideal_date"
                               ></v-textarea>
                             </v-col>
@@ -299,7 +308,7 @@
                               <v-text-field
                                 label="Cuentanos sobre tus intereses o hobbies"
                                 outlined
-                                hide-details=""
+                                :error-messages="hobbiesErrors"
                                 v-model="user.hobbies"
                               ></v-text-field>
                             </v-col>
@@ -309,7 +318,7 @@
                                 :item-text="(item) => item.name"
                                 :item-value="(item) => item.id"
                                 label="Estado físico"
-                                hide-details=""
+                                :error-messages="id_physical_figureErrors"
                                 v-model="user.id_physical_figure"
                                 outlined
                               ></v-select>
@@ -324,7 +333,7 @@
                                 :item-text="(item) => item.name"
                                 :item-value="(item) => item.id"
                                 label="Región"
-                                hide-details=""
+                                :error-messages="id_regionErrors"
                                 v-model="user.id_region"
                                 outlined
                               ></v-select>
@@ -359,21 +368,24 @@
                             >
                             </v-file-input>
                             <!-- <div v-if="url"></div> -->
-                            <div
-                              v-if="urlBanner === null"
-                              class="preview-image"
-                              :style="`background-image: url('${img_baseUrl}${user.featured_image}')`"
-                            ></div>
+                            <template v-if="!!imageBanner && !!urlBanner">
+                              <div
+                                v-if="urlBanner === null"
+                                class="preview-image"
+                                :style="`background-image: url('${img_baseUrl}${user.featured_image}')`"
+                              ></div>
 
+                              <div
+                                v-else
+                                class="preview-image"
+                                :style="`background-image: url('${urlBanner}')`"
+                              ></div>
+                            </template>
                             <div
                               v-else
-                              class="preview-image"
-                              :style="`background-image: url('${urlBanner}')`"
+                              class="preview-image bg-img placeholder"
+                              :style="`background-image: url('${iconPlaceholder}')`"
                             ></div>
-                            <!-- <pre >
-                              {{ img_baseUrl }}
-                              {{ imageBanner }}
-                            </pre> -->
                           </div>
                           <v-row>
                             <v-col class="text-center">
@@ -394,15 +406,22 @@
                               @click:clear="resetThumbnail()"
                             >
                             </v-file-input>
-                            <div
-                              v-if="url === null"
-                              class="preview-image"
-                              :style="`background-image: url('${img_baseUrl}${user.avatar}')`"
-                            ></div>
+                            <template v-if="!!image && !!url">
+                              <div
+                                v-if="url === null"
+                                class="preview-image"
+                                :style="`background-image: url('${img_baseUrl}${user.avatar}')`"
+                              ></div>
+                              <div
+                                v-else
+                                class="preview-image"
+                                :style="`background-image: url('${url}')`"
+                              ></div>
+                            </template>
                             <div
                               v-else
-                              class="preview-image"
-                              :style="`background-image: url('${url}')`"
+                              class="preview-image bg-img placeholder"
+                              :style="`background-image: url('${iconPlaceholder}')`"
                             ></div>
                           </div>
                           <v-row>
@@ -485,10 +504,6 @@
                                 v-model="user.civil_status"
                                 outlined
                               ></v-select>
-                              <!-- <pre>
-                            {{ civilStatesWoman }}
-                          </pre
-                              > -->
                             </v-col>
                           </v-row>
 
@@ -500,7 +515,7 @@
                                 rows="3"
                                 row-height="20"
                                 label="¿Cual es tu cita ideal?"
-                                hide-details=""
+                                :error-messages="ideal_dateErrors"
                                 v-model="user.ideal_date"
                               ></v-textarea>
                             </v-col>
@@ -520,7 +535,7 @@
                               <v-text-field
                                 label="¿Qué buscas en un Sugar Daddy?"
                                 outlined
-                                hide-details=""
+                                :error-messages="what_i_wantErrors"
                                 v-model="user.what_i_want"
                               ></v-text-field>
                             </v-col>
@@ -532,7 +547,7 @@
                               <v-text-field
                                 label="Cuentanos sobre tus intereses o hobbies"
                                 outlined
-                                hide-details=""
+                                :error-messages="hobbiesErrors"
                                 v-model="user.hobbies"
                               ></v-text-field>
                             </v-col>
@@ -542,7 +557,7 @@
                                 :item-text="(item) => item.name"
                                 :item-value="(item) => item.id"
                                 label="Estado físico"
-                                hide-details=""
+                                :error-messages="id_physical_figureErrors"
                                 v-model="user.id_physical_figure"
                                 outlined
                               ></v-select>
@@ -557,7 +572,7 @@
                                 :item-text="(item) => item.name"
                                 :item-value="(item) => item.id"
                                 label="Región"
-                                hide-details=""
+                                :error-messages="id_regionErrors"
                                 v-model="user.id_region"
                                 outlined
                               ></v-select>
@@ -568,7 +583,7 @@
                                 :item-text="(item) => item.name"
                                 :item-value="(item) => item.id"
                                 label="Presupuesto"
-                                hide-details=""
+                                :error-messages="monthly_salary_idErrors"
                                 v-model="user.monthly_salary_id"
                                 outlined
                               ></v-select>
@@ -582,7 +597,7 @@
                                 :item-text="(item) => item.name"
                                 :item-value="(item) => item.id"
                                 label="Hijos"
-                                hide-details=""
+                                :error-messages="id_childrenErrors"
                                 v-model="user.id_children"
                                 outlined
                               ></v-select>
@@ -593,7 +608,7 @@
                                 :item-text="(item) => item.name"
                                 :item-value="(item) => item.id"
                                 label="Preferencias de contacto"
-                                hide-details=""
+                                :error-messages="id_contact_preferencesErrors"
                                 v-model="user.id_contact_preferences"
                                 outlined
                               ></v-select>
@@ -611,8 +626,9 @@
                               rounded
                               large
                               color="primary"
-                              @click="submit()"
+                              @click="checkForm()"
                             >
+                              <!-- @click="submit()" -->
                               Enviar
                             </v-btn>
                           </v-col>
@@ -736,9 +752,6 @@
             </v-col>
           </v-row>
         </v-sheet>
-        <pre>
-          {{ user }}
-        </pre>
       </v-col>
 
       <!-- profile | menu | users on -->
@@ -845,6 +858,17 @@ export default {
     this.getMonthlySalary()
   },
   methods: {
+    checkForm() {
+      try {
+        this.$v.$touch()
+        if (!this.$v.$invalid) {
+          // console.debug('valido')
+          this.submit()
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    },
     addImageToGallery() {
       this.galleryImages.push(this.galleryImage)
       this.galleryImage = null
@@ -1113,7 +1137,6 @@ export default {
       //   this.errors.push(
       //     'La imagen de la portada supera las dimensiones recomendadas (1170x250)1'
       //   )
-      //   console.debug('MALDITA MIL VECES SEA')
       // }
       // if (this.avatarProps.height <= 250 && this.avatarProps.width <= 250) {
       //   isAvailableImages = true
@@ -1183,9 +1206,70 @@ export default {
 
       return isComplete
     },
+    ideal_dateErrors() {
+      const errors = []
+      if (!this.$v.user.ideal_date.$dirty) return errors
+      !this.$v.user.ideal_date.required &&
+        errors.push('Este campo es requerido')
+      return errors
+    },
+    what_i_wantErrors() {
+      const errors = []
+      if (!this.$v.user.what_i_want.$dirty) return errors
+      !this.$v.user.what_i_want.required &&
+        errors.push('Este campo es requerido')
+      return errors
+    },
+    hobbiesErrors() {
+      const errors = []
+      if (!this.$v.user.hobbies.$dirty) return errors
+      !this.$v.user.hobbies.required && errors.push('Este campo es requerido')
+      return errors
+    },
+    id_physical_figureErrors() {
+      const errors = []
+      if (!this.$v.user.id_physical_figure.$dirty) return errors
+      !this.$v.user.id_physical_figure.required &&
+        errors.push('Este campo es requerido')
+      return errors
+    },
+    id_regionErrors() {
+      const errors = []
+      if (!this.$v.user.id_region.$dirty) return errors
+      !this.$v.user.id_region.required && errors.push('Este campo es requerido')
+      return errors
+    },
+    id_economic_levelErrors() {
+      const errors = []
+      if (!this.$v.user.id_economic_level.$dirty) return errors
+      !this.$v.user.id_economic_level.required &&
+        errors.push('Este campo es requerido')
+      return errors
+    },
+    monthly_salary_idErrors() {
+      const errors = []
+      if (!this.$v.user.monthly_salary_id.$dirty) return errors
+      !this.$v.user.monthly_salary_id.required &&
+        errors.push('Este campo es requerido')
+      return errors
+    },
+    id_childrenErrors() {
+      const errors = []
+      if (!this.$v.user.id_children.$dirty) return errors
+      !this.$v.user.id_children.required &&
+        errors.push('Este campo es requerido')
+      return errors
+    },
+    id_contact_preferencesErrors() {
+      const errors = []
+      if (!this.$v.user.id_contact_preferences.$dirty) return errors
+      !this.$v.user.id_contact_preferences.required &&
+        errors.push('Este campo es requerido')
+      return errors
+    },
   },
   validations: {
-    newUser: {
+    user: {
       ideal_date: {
         required,
       },
@@ -1201,13 +1285,29 @@ export default {
       id_region: {
         required,
       },
+      // hombre
+      id_economic_level: {
+        required: requiredIf(function () {
+          return this.user.gender === 1 // return true if user is a man
+        }),
+      },
+      // mujer
+      monthly_salary_id: {
+        required: requiredIf(function () {
+          return this.user.gender === 0 // return true if is a woman
+        }),
+      },
+      id_children: {
+        required: requiredIf(function () {
+          return this.user.gender === 0 // return true if is a woman
+        }),
+      },
+      id_contact_preferences: {
+        required: requiredIf(function () {
+          return this.user.gender === 0 // return true if is a woman
+        }),
+      },
     },
-    // Hombre
-    // id_economic_level
-    // Mujer
-    // monthly_salary_id
-    // id_children
-    // id_contact_preferences
   },
 }
 </script>
@@ -1215,6 +1315,10 @@ export default {
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;700;800&family=Raleway:wght@100;300;400;600;700&display=swap');
 .profile {
+  .preview-image {
+    position: absolute;
+    background-size: 50px !important;
+  }
   .info-description {
     font-weight: bold;
     font-size: 14px;

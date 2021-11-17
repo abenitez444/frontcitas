@@ -32,10 +32,10 @@
               <v-col cols="12">
                 <v-file-input
                   accept="image/*"
-                  label=""
+                  prepend-icon="mdi-camera"
+                  label="Cargue aqui su imagen"
                   solo
                   v-model="newSlide.image"
-                  prepend-icon=""
                   :error-messages="imageErrors"
                   @input="$v.newSlide.image.$touch()"
                   @blur="$v.newSlide.image.$touch()"
@@ -130,10 +130,10 @@
               <v-col cols="12">
                 <v-file-input
                   accept="image/*"
-                  label=""
+                  prepend-icon="mdi-camera"
+                  label="Cargue aqui su imagen"
                   solo
                   v-model="newSlide.image"
-                  prepend-icon=""
                   :error-messages="imageErrors"
                   @input="$v.newSlide.image.$touch()"
                   @blur="$v.newSlide.image.$touch()"
@@ -300,10 +300,10 @@
                   @blur="$v.newMember.image.$touch()" -->
                 <v-file-input
                   accept="image/*"
-                  label=""
+                  prepend-icon="mdi-camera"
+                  label="Cargue aqui su imagen"
                   solo
                   v-model="newMember.image"
-                  prepend-icon=""
                 ></v-file-input>
               </v-col>
             </v-row>
@@ -345,10 +345,10 @@
                   @blur="$v.newMember.image.$touch()" -->
                 <v-file-input
                   accept="image/*"
-                  label=""
+                  prepend-icon="mdi-camera"
+                  label="Cargue aqui su imagen"
                   solo
                   v-model="newMember.image"
-                  prepend-icon=""
                 ></v-file-input>
               </v-col>
             </v-row>
@@ -389,10 +389,10 @@
               <v-col cols="12">
                 <v-file-input
                   accept="image/*"
-                  label=""
+                  prepend-icon="mdi-camera"
+                  label="Cargue aqui su imagen"
                   solo
                   v-model="newTestimony.image"
-                  prepend-icon=""
                 ></v-file-input>
                 <!-- :error-messages="imageErrors"
                   @input="$v.newTestimony.image.$touch()"
@@ -452,10 +452,10 @@
               <v-col cols="12">
                 <v-file-input
                   accept="image/*"
-                  label=""
+                  prepend-icon="mdi-camera"
+                  label="Cargue aqui su imagen"
                   solo
                   v-model="newTestimony.image"
-                  prepend-icon=""
                 ></v-file-input>
                 <!-- :error-messages="imageErrors"
                   @input="$v.newTestimony.image.$touch()"

@@ -66,26 +66,21 @@
     <!-- Videos -->
     <v-row class="video-section">
       <img :src="asset_wave" class="bg-wave" alt="" />
-      <template v-for="(video, index) in videos">
-        <!--
-                    cols="12"
-          xs="12"
-          sm="12"
-          lg="4"
-         -->
-        <v-col cols="12" class="video-section__col" :key="index">
-          <client-only placeholder="Loading...">
-            <!-- :player-height="439" -->
-            <youtube :player-vars="{ autoplay: 0 }" :video-id="video.link" />
-          </client-only>
-          <h2 class="header-2 primary--text mb-3 mb-sm-7 title-text">
-            {{ video.title }}
-          </h2>
-          <p class="text-1 description-text">
-            {{ video.description }}
-          </p>
-        </v-col>
-      </template>
+      <div class="video-section__content">
+        <template v-for="(video, index) in videos">
+          <v-col cols="12" class="video-section__col" :key="index">
+            <client-only placeholder="Loading...">
+              <youtube :player-vars="{ autoplay: 0 }" :video-id="video.link" />
+            </client-only>
+            <h2 class="header-2 primary--text mb-3 mb-sm-7 title-text">
+              {{ video.title }}
+            </h2>
+            <p class="text-1 description-text">
+              {{ video.description }}
+            </p>
+          </v-col>
+        </template>
+      </div>
     </v-row>
 
     <!-- Members PENDIENTE -->
@@ -94,9 +89,7 @@
         <img :src="asset_wave" class="bg-wave" alt="" />
       </div>
       <v-col cols="auto">
-        <h2
-          class="text-center primary--text members-section__title mt-15 mt-sm-5"
-        >
+        <h2 class="text-center primary--text members-section__title">
           Miembros del club
         </h2>
         <carousel ref="carousel" :per-page="1">
@@ -863,7 +856,7 @@ export default {
 
   @media (max-width: 959px) {
     height: auto;
-    min-height: 650px;
+    // min-height: 650px;
   }
 
   &::after {
@@ -877,11 +870,22 @@ export default {
     left: 0;
     z-index: 1;
   }
+  &::before {
+    content: '';
+    background: linear-gradient(0deg, #ce1f24, #0000);
+    height: 250px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    // z-index: 2;Editar Miembro
+  }
   &__content {
     position: relative;
     z-index: 2;
     max-width: calc(100% - 120px);
-    margin: 150px auto 0 auto;
+    // margin: 150px auto 0 auto;
+    margin: 0px auto 0 auto;
     @media (min-width: 960px) {
       margin: 0 auto 0 auto;
     }
@@ -889,7 +893,8 @@ export default {
       max-width: calc(100% - 60px);
     }
     @media (max-width: 414px) {
-      margin: 100px auto 0 auto;
+      // margin: 100px auto 0 auto;
+      margin: 0 auto 0 auto;
     }
   }
   .v-carousel {
@@ -976,10 +981,10 @@ export default {
 .video-section {
   position: relative;
   &__col {
-    margin-top: 60px;
+    // margin-top: 60px;
     z-index: 4;
     @media (max-width: 1263px) {
-      margin-top: 75px;
+      // margin-top: 75px;
     }
   }
   &__col > div {
@@ -1016,13 +1021,6 @@ export default {
     margin: 0 auto;
     text-align: center;
   }
-  // &__content {
-  //   max-width: calc(100% - 120px);
-  //   margin: 0 auto;
-  //   @media (max-width: 576px) {
-  //     max-width: calc(100% - 60px);
-  //   }
-  // }
   .bg-wave {
     position: absolute;
     top: 0;
@@ -1031,86 +1029,24 @@ export default {
     height: auto;
     transform: translateY(-5px) rotate(180deg);
   }
-  // .slide-wrap {
-  //   max-width: 1440px;
-  //   margin: 0 auto;
-  // }
-  // .VueCarousel-dot.VueCarousel-dot {
-  //   background-color: $primary !important;
-  // }
-  // .wrapper-video {
-  //   // max-height: 360px;
-  //   border-radius: 10px;
-  //   // overflow: hidden;
-  //   & > div {
-  //     display: flex;
-  //     align-items: center;
-  //     border-radius: 10px;
-  //     // max-width: 640px;
-  //     iframe {
-  //       border-radius: 10px;
-  //     }
-  //   }
-  //   @media (max-width: 1263px) {
-  //     & > div {
-  //       height: 100%;
-  //       width: 100%;
-  //       position: relative;
-  //       // overflow: hidden;
-  //       // padding-bottom: 56.25%;
-  //       // padding-top: 30px;
-  //       max-width: 640px;
-  //       height: 360px;
-  //       iframe {
-  //         max-height: 360px;
-  //         // display: none;
-  //         // max-width: calc(100vw - 160px);
-  //         // height: auto;
-  //         position: absolute;
-  //         height: 100%;
-  //         width: 100%;
-  //         left: 50%;
-  //         top: 50%;
-  //         transform: translate(-50%, -50%);
-  //       }
-  //     }
+  .video-section__content {
+    max-width: calc(100% - 120px);
+    // margin: 150px auto 0 auto;
+    margin: 0px auto 0 auto;
 
-  //     // .div_contenedor {
-  //     // 	position: relative;
-  //     // 	padding-bottom: 56.25%; /*panorámico*/
-  //     // 	padding-top: 25px;
-  //     // 	height: 0;
-  //     // }
-  //     // .div_contenedor iframe {
-  //     // 	position: absolute;
-  //     // 	top: 0;
-  //     // 	left: 0;
-  //     // 	width: 100%;
-  //     // 	height: 100%;
-  //     // }
-  //   }
-  // }
-  // @media (max-width: 414px) {
-  //   // display: none;
-  //   .wrapper-video > div iframe {
-  //     height: auto;
-  //     width: 100%;
-  //     position: static;
-  //     left: 0;
-  //     top: 0;
-  //     transform: unset;
-  //   }
-  //   .wrapper-video > div {
-  //     height: auto;
-  //   }
-  //   h2 {
-  //     font-size: 18px;
-  //     margin-bottom: 0;
-  //   }
-  //   p {
-  //     font-size: 12px;
-  //   }
-  // }
+    @media (min-width: 960px) {
+      margin: 0 auto 0 auto;
+    }
+
+    @media (max-width: 576px) {
+      max-width: calc(100% - 60px);
+    }
+
+    // @media (max-width: 414px) {
+    //   // margin: 100px auto 0 auto;
+    //   margin: 0 auto 0 auto;
+    // }
+  }
 }
 .members-section {
   align-items: center;
@@ -1385,7 +1321,6 @@ export default {
   }
   &__main-title {
     margin-bottom: 50px;
-    margin-top: 40px;
     @media (max-width: 414px) {
       h2 {
         font-size: 24px;
@@ -1589,8 +1524,6 @@ export default {
   }
   @media (max-width: 1366px) {
     min-height: auto;
-    margin-top: 75px;
-    margin-bottom: 75px;
   }
   @media (max-width: 576px) {
     min-height: auto;

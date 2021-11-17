@@ -104,7 +104,13 @@
                 <template v-slot:item.profile="{ item }">
                   <template v-if="item.profile.status_id === 1">
                     <v-chip class="ma-2 font-weight-bold" color="accent">
-                      Activo Modo trial {{ item.remains_trial_days.remains }}
+                      <span class="mr-1">Activo Modo trial</span>
+                      <span
+                        class="font-weight-black"
+                        v-if="!!item.remains_trial_days"
+                      >
+                        {{ item.remains_trial_days.remains }}
+                      </span>
                     </v-chip>
                   </template>
                   <template v-else-if="item.profile.status_id === 2">
@@ -348,5 +354,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+.dashboard-page {
+  z-index: 4;
+}
 </style>

@@ -5,6 +5,7 @@ import maleIcon from '@/assets/ui-icon-male.svg'
 import femaleIcon from '@/assets/ui-icon-female.svg'
 import kissIcon from '@/assets/ui-icon-kiss.svg'
 import kissIconEnabled from '@/assets/ui-icon-kiss_enabled.svg'
+import iconPlaceholder from '@/assets/ui-icon-image.svg'
 export default {
   data() {
     return {
@@ -24,6 +25,7 @@ export default {
       femaleIcon,
       kissIcon,
       kissIconEnabled,
+      iconPlaceholder,
     }
   },
   methods: {

@@ -42,7 +42,7 @@
             >
               Modo Trial
             </v-btn>
-            <h2 class="profile-card__name font_one--text">
+            <h2 class="profile-card__name font_one--text text-capitalize">
               {{ getUserData.first_name }}
               {{ getUserData.last_name }}
               <span

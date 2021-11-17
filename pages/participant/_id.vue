@@ -529,19 +529,6 @@
         <v-divider></v-divider>
       </v-card>
     </v-dialog>
-
-    <!-- DEBUG -->
-    <v-sheet color="transparent" v-if="false">
-      <pre class="mt-15">
-
-        {{ profile }}
-        <!--
-        {{ profile.images }}
-        {{ profile.first_name }}
-        {{ profile.last_name }}
-        -->
-      </pre>
-    </v-sheet>
   </v-col>
 </template>
 

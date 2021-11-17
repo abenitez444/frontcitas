@@ -409,7 +409,8 @@
         </v-list>
       </template>
       <template v-else>
-        <v-list nav>
+        <!-- normal users -->
+        <v-list nav v-if="getUserData.user.id_rol !== 1">
           <v-list-item-group active-class="primary--text text--accent-4">
             <v-list-item to="/dashboard">
               <v-list-item-title>Inicio</v-list-item-title>
@@ -466,6 +467,31 @@
                 <v-list-item-title>Miembros Bloqueados</v-list-item-title>
               </v-list-item>
             </v-list-group>
+            <v-list-item>
+              <v-list-item-title @click="logoutAccount()"
+                >Cerrar sesión</v-list-item-title
+              >
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+        <!-- admins -->
+        <v-list nav v-else>
+          <v-list-item-group active-class="primary--text text--accent-4">
+            <v-list-item to="/dashboard">
+              <v-list-item-title>Inicio</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item to="/admin/logs">
+              <v-list-item-title>Historial</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item to="/admin/users">
+              <v-list-item-title>Usuarios</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item to="/admin/settings">
+              <v-list-item-title>Configuración</v-list-item-title>
+            </v-list-item>
             <v-list-item>
               <v-list-item-title @click="logoutAccount()"
                 >Cerrar sesión</v-list-item-title

@@ -21,7 +21,7 @@
                     md="6"
                     lg="4"
                     xl="4"
-                    v-for="(item, i) in participants"
+                    v-for="(item, i) in getParticipantsByIndex"
                     :key="i"
                   >
                     <v-card height="100%">
@@ -52,7 +52,7 @@
                           </span>
                         </div>
                         <div class="participant-name">
-                          <p class="mb-0">
+                          <p class="mb-0 text-capitalize">
                             {{ item.first_name }} {{ item.last_name }}
                           </p>
 
@@ -84,6 +84,17 @@
                     </v-card>
                   </v-col>
                 </v-row>
+                <v-row>
+                  <v-col cols="12" justify-center>
+                    <div class="text-center">
+                      <v-pagination
+                        color="primary"
+                        v-model="page"
+                        :length="participants.length"
+                      ></v-pagination>
+                    </div>
+                  </v-col>
+                </v-row>
               </v-sheet>
             </v-card-text>
           </v-card>
@@ -104,6 +115,7 @@ export default {
   layout: 'dashboard',
   data() {
     return {
+      page: 1,
       reportDialog: false,
       participants: [],
     }
@@ -146,7 +158,12 @@ export default {
       return age
     },
   },
-  computed: {},
+  computed: {
+    getParticipantsByIndex() {
+      let position = this.page - 1
+      return this.participants[position]
+    },
+  },
 }
 </script>
 

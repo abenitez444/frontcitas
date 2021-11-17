@@ -32,8 +32,7 @@
         </v-col>
       </v-row>
     </v-sheet>
-    <!--
--->
+
     <template v-slot:action="{ attrs }">
       <v-btn color="white" icon v-bind="attrs" @click="resetNotifications()">
         <v-icon> mdi-close </v-icon>
@@ -51,6 +50,7 @@ export default {
       notiSnack: true,
     }
   },
+  methods: {},
   computed: {
     notificationState: {
       get() {
