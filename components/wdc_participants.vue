@@ -1,5 +1,5 @@
 <template>
-  <v-sheet color="transparent" class="">
+  <v-sheet color="transparent" class="participants-recent">
     <v-row>
       <v-col>
         <h2 class="primary--text text-center text-sm-left">
@@ -209,4 +209,31 @@ export default {
     }
   }
 }
+@media all and (min-width: 280px){
+  .participants-recent{
+      display: none;
+    }
+  .participants-recent{
+      display: none;
+    }
+}
+
+@media all and (min-width: 768px){
+  .participants-recent{
+      display: none;
+    }
+  .participants-recent{
+      display: none;
+    }
+}
+
+  @media all and (min-width: 1200px){
+  .participants-recent{
+      display: inline;
+    }
+  .participants-recent{
+      display: inline;
+    }
+}
+ 
 </style>
