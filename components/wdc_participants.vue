@@ -15,7 +15,7 @@
       :data-id="`${item.id}`"
     >
       <v-col>
-        <v-card class="card-wrapper" :to="`/messages/${item.id}`">
+        <v-card class="card-wrapper" :to="`/participant/${item.id}`">
           <v-card-text>
             <v-sheet color="transparent" v-if="$route.name !== 'trial_out'">
               <v-row align="center">

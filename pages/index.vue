@@ -9,11 +9,11 @@
         <div class="carousel-wrapper">
           <!--              -->
           <!-- cycle
-            continuous
+            
             interval="3000" -->
-          <v-carousel v-model="model" :show-arrows="false" height="auto">
+          <v-carousel v-model="model" :show-arrows="false" height="auto" cycle interval="3000">
             <v-carousel-item v-for="(slide, i) in slides" :key="i">
-              <v-sheet height="100%" tile color="transparent">
+              <v-sheet height="100%" color="transparent">
                 <v-row class="fill-height transparent" align="center">
                   <!-- text -->
                   <v-col
@@ -51,7 +51,7 @@
                   <v-col order="1" order-md="2" cols="12" md="">
                     <!-- :style="`background-image: url('${placeHolderSlide}')`" -->
                     <div
-                      class="carousel-item bg-img"
+                      class="carousel-item bg-img white--text"
                       :style="`background-image: url('${img_baseUrl}${slide.image}')`"
                     ></div>
                   </v-col>
@@ -114,14 +114,13 @@
         </div> -->
       </v-col>
     </v-row>
-
     <!-- Testimonials -->
     <v-row class="block-section testimonial-section align-center">
       <img :src="asset_wave" class="bg-wave" alt="" />
       <v-col>
         <div class="boxed">
           <div class="testimonial-section__main-title">
-            <h2 class="primary--text">Testimonios</h2>
+            <h2 class="primary--text mt-5">Testimonios</h2>
           </div>
           <hooper style="height: auto" :settings="hooperSettings">
             <hooper-slide
@@ -905,7 +904,8 @@ export default {
       bottom: 0;
       width: auto;
       &__item {
-        background-color: white !important;
+        background-color: red !important;
+        color: black !important;
         width: 50px;
         height: 16px;
         border-radius: 100px;

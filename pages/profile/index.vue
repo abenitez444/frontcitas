@@ -104,7 +104,7 @@
                             <v-file-input
                               @change="preview_image_banner"
                               v-model="imageBanner"
-                              height="100px"
+                              height="230px"
                               class="custom-file-input"
                               accept="image/*"
                               label=""
@@ -135,10 +135,10 @@
                           </div>
                           <v-row>
                             <v-col class="text-center">
-                              <p><label for="">Imagen de portada</label></p>
+                              <p><label class="font-weight-bold">Imagen de portada</label></p>
                             </v-col>
                           </v-row>
-                          <div class="custom-file-wrapper mx-auto mb-8 mt-12">
+                          <div class="custom-file-wrapper mx-auto mb-6 mt-12">
                             <v-file-input
                               @change="Preview_image"
                               v-model="image"
@@ -171,12 +171,12 @@
                           </div>
                           <v-row>
                             <v-col class="text-center">
-                              <p><label for="">Imagen de perfil</label></p>
+                              <p><label class="font-weight-bold">Imagen de perfil</label></p>
                             </v-col>
                           </v-row>
 
                           <!-- Name -->
-                          <v-row>
+                          <v-row class="mt-5">
                             <v-col cols="12" sm="12" lg="6">
                               <v-text-field
                                 label="Nombre"
@@ -622,7 +622,7 @@
                           <v-col cols="auto">
                             <v-btn
                               width="150px"
-                              class="text-capitalize"
+                              class="text-capitalize font-weight-bold"
                               rounded
                               large
                               color="primary"
@@ -1315,10 +1315,6 @@ export default {
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;700;800&family=Raleway:wght@100;300;400;600;700&display=swap');
 .profile {
-  .preview-image {
-    position: absolute;
-    background-size: 50px !important;
-  }
   .info-description {
     font-weight: bold;
     font-size: 14px;
@@ -1365,9 +1361,9 @@ export default {
   }
   .custom-file-wrapper {
     position: relative;
-    max-width: 100px;
-    border-radius: 100%;
-    box-shadow: 0px 1px 5px rgba(50, 18, 21, 0.29);
+    max-width: 102px;
+    border-radius: 46%;
+    box-shadow: 2px 2px 14px rgba(50, 18, 21, 0.29);
     .preview-image {
       top: 0;
       right: 0;
@@ -1381,12 +1377,12 @@ export default {
     }
     &.banner {
       width: 100%;
-      border-radius: 5px !important;
-      max-width: 250px;
+      border-radius: 15px !important;
+      max-width: 302px;
       .preview-image {
         height: 100%;
         width: 100%;
-        border-radius: 5px;
+        border-radius: 0 !important;
       }
       .custom-file-input {
         // background-color: #bada55 !important;

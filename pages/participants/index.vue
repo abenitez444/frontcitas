@@ -69,6 +69,7 @@
                             :to="`/participant/${item.id}`"
                             color="primary"
                             class="ml-4"
+                            title="Ver perfil."
                             ><v-icon>mdi-account</v-icon></v-btn
                           >
                           <v-btn
@@ -77,6 +78,7 @@
                             small
                             :to="`/messages/${item.id}`"
                             color="primary"
+                            title="Enviar mensajes."
                             ><v-icon>mdi-message</v-icon></v-btn
                           >
                         </div>
