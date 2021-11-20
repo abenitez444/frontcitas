@@ -470,7 +470,7 @@
             </template>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row  class="menu-participants">
           <v-col>
             <v-list-group :value="false" no-action>
               <template v-slot:activator>
@@ -914,4 +914,5 @@ export default {
 .hide {
   opacity: 0;
 }
+
 </style>

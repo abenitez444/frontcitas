@@ -152,88 +152,80 @@ export default {
 
 <style lang="scss">
 // @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500;700&display=swap');
-.participant-card {
-  .thumbnail {
-    width: 60px;
-    height: 60px;
-    border-radius: 5px;
-    position: relative;
-    &::after {
-      // background-color: #bada55;
-      position: absolute;
-      content: '';
-      height: 15px;
-      width: 15px;
-      bottom: 0;
-      right: 0;
-    }
-    &.online {
+  .participant-card {
+    .thumbnail {
+      width: 60px;
+      height: 60px;
+      border-radius: 5px;
+      position: relative;
       &::after {
-        // background-color: green;
+        // background-color: #bada55;
+        position: absolute;
+        content: '';
+        height: 15px;
+        width: 15px;
+        bottom: 0;
+        right: 0;
+      }
+      &.online {
+        &::after {
+          // background-color: green;
+        }
+      }
+    }
+    .fullname {
+      font-family: Raleway;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 16px;
+      // line-height: 30px;
+      display: flex;
+      align-items: flex-end;
+      letter-spacing: -0.025em;
+      // color: #321215;
+      span {
+        margin-left: 10px;
+        display: block;
+      }
+    }
+    .gender {
+    }
+    .region {
+      font-family: Raleway;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 12px;
+      display: flex;
+      align-items: flex-end;
+      letter-spacing: -0.025em;
+      color: #321215;
+      opacity: 0.5;
+    }
+    .card-wrapper {
+      &.nuxt-link-active {
+        background-color: #eee;
+        &::before {
+        }
       }
     }
   }
-  .fullname {
-    font-family: Raleway;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 16px;
-    // line-height: 30px;
-    display: flex;
-    align-items: flex-end;
-    letter-spacing: -0.025em;
-    // color: #321215;
-    span {
-      margin-left: 10px;
-      display: block;
-    }
-  }
-  .gender {
-  }
-  .region {
-    font-family: Raleway;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 12px;
-    display: flex;
-    align-items: flex-end;
-    letter-spacing: -0.025em;
-    color: #321215;
-    opacity: 0.5;
-  }
-  .card-wrapper {
-    &.nuxt-link-active {
-      background-color: #eee;
-      &::before {
-      }
-    }
-  }
-}
-@media all and (min-width: 280px){
-  .participants-recent{
+  @media all and (min-width: 360px){
+    .participants-recent{
       display: none;
     }
-  .participants-recent{
-      display: none;
+    .participants-wrapper{
+      visibility: collapse !important;
+      margin-top: -60px !important;
     }
-}
-
-@media all and (min-width: 768px){
-  .participants-recent{
-      display: none;
-    }
-  .participants-recent{
-      display: none;
-    }
-}
-
-  @media all and (min-width: 1200px){
-  .participants-recent{
+  }
+  @media all and (min-width: 1280px){
+    .participants-recent{
       display: inline;
     }
-  .participants-recent{
-      display: inline;
+    .participants-wrapper{
+      visibility: visible !important;
+      margin-top: 0px !important;
     }
-}
- 
+  }
+
 </style>

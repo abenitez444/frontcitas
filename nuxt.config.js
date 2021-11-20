@@ -50,8 +50,8 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // baseURL: 'http://127.0.0.1:8000/api/',
-    // baseURL: 'https://dev.clubsugar.cl/backendcitas/public/api/',
-    baseURL: `${process.env.BASE_URL}/api/`,
+     baseURL: 'https://dev.clubsugar.cl/backendcitas/public/api/',
+    //baseURL: `${process.env.BASE_URL}/api/`,
   },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {

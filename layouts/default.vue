@@ -453,7 +453,7 @@
             <!-- <v-list-item to="/participants">
             <v-list-item-title>Participantes</v-list-item-title>
           </v-list-item> -->
-            <v-list-group :value="false" no-action>
+            <v-list-group :value="false" no-action class="hidden-participants">
               <template v-slot:activator>
                 <v-list-item-content>
                   <v-list-item-title>Participantes</v-list-item-title>
@@ -844,6 +844,16 @@ export default {
   .img-fluid {
     height: 100%;
     width: auto;
+  }
+}
+@media all and(min-width: 360px){
+  .hidden-participants{
+    display: none !important;
+  }
+}
+@media all and(min-width: 1280px){
+  .hidden-participants{
+    display: inline !important;
   }
 }
 </style>
