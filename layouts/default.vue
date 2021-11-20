@@ -416,7 +416,7 @@
               <v-list-item-title>Inicio</v-list-item-title>
             </v-list-item>
 
-            <v-list-item to="/messages">
+            <v-list-item to="/messages" class="hidden-messages">
               <v-list-item-title>Mensajes</v-list-item-title>
             </v-list-item>
 
@@ -846,13 +846,20 @@ export default {
     width: auto;
   }
 }
+
 @media all and(min-width: 360px){
   .hidden-participants{
+    display: none !important;
+  }
+  .hidden-messages{
     display: none !important;
   }
 }
 @media all and(min-width: 1280px){
   .hidden-participants{
+    display: inline !important;
+  }
+  .hidden-messages{
     display: inline !important;
   }
 }
