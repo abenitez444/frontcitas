@@ -142,7 +142,7 @@
                             <v-file-input
                               @change="Preview_image"
                               v-model="image"
-                              height="100px"
+                              height="110px"
                               class="custom-file-input"
                               accept="image/*"
                               label=""
@@ -1361,24 +1361,25 @@ export default {
   }
   .custom-file-wrapper {
     position: relative;
-    max-width: 102px;
-    border-radius: 46%;
-    box-shadow: 2px 2px 14px rgba(50, 18, 21, 0.29);
+    max-width: 107px;
+    border-radius: 15%;
+    box-shadow: 4px 6px 10px rgba(50, 18, 21, 0.29);
     .preview-image {
       top: 0;
       right: 0;
       position: absolute;
-      height: 100px;
-      width: 100px;
+      height: 100%;
+      width: 100%;
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
-      border-radius: 100%;
+      border-radius: 15%;
     }
     &.banner {
       width: 100%;
       border-radius: 15px !important;
-      max-width: 302px;
+      max-width: 258px;
+     
       .preview-image {
         height: 100%;
         width: 100%;

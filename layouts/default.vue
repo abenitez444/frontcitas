@@ -297,7 +297,7 @@
       class="ma-auto custom-appbar"
       width="90%"
     >
-      <router-link to="/" class="text-decoration-none">
+      <router-link to="/dashboard" class="text-decoration-none">
         <img :src="logoDefault" class="brand-image" alt="" />
       </router-link>
       <v-spacer />

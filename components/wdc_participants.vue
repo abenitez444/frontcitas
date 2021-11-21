@@ -209,7 +209,7 @@ export default {
       }
     }
   }
-  @media all and (min-width: 360px){
+  @media all and (min-width: 320px){
     .participants-recent{
       display: none;
     }
